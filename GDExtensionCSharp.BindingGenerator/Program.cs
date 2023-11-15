@@ -1,11 +1,6 @@
 ﻿// See https://aka.ms/new-console-template for more information
 
-using System;
-using System.IO;
-using System.Linq;
-
-namespace GDExtensionSharpBindingGenerator;
-
+namespace GDExtensionCSharp.BindingGenerator;
 
 internal class Program
 {
@@ -16,7 +11,7 @@ internal class Program
         const string generatedFileName = "gdextension_interface.cs";
 
         string sourceFilePath;
-        
+
         if (args.Length == 0)
         {
             if (!File.Exists(sourceFileName))
@@ -24,17 +19,18 @@ internal class Program
                 WriteError($"{sourceFileName} not found!");
                 return;
             }
+
             sourceFilePath = sourceFileName;
         }
         else
         {
             foreach (var arg in args.Where(File.Exists))
             {
-                if(Path.GetFileName(arg) != sourceFileName) continue;
+                if (Path.GetFileName(arg) != sourceFileName) continue;
                 sourceFilePath = arg;
                 break;
             }
-            
+
             WriteError($"{sourceFileName} not found!");
             return;
         }
@@ -50,7 +46,7 @@ internal class Program
             WriteError(e);
             return;
         }
-        
+
         string generatedCSharpBindings;
         try
         {
