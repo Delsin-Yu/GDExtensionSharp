@@ -1,8 +1,8 @@
 ﻿
 Microsoft Visual Studio Solution File, Format Version 12.00
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "GDExtensionCSharp.BindingGenerator", "GDExtensionCSharp.BindingGenerator\GDExtensionCSharp.BindingGenerator.csproj", "{4DF3C385-B179-458B-9CB4-F93FB385355F}"
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "GDExtensionSharp.BindingGenerator", "GDExtensionSharp.BindingGenerator\GDExtensionSharp.BindingGenerator.csproj", "{4DF3C385-B179-458B-9CB4-F93FB385355F}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "GDExtensionCSharp", "GDExtensionCSharp\GDExtensionCSharp.csproj", "{723A22BA-C784-4AB0-83FA-EAB25DD3E29B}"
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "GDExtensionSharp", "GDExtensionSharp\GDExtensionSharp.csproj", "{723A22BA-C784-4AB0-83FA-EAB25DD3E29B}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution

@@ -6,6 +6,7 @@
         <ImplicitUsings>enable</ImplicitUsings>
         <PublishAot>true</PublishAot>
         <AllowUnsafeBlocks>true</AllowUnsafeBlocks>
+        <RootNamespace>GDExtensionSharp</RootNamespace>
     </PropertyGroup>
 
 </Project>
