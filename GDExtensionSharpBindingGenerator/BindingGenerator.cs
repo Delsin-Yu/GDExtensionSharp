@@ -276,7 +276,7 @@ public static partial class BindingGenerator
                        .Append(paramComment)
                        .AppendLine("</param>");
                 }
-                
+
                 if (!string.IsNullOrWhiteSpace(returnDocumentationComment))
                 {
                     tempStringBuilder
@@ -286,31 +286,71 @@ public static partial class BindingGenerator
                 }
 
                 godotInterfaceDelegates.Add((delegateName, godotMethodName, tempStringBuilder.ToString(), delegateBody, delegatePseudoCode));
-                
+
                 tempStringBuilder.Clear();
             }
 
+            const string methodTableName = "MethodTable";
+            
             builder
                .AppendLine(
-                    """
-                    internal unsafe struct MethodTable
+                    $$"""
+                    internal unsafe struct {{methodTableName}}
                     {
 
                     """
                 );
 
             _indentationLevel++;
-            
-            
+
+            const string getDelegateCallbackName = "p_get_proc_address";
+            const string utilityFunctionName = "GetMethod";
+            const string utilityFunction =
+                $$"""
+                  private static void* {{utilityFunctionName}}(string methodName, delegate* unmanaged <char*, delegate* unmanaged <void>> {{getDelegateCallbackName}})
+                  {
+                      var bstrString = Marshal.StringToBSTR(methodName);
+                      var methodPointer = p_get_proc_address((char*)bstrString);
+                      Marshal.FreeBSTR(bstrString);
+                      return methodPointer;
+                  }
+                  """;
+
+            foreach (var utilityFunctionLine in utilityFunction.Split('\n'))
+            {
+                builder
+                   .AppendIndentation()
+                   .Append(utilityFunctionLine);
+            }
+
+            builder
+               .AppendLine()
+               .AppendLine()
+               .AppendIndentation()
+               .AppendLine($"internal {methodTableName}(delegate* unmanaged <char*, delegate* unmanaged <void>> {getDelegateCallbackName})")
+               .AppendIndentation()
+               .AppendLine("{");
+
+
+            _indentationLevel++;
             foreach (var (delegateName, delegateGodotName, generatedDocumentationComment, delegateBody, delegatePseudoCode) in godotInterfaceDelegates)
             {
-                ProcessDelegate(
+                ProcessDelegateInitialization(builder, utilityFunctionName, getDelegateCallbackName, delegateGodotName, delegateName, delegateBody);
+            }
+            _indentationLevel--;
+
+            builder
+               .AppendIndentation()
+               .AppendLine("}")
+               .AppendLine();
+
+            foreach (var (delegateName, delegateGodotName, generatedDocumentationComment, delegateBody, delegatePseudoCode) in godotInterfaceDelegates)
+            {
+                ProcessDelegateDeclaration(
                     builder,
                     tempStringBuilder,
                     delegateName,
                     delegateBody,
-                    // delegateComment,
-                    delegatePseudoCode,
                     delegateBodyDictionary
                 );
                 tempStringBuilder.Clear();
@@ -484,44 +524,32 @@ public static partial class BindingGenerator
         ' ',
         '*'
     };
-    
-    private static void ProcessDelegate
+
+    private static void ProcessDelegateInitialization(StringBuilder stringBuilder, string helperMethodName, string getDelegateCallbackName, string godotMethodName, string delegateName, string delegateBody)
+    {
+        stringBuilder
+           .AppendIndentation()
+           .Append(delegateName)
+           .Append(" = (")
+           .Append(delegateBody)
+           .Append(')')
+           .Append(helperMethodName)
+           .Append("(\"")
+           .Append(godotMethodName)
+           .Append("\", ")
+           .Append(getDelegateCallbackName)
+           .AppendLine(");");
+    }
+
+    private static void ProcessDelegateDeclaration
         (
             StringBuilder stringBuilder,
             StringBuilder tempStringBuilder,
             string delegateName,
             string delegateBody,
-            string delegatePseudoCode,
             IDictionary<string, string> delegateBodyDictionary
         )
     {
-        stringBuilder
-           .AppendIndentation()
-           .AppendLine("/// <summary>");
-
-        // if (!string.IsNullOrWhiteSpace(delegateComment))
-        // {
-        //     foreach (var commentSegment in delegateComment.TrimEnd('\n').TrimEnd().Split('\n'))
-        //     {
-        //         stringBuilder
-        //            .AppendIndentation()
-        //            .Append("/// ")
-        //            .Append(commentSegment.TrimStart(_trimChars))
-        //            .AppendLine("<br/>");
-        //     }
-        //
-        //     stringBuilder
-        //        .AppendIndentation()
-        //        .AppendLine("/// <br/>");
-        // }
-
-        stringBuilder
-           .AppendIndentation()
-           .Append("/// ")
-           .AppendLine(delegatePseudoCode)
-           .AppendIndentation()
-           .AppendLine("/// </summary>");
-
         tempStringBuilder.Append(delegateBody);
 
         ReplaceSubstitutedType(tempStringBuilder, delegateBodyDictionary);
