@@ -6,7 +6,7 @@ public static class Main
 {
     private static MethodTable _methodTable;
     
-    [UnmanagedCallersOnly(EntryPoint = "gd_extension_csharp_init")]
+    [UnmanagedCallersOnly(EntryPoint = "gdextension_csharp_init")]
     private static unsafe GDExtensionBool Initialize
         (
             delegate* unmanaged <char*, delegate* unmanaged <void>> p_get_proc_address,

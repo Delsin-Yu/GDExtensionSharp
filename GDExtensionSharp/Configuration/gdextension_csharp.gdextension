@@ -1,0 +1,9 @@
+﻿[configuration]
+
+entry_symbol = "gdextension_csharp_init"
+compatibility_minimum = "4.1"
+
+[libraries]
+
+windows.debug.x86_64 = "res://gdextension_sharp/GDExtensionSharp.dll"
+windows.release.x86_64 = "res://gdextension_sharp/GDExtensionSharp.dll"
