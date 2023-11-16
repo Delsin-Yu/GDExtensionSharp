@@ -9,8 +9,9 @@ public static partial class BindingGenerator
         (
             Match match,
             StringBuilder delegateBodyBuilder,
-            StringBuilder delegatePseudoCodeStringBuilder,
+            StringBuilder delegateMethodStringBuilder,
             StringBuilder delegateCommentStringBuilder,
+            StringBuilder godotDelegateCallBodyBuilder,
             out string delegateName
         )
     {
@@ -27,18 +28,24 @@ public static partial class BindingGenerator
         var delegateParameters = match.Groups["DelegateParamters"].Value;
         var delegatePointerInfo = match.Groups["PointerInfo"].Value;
 
-        BuildDelegate(delegateBodyBuilder, delegatePseudoCodeStringBuilder, delegateName, returnType, delegatePointerInfo, delegateParameters);
+        BuildDelegate(delegateBodyBuilder, delegateMethodStringBuilder, godotDelegateCallBodyBuilder, returnType, delegatePointerInfo, delegateParameters);
     }
 
-    private static void BuildDelegate(StringBuilder delegateBodyBuilder, StringBuilder delegatePseudoCodeStringBuilder, string delegateName, string returnType, string delegatePointerInfo, string delegateParameters)
+    private static void BuildDelegate
+        (
+            StringBuilder delegateBodyBuilder,
+            StringBuilder delegateMethodStringBuilder,
+            StringBuilder delegateCallBodyBuilder,
+            string returnType,
+            string delegatePointerInfo,
+            string delegateParameters
+        )
     {
-        delegatePseudoCodeStringBuilder
-           .Append("delegate ")
+        delegateMethodStringBuilder
+           .Append("internal ")
            .Append(returnType.EscapeType())
            .Append(delegatePointerInfo)
-           .Append(' ')
-           .Append(delegateName.EscapeContextualKeyWord())
-           .Append('(');
+           .Append(" <DELEGATE_METHOD_NAME>(");
 
 
         delegateBodyBuilder.Append("delegate* unmanaged[Cdecl]<");
@@ -55,12 +62,21 @@ public static partial class BindingGenerator
                .Append(parameterPointerInfo)
                .Append(", ");
 
-            delegatePseudoCodeStringBuilder
+            delegateMethodStringBuilder
                .Append(parameterType.EscapeType())
                .Append(parameterPointerInfo)
                .Append(' ')
                .Append(string.IsNullOrWhiteSpace(parameterName) ? parameterType.PascalCaseToSnakeCase() : parameterName)
                .Append(", ");
+
+            delegateCallBodyBuilder?
+               .Append(parameterName)
+               .Append(", ");
+        }
+
+        if (delegateCallBodyBuilder?.Length > 0)
+        {
+            delegateCallBodyBuilder.Remove(delegateCallBodyBuilder.Length - 2, 2);
         }
 
         delegateBodyBuilder
@@ -69,7 +85,7 @@ public static partial class BindingGenerator
 
         delegateBodyBuilder.Append('>');
 
-        delegatePseudoCodeStringBuilder
+        delegateMethodStringBuilder
            .Append(')')
            .Replace(", )", ")");
     }
@@ -81,7 +97,6 @@ public static partial class BindingGenerator
             string helperMethodName,
             string getDelegateCallbackName,
             string godotMethodName,
-            string delegateName,
             string delegateBody,
             Dictionary<string, string> delegateBodyDictionary
         )
@@ -91,7 +106,7 @@ public static partial class BindingGenerator
 
         stringBuilder
            .AppendIndentation()
-           .Append(delegateName)
+           .Append(godotMethodName)
            .Append(" = (")
            .Append(tempStringBuilder)
            .Append(')')
@@ -103,11 +118,57 @@ public static partial class BindingGenerator
            .AppendLine(");");
     }
 
+    private static void ProcessDelegateMethodDeclaration
+        (
+            StringBuilder stringBuilder,
+            StringBuilder tempStringBuilder,
+            string delegateGodotName,
+            string delegateMethodName,
+            string delegateMethodBody,
+            string delegateDelegateCallBody,
+            string delegateMethodGeneratedDocumentationComment,
+            IDictionary<string, string> delegateBodyDictionary
+        )
+    {
+        if (!string.IsNullOrWhiteSpace(delegateMethodGeneratedDocumentationComment))
+        {
+            foreach (var delegateCommentLine in delegateMethodGeneratedDocumentationComment.TrimEnd('\n').TrimEnd('\r').Split('\n'))
+            {
+                stringBuilder
+                   .AppendIndentation()
+                   .Append(delegateCommentLine);
+            }
+
+            stringBuilder.AppendLine();
+        }
+
+
+        tempStringBuilder.Append(delegateMethodBody);
+
+        ReplaceSubstitutedType(tempStringBuilder, delegateBodyDictionary);
+
+        tempStringBuilder.Replace("<DELEGATE_METHOD_NAME>", delegateMethodName);
+
+        stringBuilder
+           .AppendIndentation()
+           .Append(tempStringBuilder)
+           .Append(" => ")
+           .AppendLine()
+           .AppendIndentation()
+           .AppendIndentation()
+           .Append(delegateGodotName)
+           .Append('(')
+           .Append(delegateDelegateCallBody)
+           .AppendLine(");")
+           .AppendLine();
+    }
+
+
     private static void ProcessDelegateDeclaration
         (
             StringBuilder stringBuilder,
             StringBuilder tempStringBuilder,
-            string delegateName,
+            string delegateGodotName,
             string delegateBody,
             IDictionary<string, string> delegateBodyDictionary
         )
@@ -118,11 +179,65 @@ public static partial class BindingGenerator
 
         stringBuilder
            .AppendIndentation()
-           .Append("internal ")
+           .Append("private readonly ")
            .Append(tempStringBuilder)
            .Append(' ')
-           .Append(delegateName.EscapeContextualKeyWord())
+           .Append(delegateGodotName.EscapeContextualKeyWord())
            .AppendLine(";")
            .AppendLine();
+    }
+
+    private static bool ProcessGodotInterfaceDelegate
+        (
+            string delegateComment,
+            StringBuilder godotDocumentationCommentBuilder,
+            out string godotMethodName
+        )
+    {
+        godotMethodName = GetDelegateNameDocumentationCommentRegex().Match(delegateComment).Groups["MethodName"].Value;
+        if (string.IsNullOrWhiteSpace(godotMethodName)) return true;
+
+        var sinceDocumentationComment = GetDelegateSinceDocumentationCommentRegex().Match(delegateComment).Groups["SinceComment"].Value;
+        var paramDocumentationComment = GetDelegateParamDocumentationCommentRegex().Matches(delegateComment);
+        var returnDocumentationComment = GetDelegateReturnDocumentationCommentRegex().Match(delegateComment).Groups["ReturnComment"].Value;
+        var seeDocumentationComment = GetDelegateSeeDocumentationCommentRegex().Match(delegateComment).Groups["SeeComment"].Value;
+        var methodCommentDocumentationComment = GetDelegateMethodCommentDocumentationCommentRegex().Match(delegateComment).Groups["MethodComment"].Value;
+
+        godotDocumentationCommentBuilder
+           .AppendLine("/// <summary>");
+
+        if (!string.IsNullOrWhiteSpace(methodCommentDocumentationComment))
+            godotDocumentationCommentBuilder
+               .Append("/// ")
+               .AppendLine(methodCommentDocumentationComment);
+
+        if (!string.IsNullOrWhiteSpace(sinceDocumentationComment))
+            godotDocumentationCommentBuilder
+               .Append("/// Since: ")
+               .AppendLine(sinceDocumentationComment);
+
+        if (!string.IsNullOrWhiteSpace(seeDocumentationComment))
+            godotDocumentationCommentBuilder
+               .Append("/// See: ")
+               .AppendLine(seeDocumentationComment);
+
+        godotDocumentationCommentBuilder
+           .AppendLine("/// </summary>");
+
+        foreach (Match paramMatch in paramDocumentationComment)
+        {
+            var paramName = paramMatch.Groups["ParamName"].Value;
+            var paramComment = paramMatch.Groups["ParamComment"].Value;
+
+            godotDocumentationCommentBuilder
+               .Append("/// <param name=\"")
+               .Append(paramName)
+               .Append("\">")
+               .Append(paramComment)
+               .AppendLine("</param>");
+        }
+
+        if (!string.IsNullOrWhiteSpace(returnDocumentationComment)) godotDocumentationCommentBuilder.AppendFormat(DocumentationCommentReturn, returnDocumentationComment);
+        return false;
     }
 }

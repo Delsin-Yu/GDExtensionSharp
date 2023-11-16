@@ -201,411 +201,1664 @@ internal unsafe struct MethodTable
     internal MethodTable(delegate* unmanaged <byte*, delegate* unmanaged <void>> p_get_proc_address)
     {
         // ReSharper disable StringLiteralTypo
-        GDExtensionInterfaceGetGodotVersion = (delegate* unmanaged[Cdecl]<GDExtensionGodotVersion*, void>)GetMethod("get_godot_version", p_get_proc_address);
-        GDExtensionInterfaceMemAlloc = (delegate* unmanaged[Cdecl]<size_t, void*>)GetMethod("mem_alloc", p_get_proc_address);
-        GDExtensionInterfaceMemRealloc = (delegate* unmanaged[Cdecl]<void*, size_t, void*>)GetMethod("mem_realloc", p_get_proc_address);
-        GDExtensionInterfaceMemFree = (delegate* unmanaged[Cdecl]<void*, void>)GetMethod("mem_free", p_get_proc_address);
-        GDExtensionInterfacePrintError = (delegate* unmanaged[Cdecl]<byte*, byte*, byte*, int32_t, GDExtensionBool, void>)GetMethod("print_error", p_get_proc_address);
-        GDExtensionInterfacePrintErrorWithMessage = (delegate* unmanaged[Cdecl]<byte*, byte*, byte*, byte*, int32_t, GDExtensionBool, void>)GetMethod("print_error_with_message", p_get_proc_address);
-        GDExtensionInterfacePrintWarning = (delegate* unmanaged[Cdecl]<byte*, byte*, byte*, int32_t, GDExtensionBool, void>)GetMethod("print_warning", p_get_proc_address);
-        GDExtensionInterfacePrintWarningWithMessage = (delegate* unmanaged[Cdecl]<byte*, byte*, byte*, byte*, int32_t, GDExtensionBool, void>)GetMethod("print_warning_with_message", p_get_proc_address);
-        GDExtensionInterfacePrintScriptError = (delegate* unmanaged[Cdecl]<byte*, byte*, byte*, int32_t, GDExtensionBool, void>)GetMethod("print_script_error", p_get_proc_address);
-        GDExtensionInterfacePrintScriptErrorWithMessage = (delegate* unmanaged[Cdecl]<byte*, byte*, byte*, byte*, int32_t, GDExtensionBool, void>)GetMethod("print_script_error_with_message", p_get_proc_address);
-        GDExtensionInterfaceGetNativeStructSize = (delegate* unmanaged[Cdecl]<delegate* unmanaged[Cdecl]<void>, uint64_t>)GetMethod("get_native_struct_size", p_get_proc_address);
-        GDExtensionInterfaceVariantNewCopy = (delegate* unmanaged[Cdecl]<delegate* unmanaged[Cdecl]<void>, delegate* unmanaged[Cdecl]<void>, void>)GetMethod("variant_new_copy", p_get_proc_address);
-        GDExtensionInterfaceVariantNewNil = (delegate* unmanaged[Cdecl]<delegate* unmanaged[Cdecl]<void>, void>)GetMethod("variant_new_nil", p_get_proc_address);
-        GDExtensionInterfaceVariantDestroy = (delegate* unmanaged[Cdecl]<delegate* unmanaged[Cdecl]<void>, void>)GetMethod("variant_destroy", p_get_proc_address);
-        GDExtensionInterfaceVariantCall = (delegate* unmanaged[Cdecl]<delegate* unmanaged[Cdecl]<void>, delegate* unmanaged[Cdecl]<void>, delegate* unmanaged[Cdecl]<void>*, GDExtensionInt, delegate* unmanaged[Cdecl]<void>, GDExtensionCallError*, void>)GetMethod("variant_call", p_get_proc_address);
-        GDExtensionInterfaceVariantCallStatic = (delegate* unmanaged[Cdecl]<GDExtensionVariantType, delegate* unmanaged[Cdecl]<void>, delegate* unmanaged[Cdecl]<void>*, GDExtensionInt, delegate* unmanaged[Cdecl]<void>, GDExtensionCallError*, void>)GetMethod("variant_call_static", p_get_proc_address);
-        GDExtensionInterfaceVariantEvaluate = (delegate* unmanaged[Cdecl]<GDExtensionVariantOperator, delegate* unmanaged[Cdecl]<void>, delegate* unmanaged[Cdecl]<void>, delegate* unmanaged[Cdecl]<void>, GDExtensionBool*, void>)GetMethod("variant_evaluate", p_get_proc_address);
-        GDExtensionInterfaceVariantSet = (delegate* unmanaged[Cdecl]<delegate* unmanaged[Cdecl]<void>, delegate* unmanaged[Cdecl]<void>, delegate* unmanaged[Cdecl]<void>, GDExtensionBool*, void>)GetMethod("variant_set", p_get_proc_address);
-        GDExtensionInterfaceVariantSetNamed = (delegate* unmanaged[Cdecl]<delegate* unmanaged[Cdecl]<void>, delegate* unmanaged[Cdecl]<void>, delegate* unmanaged[Cdecl]<void>, GDExtensionBool*, void>)GetMethod("variant_set_named", p_get_proc_address);
-        GDExtensionInterfaceVariantSetKeyed = (delegate* unmanaged[Cdecl]<delegate* unmanaged[Cdecl]<void>, delegate* unmanaged[Cdecl]<void>, delegate* unmanaged[Cdecl]<void>, GDExtensionBool*, void>)GetMethod("variant_set_keyed", p_get_proc_address);
-        GDExtensionInterfaceVariantSetIndexed = (delegate* unmanaged[Cdecl]<delegate* unmanaged[Cdecl]<void>, GDExtensionInt, delegate* unmanaged[Cdecl]<void>, GDExtensionBool*, GDExtensionBool*, void>)GetMethod("variant_set_indexed", p_get_proc_address);
-        GDExtensionInterfaceVariantGet = (delegate* unmanaged[Cdecl]<delegate* unmanaged[Cdecl]<void>, delegate* unmanaged[Cdecl]<void>, delegate* unmanaged[Cdecl]<void>, GDExtensionBool*, void>)GetMethod("variant_get", p_get_proc_address);
-        GDExtensionInterfaceVariantGetNamed = (delegate* unmanaged[Cdecl]<delegate* unmanaged[Cdecl]<void>, delegate* unmanaged[Cdecl]<void>, delegate* unmanaged[Cdecl]<void>, GDExtensionBool*, void>)GetMethod("variant_get_named", p_get_proc_address);
-        GDExtensionInterfaceVariantGetKeyed = (delegate* unmanaged[Cdecl]<delegate* unmanaged[Cdecl]<void>, delegate* unmanaged[Cdecl]<void>, delegate* unmanaged[Cdecl]<void>, GDExtensionBool*, void>)GetMethod("variant_get_keyed", p_get_proc_address);
-        GDExtensionInterfaceVariantGetIndexed = (delegate* unmanaged[Cdecl]<delegate* unmanaged[Cdecl]<void>, GDExtensionInt, delegate* unmanaged[Cdecl]<void>, GDExtensionBool*, GDExtensionBool*, void>)GetMethod("variant_get_indexed", p_get_proc_address);
-        GDExtensionInterfaceVariantIterInit = (delegate* unmanaged[Cdecl]<delegate* unmanaged[Cdecl]<void>, delegate* unmanaged[Cdecl]<void>, GDExtensionBool*, GDExtensionBool>)GetMethod("variant_iter_init", p_get_proc_address);
-        GDExtensionInterfaceVariantIterNext = (delegate* unmanaged[Cdecl]<delegate* unmanaged[Cdecl]<void>, delegate* unmanaged[Cdecl]<void>, GDExtensionBool*, GDExtensionBool>)GetMethod("variant_iter_next", p_get_proc_address);
-        GDExtensionInterfaceVariantIterGet = (delegate* unmanaged[Cdecl]<delegate* unmanaged[Cdecl]<void>, delegate* unmanaged[Cdecl]<void>, delegate* unmanaged[Cdecl]<void>, GDExtensionBool*, void>)GetMethod("variant_iter_get", p_get_proc_address);
-        GDExtensionInterfaceVariantHash = (delegate* unmanaged[Cdecl]<delegate* unmanaged[Cdecl]<void>, GDExtensionInt>)GetMethod("variant_hash", p_get_proc_address);
-        GDExtensionInterfaceVariantRecursiveHash = (delegate* unmanaged[Cdecl]<delegate* unmanaged[Cdecl]<void>, GDExtensionInt, GDExtensionInt>)GetMethod("variant_recursive_hash", p_get_proc_address);
-        GDExtensionInterfaceVariantHashCompare = (delegate* unmanaged[Cdecl]<delegate* unmanaged[Cdecl]<void>, delegate* unmanaged[Cdecl]<void>, GDExtensionBool>)GetMethod("variant_hash_compare", p_get_proc_address);
-        GDExtensionInterfaceVariantBooleanize = (delegate* unmanaged[Cdecl]<delegate* unmanaged[Cdecl]<void>, GDExtensionBool>)GetMethod("variant_booleanize", p_get_proc_address);
-        GDExtensionInterfaceVariantDuplicate = (delegate* unmanaged[Cdecl]<delegate* unmanaged[Cdecl]<void>, delegate* unmanaged[Cdecl]<void>, GDExtensionBool, void>)GetMethod("variant_duplicate", p_get_proc_address);
-        GDExtensionInterfaceVariantStringify = (delegate* unmanaged[Cdecl]<delegate* unmanaged[Cdecl]<void>, delegate* unmanaged[Cdecl]<void>, void>)GetMethod("variant_stringify", p_get_proc_address);
-        GDExtensionInterfaceVariantGetType = (delegate* unmanaged[Cdecl]<delegate* unmanaged[Cdecl]<void>, GDExtensionVariantType>)GetMethod("variant_get_type", p_get_proc_address);
-        GDExtensionInterfaceVariantHasMethod = (delegate* unmanaged[Cdecl]<delegate* unmanaged[Cdecl]<void>, delegate* unmanaged[Cdecl]<void>, GDExtensionBool>)GetMethod("variant_has_method", p_get_proc_address);
-        GDExtensionInterfaceVariantHasMember = (delegate* unmanaged[Cdecl]<GDExtensionVariantType, delegate* unmanaged[Cdecl]<void>, GDExtensionBool>)GetMethod("variant_has_member", p_get_proc_address);
-        GDExtensionInterfaceVariantHasKey = (delegate* unmanaged[Cdecl]<delegate* unmanaged[Cdecl]<void>, delegate* unmanaged[Cdecl]<void>, GDExtensionBool*, GDExtensionBool>)GetMethod("variant_has_key", p_get_proc_address);
-        GDExtensionInterfaceVariantGetTypeName = (delegate* unmanaged[Cdecl]<GDExtensionVariantType, delegate* unmanaged[Cdecl]<void>, void>)GetMethod("variant_get_type_name", p_get_proc_address);
-        GDExtensionInterfaceVariantCanConvert = (delegate* unmanaged[Cdecl]<GDExtensionVariantType, GDExtensionVariantType, GDExtensionBool>)GetMethod("variant_can_convert", p_get_proc_address);
-        GDExtensionInterfaceVariantCanConvertStrict = (delegate* unmanaged[Cdecl]<GDExtensionVariantType, GDExtensionVariantType, GDExtensionBool>)GetMethod("variant_can_convert_strict", p_get_proc_address);
-        GDExtensionInterfaceGetVariantFromTypeConstructor = (delegate* unmanaged[Cdecl]<GDExtensionVariantType, delegate* unmanaged[Cdecl]<delegate* unmanaged[Cdecl]<void>, delegate* unmanaged[Cdecl]<void>, void>>)GetMethod("get_variant_from_type_constructor", p_get_proc_address);
-        GDExtensionInterfaceGetVariantToTypeConstructor = (delegate* unmanaged[Cdecl]<GDExtensionVariantType, delegate* unmanaged[Cdecl]<delegate* unmanaged[Cdecl]<void>, delegate* unmanaged[Cdecl]<void>, void>>)GetMethod("get_variant_to_type_constructor", p_get_proc_address);
-        GDExtensionInterfaceVariantGetPtrOperatorEvaluator = (delegate* unmanaged[Cdecl]<GDExtensionVariantOperator, GDExtensionVariantType, GDExtensionVariantType, delegate* unmanaged[Cdecl]<delegate* unmanaged[Cdecl]<void>, delegate* unmanaged[Cdecl]<void>, delegate* unmanaged[Cdecl]<void>, void>>)GetMethod("variant_get_ptr_operator_evaluator", p_get_proc_address);
-        GDExtensionInterfaceVariantGetPtrBuiltinMethod = (delegate* unmanaged[Cdecl]<GDExtensionVariantType, delegate* unmanaged[Cdecl]<void>, GDExtensionInt, delegate* unmanaged[Cdecl]<delegate* unmanaged[Cdecl]<void>, delegate* unmanaged[Cdecl]<void>*, delegate* unmanaged[Cdecl]<void>, int, void>>)GetMethod("variant_get_ptr_builtin_method", p_get_proc_address);
-        GDExtensionInterfaceVariantGetPtrConstructor = (delegate* unmanaged[Cdecl]<GDExtensionVariantType, int32_t, delegate* unmanaged[Cdecl]<delegate* unmanaged[Cdecl]<void>, delegate* unmanaged[Cdecl]<void>*, void>>)GetMethod("variant_get_ptr_constructor", p_get_proc_address);
-        GDExtensionInterfaceVariantGetPtrDestructor = (delegate* unmanaged[Cdecl]<GDExtensionVariantType, delegate* unmanaged[Cdecl]<delegate* unmanaged[Cdecl]<void>, void>>)GetMethod("variant_get_ptr_destructor", p_get_proc_address);
-        GDExtensionInterfaceVariantConstruct = (delegate* unmanaged[Cdecl]<GDExtensionVariantType, delegate* unmanaged[Cdecl]<void>, delegate* unmanaged[Cdecl]<void>*, int32_t, GDExtensionCallError*, void>)GetMethod("variant_construct", p_get_proc_address);
-        GDExtensionInterfaceVariantGetPtrSetter = (delegate* unmanaged[Cdecl]<GDExtensionVariantType, delegate* unmanaged[Cdecl]<void>, delegate* unmanaged[Cdecl]<delegate* unmanaged[Cdecl]<void>, delegate* unmanaged[Cdecl]<void>, void>>)GetMethod("variant_get_ptr_setter", p_get_proc_address);
-        GDExtensionInterfaceVariantGetPtrGetter = (delegate* unmanaged[Cdecl]<GDExtensionVariantType, delegate* unmanaged[Cdecl]<void>, delegate* unmanaged[Cdecl]<delegate* unmanaged[Cdecl]<void>, delegate* unmanaged[Cdecl]<void>, void>>)GetMethod("variant_get_ptr_getter", p_get_proc_address);
-        GDExtensionInterfaceVariantGetPtrIndexedSetter = (delegate* unmanaged[Cdecl]<GDExtensionVariantType, delegate* unmanaged[Cdecl]<delegate* unmanaged[Cdecl]<void>, GDExtensionInt, delegate* unmanaged[Cdecl]<void>, void>>)GetMethod("variant_get_ptr_indexed_setter", p_get_proc_address);
-        GDExtensionInterfaceVariantGetPtrIndexedGetter = (delegate* unmanaged[Cdecl]<GDExtensionVariantType, delegate* unmanaged[Cdecl]<delegate* unmanaged[Cdecl]<void>, GDExtensionInt, delegate* unmanaged[Cdecl]<void>, void>>)GetMethod("variant_get_ptr_indexed_getter", p_get_proc_address);
-        GDExtensionInterfaceVariantGetPtrKeyedSetter = (delegate* unmanaged[Cdecl]<GDExtensionVariantType, delegate* unmanaged[Cdecl]<delegate* unmanaged[Cdecl]<void>, delegate* unmanaged[Cdecl]<void>, delegate* unmanaged[Cdecl]<void>, void>>)GetMethod("variant_get_ptr_keyed_setter", p_get_proc_address);
-        GDExtensionInterfaceVariantGetPtrKeyedGetter = (delegate* unmanaged[Cdecl]<GDExtensionVariantType, delegate* unmanaged[Cdecl]<delegate* unmanaged[Cdecl]<void>, delegate* unmanaged[Cdecl]<void>, delegate* unmanaged[Cdecl]<void>, void>>)GetMethod("variant_get_ptr_keyed_getter", p_get_proc_address);
-        GDExtensionInterfaceVariantGetPtrKeyedChecker = (delegate* unmanaged[Cdecl]<GDExtensionVariantType, delegate* unmanaged[Cdecl]<delegate* unmanaged[Cdecl]<void>, delegate* unmanaged[Cdecl]<void>, uint32_t>>)GetMethod("variant_get_ptr_keyed_checker", p_get_proc_address);
-        GDExtensionInterfaceVariantGetConstantValue = (delegate* unmanaged[Cdecl]<GDExtensionVariantType, delegate* unmanaged[Cdecl]<void>, delegate* unmanaged[Cdecl]<void>, void>)GetMethod("variant_get_constant_value", p_get_proc_address);
-        GDExtensionInterfaceVariantGetPtrUtilityFunction = (delegate* unmanaged[Cdecl]<delegate* unmanaged[Cdecl]<void>, GDExtensionInt, delegate* unmanaged[Cdecl]<delegate* unmanaged[Cdecl]<void>, delegate* unmanaged[Cdecl]<void>*, int, void>>)GetMethod("variant_get_ptr_utility_function", p_get_proc_address);
-        GDExtensionInterfaceStringNewWithLatin1Chars = (delegate* unmanaged[Cdecl]<delegate* unmanaged[Cdecl]<void>, byte*, void>)GetMethod("string_new_with_latin1_chars", p_get_proc_address);
-        GDExtensionInterfaceStringNewWithUtf8Chars = (delegate* unmanaged[Cdecl]<delegate* unmanaged[Cdecl]<void>, byte*, void>)GetMethod("string_new_with_utf8_chars", p_get_proc_address);
-        GDExtensionInterfaceStringNewWithUtf16Chars = (delegate* unmanaged[Cdecl]<delegate* unmanaged[Cdecl]<void>, char16_t*, void>)GetMethod("string_new_with_utf16_chars", p_get_proc_address);
-        GDExtensionInterfaceStringNewWithUtf32Chars = (delegate* unmanaged[Cdecl]<delegate* unmanaged[Cdecl]<void>, char32_t*, void>)GetMethod("string_new_with_utf32_chars", p_get_proc_address);
-        GDExtensionInterfaceStringNewWithWideChars = (delegate* unmanaged[Cdecl]<delegate* unmanaged[Cdecl]<void>, wchar_t*, void>)GetMethod("string_new_with_wide_chars", p_get_proc_address);
-        GDExtensionInterfaceStringNewWithLatin1CharsAndLen = (delegate* unmanaged[Cdecl]<delegate* unmanaged[Cdecl]<void>, byte*, GDExtensionInt, void>)GetMethod("string_new_with_latin1_chars_and_len", p_get_proc_address);
-        GDExtensionInterfaceStringNewWithUtf8CharsAndLen = (delegate* unmanaged[Cdecl]<delegate* unmanaged[Cdecl]<void>, byte*, GDExtensionInt, void>)GetMethod("string_new_with_utf8_chars_and_len", p_get_proc_address);
-        GDExtensionInterfaceStringNewWithUtf16CharsAndLen = (delegate* unmanaged[Cdecl]<delegate* unmanaged[Cdecl]<void>, char16_t*, GDExtensionInt, void>)GetMethod("string_new_with_utf16_chars_and_len", p_get_proc_address);
-        GDExtensionInterfaceStringNewWithUtf32CharsAndLen = (delegate* unmanaged[Cdecl]<delegate* unmanaged[Cdecl]<void>, char32_t*, GDExtensionInt, void>)GetMethod("string_new_with_utf32_chars_and_len", p_get_proc_address);
-        GDExtensionInterfaceStringNewWithWideCharsAndLen = (delegate* unmanaged[Cdecl]<delegate* unmanaged[Cdecl]<void>, wchar_t*, GDExtensionInt, void>)GetMethod("string_new_with_wide_chars_and_len", p_get_proc_address);
-        GDExtensionInterfaceStringToLatin1Chars = (delegate* unmanaged[Cdecl]<delegate* unmanaged[Cdecl]<void>, byte*, GDExtensionInt, GDExtensionInt>)GetMethod("string_to_latin1_chars", p_get_proc_address);
-        GDExtensionInterfaceStringToUtf8Chars = (delegate* unmanaged[Cdecl]<delegate* unmanaged[Cdecl]<void>, byte*, GDExtensionInt, GDExtensionInt>)GetMethod("string_to_utf8_chars", p_get_proc_address);
-        GDExtensionInterfaceStringToUtf16Chars = (delegate* unmanaged[Cdecl]<delegate* unmanaged[Cdecl]<void>, char16_t*, GDExtensionInt, GDExtensionInt>)GetMethod("string_to_utf16_chars", p_get_proc_address);
-        GDExtensionInterfaceStringToUtf32Chars = (delegate* unmanaged[Cdecl]<delegate* unmanaged[Cdecl]<void>, char32_t*, GDExtensionInt, GDExtensionInt>)GetMethod("string_to_utf32_chars", p_get_proc_address);
-        GDExtensionInterfaceStringToWideChars = (delegate* unmanaged[Cdecl]<delegate* unmanaged[Cdecl]<void>, wchar_t*, GDExtensionInt, GDExtensionInt>)GetMethod("string_to_wide_chars", p_get_proc_address);
-        GDExtensionInterfaceStringOperatorIndex = (delegate* unmanaged[Cdecl]<delegate* unmanaged[Cdecl]<void>, GDExtensionInt, char32_t*>)GetMethod("string_operator_index", p_get_proc_address);
-        GDExtensionInterfaceStringOperatorIndexConst = (delegate* unmanaged[Cdecl]<delegate* unmanaged[Cdecl]<void>, GDExtensionInt, char32_t*>)GetMethod("string_operator_index_const", p_get_proc_address);
-        GDExtensionInterfaceStringOperatorPlusEqString = (delegate* unmanaged[Cdecl]<delegate* unmanaged[Cdecl]<void>, delegate* unmanaged[Cdecl]<void>, void>)GetMethod("string_operator_plus_eq_string", p_get_proc_address);
-        GDExtensionInterfaceStringOperatorPlusEqChar = (delegate* unmanaged[Cdecl]<delegate* unmanaged[Cdecl]<void>, char32_t, void>)GetMethod("string_operator_plus_eq_char", p_get_proc_address);
-        GDExtensionInterfaceStringOperatorPlusEqCstr = (delegate* unmanaged[Cdecl]<delegate* unmanaged[Cdecl]<void>, byte*, void>)GetMethod("string_operator_plus_eq_cstr", p_get_proc_address);
-        GDExtensionInterfaceStringOperatorPlusEqWcstr = (delegate* unmanaged[Cdecl]<delegate* unmanaged[Cdecl]<void>, wchar_t*, void>)GetMethod("string_operator_plus_eq_wcstr", p_get_proc_address);
-        GDExtensionInterfaceStringOperatorPlusEqC32str = (delegate* unmanaged[Cdecl]<delegate* unmanaged[Cdecl]<void>, char32_t*, void>)GetMethod("string_operator_plus_eq_c32str", p_get_proc_address);
-        GDExtensionInterfaceXmlParserOpenBuffer = (delegate* unmanaged[Cdecl]<delegate* unmanaged[Cdecl]<void>, uint8_t*, size_t, GDExtensionInt>)GetMethod("xml_parser_open_buffer", p_get_proc_address);
-        GDExtensionInterfaceFileAccessStoreBuffer = (delegate* unmanaged[Cdecl]<delegate* unmanaged[Cdecl]<void>, uint8_t*, uint64_t, void>)GetMethod("file_access_store_buffer", p_get_proc_address);
-        GDExtensionInterfaceFileAccessGetBuffer = (delegate* unmanaged[Cdecl]<delegate* unmanaged[Cdecl]<void>, uint8_t*, uint64_t, uint64_t>)GetMethod("file_access_get_buffer", p_get_proc_address);
-        GDExtensionInterfacePackedByteArrayOperatorIndex = (delegate* unmanaged[Cdecl]<delegate* unmanaged[Cdecl]<void>, GDExtensionInt, uint8_t*>)GetMethod("worker_thread_pool_add_native_group_task", p_get_proc_address);
-        GDExtensionInterfacePackedByteArrayOperatorIndexConst = (delegate* unmanaged[Cdecl]<delegate* unmanaged[Cdecl]<void>, GDExtensionInt, uint8_t*>)GetMethod("packed_byte_array_operator_index_const", p_get_proc_address);
-        GDExtensionInterfacePackedColorArrayOperatorIndex = (delegate* unmanaged[Cdecl]<delegate* unmanaged[Cdecl]<void>, GDExtensionInt, delegate* unmanaged[Cdecl]<void>>)GetMethod("packed_color_array_operator_index", p_get_proc_address);
-        GDExtensionInterfacePackedColorArrayOperatorIndexConst = (delegate* unmanaged[Cdecl]<delegate* unmanaged[Cdecl]<void>, GDExtensionInt, delegate* unmanaged[Cdecl]<void>>)GetMethod("packed_color_array_operator_index_const", p_get_proc_address);
-        GDExtensionInterfacePackedFloat32ArrayOperatorIndex = (delegate* unmanaged[Cdecl]<delegate* unmanaged[Cdecl]<void>, GDExtensionInt, float*>)GetMethod("packed_float32_array_operator_index", p_get_proc_address);
-        GDExtensionInterfacePackedFloat32ArrayOperatorIndexConst = (delegate* unmanaged[Cdecl]<delegate* unmanaged[Cdecl]<void>, GDExtensionInt, float*>)GetMethod("packed_float32_array_operator_index_const", p_get_proc_address);
-        GDExtensionInterfacePackedFloat64ArrayOperatorIndex = (delegate* unmanaged[Cdecl]<delegate* unmanaged[Cdecl]<void>, GDExtensionInt, double*>)GetMethod("packed_float64_array_operator_index", p_get_proc_address);
-        GDExtensionInterfacePackedFloat64ArrayOperatorIndexConst = (delegate* unmanaged[Cdecl]<delegate* unmanaged[Cdecl]<void>, GDExtensionInt, double*>)GetMethod("packed_float64_array_operator_index_const", p_get_proc_address);
-        GDExtensionInterfacePackedInt32ArrayOperatorIndex = (delegate* unmanaged[Cdecl]<delegate* unmanaged[Cdecl]<void>, GDExtensionInt, int32_t*>)GetMethod("packed_int32_array_operator_index", p_get_proc_address);
-        GDExtensionInterfacePackedInt32ArrayOperatorIndexConst = (delegate* unmanaged[Cdecl]<delegate* unmanaged[Cdecl]<void>, GDExtensionInt, int32_t*>)GetMethod("packed_int32_array_operator_index_const", p_get_proc_address);
-        GDExtensionInterfacePackedInt64ArrayOperatorIndex = (delegate* unmanaged[Cdecl]<delegate* unmanaged[Cdecl]<void>, GDExtensionInt, int64_t*>)GetMethod("packed_int64_array_operator_index", p_get_proc_address);
-        GDExtensionInterfacePackedInt64ArrayOperatorIndexConst = (delegate* unmanaged[Cdecl]<delegate* unmanaged[Cdecl]<void>, GDExtensionInt, int64_t*>)GetMethod("packed_int64_array_operator_index_const", p_get_proc_address);
-        GDExtensionInterfacePackedStringArrayOperatorIndex = (delegate* unmanaged[Cdecl]<delegate* unmanaged[Cdecl]<void>, GDExtensionInt, delegate* unmanaged[Cdecl]<void>>)GetMethod("packed_string_array_operator_index", p_get_proc_address);
-        GDExtensionInterfacePackedStringArrayOperatorIndexConst = (delegate* unmanaged[Cdecl]<delegate* unmanaged[Cdecl]<void>, GDExtensionInt, delegate* unmanaged[Cdecl]<void>>)GetMethod("packed_string_array_operator_index_const", p_get_proc_address);
-        GDExtensionInterfacePackedVector2ArrayOperatorIndex = (delegate* unmanaged[Cdecl]<delegate* unmanaged[Cdecl]<void>, GDExtensionInt, delegate* unmanaged[Cdecl]<void>>)GetMethod("packed_vector2_array_operator_index", p_get_proc_address);
-        GDExtensionInterfacePackedVector2ArrayOperatorIndexConst = (delegate* unmanaged[Cdecl]<delegate* unmanaged[Cdecl]<void>, GDExtensionInt, delegate* unmanaged[Cdecl]<void>>)GetMethod("packed_vector2_array_operator_index_const", p_get_proc_address);
-        GDExtensionInterfacePackedVector3ArrayOperatorIndex = (delegate* unmanaged[Cdecl]<delegate* unmanaged[Cdecl]<void>, GDExtensionInt, delegate* unmanaged[Cdecl]<void>>)GetMethod("packed_vector3_array_operator_index", p_get_proc_address);
-        GDExtensionInterfacePackedVector3ArrayOperatorIndexConst = (delegate* unmanaged[Cdecl]<delegate* unmanaged[Cdecl]<void>, GDExtensionInt, delegate* unmanaged[Cdecl]<void>>)GetMethod("packed_vector3_array_operator_index_const", p_get_proc_address);
-        GDExtensionInterfaceArrayOperatorIndex = (delegate* unmanaged[Cdecl]<delegate* unmanaged[Cdecl]<void>, GDExtensionInt, delegate* unmanaged[Cdecl]<void>>)GetMethod("array_operator_index", p_get_proc_address);
-        GDExtensionInterfaceArrayOperatorIndexConst = (delegate* unmanaged[Cdecl]<delegate* unmanaged[Cdecl]<void>, GDExtensionInt, delegate* unmanaged[Cdecl]<void>>)GetMethod("array_operator_index_const", p_get_proc_address);
-        GDExtensionInterfaceArrayRef = (delegate* unmanaged[Cdecl]<delegate* unmanaged[Cdecl]<void>, delegate* unmanaged[Cdecl]<void>, void>)GetMethod("array_ref", p_get_proc_address);
-        GDExtensionInterfaceArraySetTyped = (delegate* unmanaged[Cdecl]<delegate* unmanaged[Cdecl]<void>, GDExtensionVariantType, delegate* unmanaged[Cdecl]<void>, delegate* unmanaged[Cdecl]<void>, void>)GetMethod("array_set_typed", p_get_proc_address);
-        GDExtensionInterfaceDictionaryOperatorIndex = (delegate* unmanaged[Cdecl]<delegate* unmanaged[Cdecl]<void>, delegate* unmanaged[Cdecl]<void>, delegate* unmanaged[Cdecl]<void>>)GetMethod("dictionary_operator_index", p_get_proc_address);
-        GDExtensionInterfaceDictionaryOperatorIndexConst = (delegate* unmanaged[Cdecl]<delegate* unmanaged[Cdecl]<void>, delegate* unmanaged[Cdecl]<void>, delegate* unmanaged[Cdecl]<void>>)GetMethod("dictionary_operator_index_const", p_get_proc_address);
-        GDExtensionInterfaceObjectMethodBindCall = (delegate* unmanaged[Cdecl]<delegate* unmanaged[Cdecl]<void>, delegate* unmanaged[Cdecl]<void>, delegate* unmanaged[Cdecl]<void>*, GDExtensionInt, delegate* unmanaged[Cdecl]<void>, GDExtensionCallError*, void>)GetMethod("object_method_bind_call", p_get_proc_address);
-        GDExtensionInterfaceObjectMethodBindPtrcall = (delegate* unmanaged[Cdecl]<delegate* unmanaged[Cdecl]<void>, delegate* unmanaged[Cdecl]<void>, delegate* unmanaged[Cdecl]<void>*, delegate* unmanaged[Cdecl]<void>, void>)GetMethod("object_method_bind_ptrcall", p_get_proc_address);
-        GDExtensionInterfaceObjectDestroy = (delegate* unmanaged[Cdecl]<delegate* unmanaged[Cdecl]<void>, void>)GetMethod("object_destroy", p_get_proc_address);
-        GDExtensionInterfaceGlobalGetSingleton = (delegate* unmanaged[Cdecl]<delegate* unmanaged[Cdecl]<void>, delegate* unmanaged[Cdecl]<void>>)GetMethod("global_get_singleton", p_get_proc_address);
-        GDExtensionInterfaceObjectGetInstanceBinding = (delegate* unmanaged[Cdecl]<delegate* unmanaged[Cdecl]<void>, void*, GDExtensionInstanceBindingCallbacks*, void*>)GetMethod("object_get_instance_binding", p_get_proc_address);
-        GDExtensionInterfaceObjectSetInstanceBinding = (delegate* unmanaged[Cdecl]<delegate* unmanaged[Cdecl]<void>, void*, void*, GDExtensionInstanceBindingCallbacks*, void>)GetMethod("object_set_instance_binding", p_get_proc_address);
-        GDExtensionInterfaceObjectSetInstance = (delegate* unmanaged[Cdecl]<delegate* unmanaged[Cdecl]<void>, delegate* unmanaged[Cdecl]<void>, delegate* unmanaged[Cdecl]<void>, void>)GetMethod("object_set_instance", p_get_proc_address);
-        GDExtensionInterfaceObjectGetClassName = (delegate* unmanaged[Cdecl]<delegate* unmanaged[Cdecl]<void>, delegate* unmanaged[Cdecl]<void>, delegate* unmanaged[Cdecl]<void>, GDExtensionBool>)GetMethod("object_get_class_name", p_get_proc_address);
-        GDExtensionInterfaceObjectCastTo = (delegate* unmanaged[Cdecl]<delegate* unmanaged[Cdecl]<void>, void*, delegate* unmanaged[Cdecl]<void>>)GetMethod("object_cast_to", p_get_proc_address);
-        GDExtensionInterfaceObjectGetInstanceFromId = (delegate* unmanaged[Cdecl]<GDObjectInstanceID, delegate* unmanaged[Cdecl]<void>>)GetMethod("object_get_instance_from_id", p_get_proc_address);
-        GDExtensionInterfaceObjectGetInstanceId = (delegate* unmanaged[Cdecl]<delegate* unmanaged[Cdecl]<void>, GDObjectInstanceID>)GetMethod("object_get_instance_id", p_get_proc_address);
-        GDExtensionInterfaceRefGetObject = (delegate* unmanaged[Cdecl]<delegate* unmanaged[Cdecl]<void>, delegate* unmanaged[Cdecl]<void>>)GetMethod("ref_get_object", p_get_proc_address);
-        GDExtensionInterfaceRefSetObject = (delegate* unmanaged[Cdecl]<delegate* unmanaged[Cdecl]<void>, delegate* unmanaged[Cdecl]<void>, void>)GetMethod("ref_set_object", p_get_proc_address);
-        GDExtensionInterfaceScriptInstanceCreate = (delegate* unmanaged[Cdecl]<GDExtensionScriptInstanceInfo*, delegate* unmanaged[Cdecl]<void>, delegate* unmanaged[Cdecl]<void>>)GetMethod("script_instance_create", p_get_proc_address);
-        GDExtensionInterfaceClassdbConstructObject = (delegate* unmanaged[Cdecl]<delegate* unmanaged[Cdecl]<void>, delegate* unmanaged[Cdecl]<void>>)GetMethod("classdb_construct_object", p_get_proc_address);
-        GDExtensionInterfaceClassdbGetMethodBind = (delegate* unmanaged[Cdecl]<delegate* unmanaged[Cdecl]<void>, delegate* unmanaged[Cdecl]<void>, GDExtensionInt, delegate* unmanaged[Cdecl]<void>>)GetMethod("classdb_get_method_bind", p_get_proc_address);
-        GDExtensionInterfaceClassdbGetClassTag = (delegate* unmanaged[Cdecl]<delegate* unmanaged[Cdecl]<void>, void*>)GetMethod("classdb_get_class_tag", p_get_proc_address);
-        GDExtensionInterfaceClassdbRegisterExtensionClass = (delegate* unmanaged[Cdecl]<delegate* unmanaged[Cdecl]<void>, delegate* unmanaged[Cdecl]<void>, delegate* unmanaged[Cdecl]<void>, GDExtensionClassCreationInfo*, void>)GetMethod("classdb_register_extension_class", p_get_proc_address);
-        GDExtensionInterfaceClassdbRegisterExtensionClassMethod = (delegate* unmanaged[Cdecl]<delegate* unmanaged[Cdecl]<void>, delegate* unmanaged[Cdecl]<void>, GDExtensionClassMethodInfo*, void>)GetMethod("classdb_register_extension_class_method", p_get_proc_address);
-        GDExtensionInterfaceClassdbRegisterExtensionClassIntegerConstant = (delegate* unmanaged[Cdecl]<delegate* unmanaged[Cdecl]<void>, delegate* unmanaged[Cdecl]<void>, delegate* unmanaged[Cdecl]<void>, delegate* unmanaged[Cdecl]<void>, GDExtensionInt, GDExtensionBool, void>)GetMethod("classdb_register_extension_class_integer_constant", p_get_proc_address);
-        GDExtensionInterfaceClassdbRegisterExtensionClassProperty = (delegate* unmanaged[Cdecl]<delegate* unmanaged[Cdecl]<void>, delegate* unmanaged[Cdecl]<void>, GDExtensionPropertyInfo*, delegate* unmanaged[Cdecl]<void>, delegate* unmanaged[Cdecl]<void>, void>)GetMethod("classdb_register_extension_class_property", p_get_proc_address);
-        GDExtensionInterfaceClassdbRegisterExtensionClassPropertyGroup = (delegate* unmanaged[Cdecl]<delegate* unmanaged[Cdecl]<void>, delegate* unmanaged[Cdecl]<void>, delegate* unmanaged[Cdecl]<void>, delegate* unmanaged[Cdecl]<void>, void>)GetMethod("classdb_register_extension_class_property_group", p_get_proc_address);
-        GDExtensionInterfaceClassdbRegisterExtensionClassPropertySubgroup = (delegate* unmanaged[Cdecl]<delegate* unmanaged[Cdecl]<void>, delegate* unmanaged[Cdecl]<void>, delegate* unmanaged[Cdecl]<void>, delegate* unmanaged[Cdecl]<void>, void>)GetMethod("classdb_register_extension_class_property_subgroup", p_get_proc_address);
-        GDExtensionInterfaceClassdbRegisterExtensionClassSignal = (delegate* unmanaged[Cdecl]<delegate* unmanaged[Cdecl]<void>, delegate* unmanaged[Cdecl]<void>, delegate* unmanaged[Cdecl]<void>, GDExtensionPropertyInfo*, GDExtensionInt, void>)GetMethod("classdb_register_extension_class_signal", p_get_proc_address);
-        GDExtensionInterfaceClassdbUnregisterExtensionClass = (delegate* unmanaged[Cdecl]<delegate* unmanaged[Cdecl]<void>, delegate* unmanaged[Cdecl]<void>, void>)GetMethod("classdb_unregister_extension_class", p_get_proc_address);
-        GDExtensionInterfaceGetLibraryPath = (delegate* unmanaged[Cdecl]<delegate* unmanaged[Cdecl]<void>, delegate* unmanaged[Cdecl]<void>, void>)GetMethod("get_library_path", p_get_proc_address);
-        GDExtensionInterfaceEditorAddPlugin = (delegate* unmanaged[Cdecl]<delegate* unmanaged[Cdecl]<void>, void>)GetMethod("editor_add_plugin", p_get_proc_address);
-        GDExtensionInterfaceEditorRemovePlugin = (delegate* unmanaged[Cdecl]<delegate* unmanaged[Cdecl]<void>, void>)GetMethod("editor_remove_plugin", p_get_proc_address);
+        get_godot_version = (delegate* unmanaged[Cdecl]<GDExtensionGodotVersion*, void>)GetMethod("get_godot_version", p_get_proc_address);
+        mem_alloc = (delegate* unmanaged[Cdecl]<size_t, void*>)GetMethod("mem_alloc", p_get_proc_address);
+        mem_realloc = (delegate* unmanaged[Cdecl]<void*, size_t, void*>)GetMethod("mem_realloc", p_get_proc_address);
+        mem_free = (delegate* unmanaged[Cdecl]<void*, void>)GetMethod("mem_free", p_get_proc_address);
+        print_error = (delegate* unmanaged[Cdecl]<byte*, byte*, byte*, int32_t, GDExtensionBool, void>)GetMethod("print_error", p_get_proc_address);
+        print_error_with_message = (delegate* unmanaged[Cdecl]<byte*, byte*, byte*, byte*, int32_t, GDExtensionBool, void>)GetMethod("print_error_with_message", p_get_proc_address);
+        print_warning = (delegate* unmanaged[Cdecl]<byte*, byte*, byte*, int32_t, GDExtensionBool, void>)GetMethod("print_warning", p_get_proc_address);
+        print_warning_with_message = (delegate* unmanaged[Cdecl]<byte*, byte*, byte*, byte*, int32_t, GDExtensionBool, void>)GetMethod("print_warning_with_message", p_get_proc_address);
+        print_script_error = (delegate* unmanaged[Cdecl]<byte*, byte*, byte*, int32_t, GDExtensionBool, void>)GetMethod("print_script_error", p_get_proc_address);
+        print_script_error_with_message = (delegate* unmanaged[Cdecl]<byte*, byte*, byte*, byte*, int32_t, GDExtensionBool, void>)GetMethod("print_script_error_with_message", p_get_proc_address);
+        get_native_struct_size = (delegate* unmanaged[Cdecl]<delegate* unmanaged[Cdecl]<void>, uint64_t>)GetMethod("get_native_struct_size", p_get_proc_address);
+        variant_new_copy = (delegate* unmanaged[Cdecl]<delegate* unmanaged[Cdecl]<void>, delegate* unmanaged[Cdecl]<void>, void>)GetMethod("variant_new_copy", p_get_proc_address);
+        variant_new_nil = (delegate* unmanaged[Cdecl]<delegate* unmanaged[Cdecl]<void>, void>)GetMethod("variant_new_nil", p_get_proc_address);
+        variant_destroy = (delegate* unmanaged[Cdecl]<delegate* unmanaged[Cdecl]<void>, void>)GetMethod("variant_destroy", p_get_proc_address);
+        variant_call = (delegate* unmanaged[Cdecl]<delegate* unmanaged[Cdecl]<void>, delegate* unmanaged[Cdecl]<void>, delegate* unmanaged[Cdecl]<void>*, GDExtensionInt, delegate* unmanaged[Cdecl]<void>, GDExtensionCallError*, void>)GetMethod("variant_call", p_get_proc_address);
+        variant_call_static = (delegate* unmanaged[Cdecl]<GDExtensionVariantType, delegate* unmanaged[Cdecl]<void>, delegate* unmanaged[Cdecl]<void>*, GDExtensionInt, delegate* unmanaged[Cdecl]<void>, GDExtensionCallError*, void>)GetMethod("variant_call_static", p_get_proc_address);
+        variant_evaluate = (delegate* unmanaged[Cdecl]<GDExtensionVariantOperator, delegate* unmanaged[Cdecl]<void>, delegate* unmanaged[Cdecl]<void>, delegate* unmanaged[Cdecl]<void>, GDExtensionBool*, void>)GetMethod("variant_evaluate", p_get_proc_address);
+        variant_set = (delegate* unmanaged[Cdecl]<delegate* unmanaged[Cdecl]<void>, delegate* unmanaged[Cdecl]<void>, delegate* unmanaged[Cdecl]<void>, GDExtensionBool*, void>)GetMethod("variant_set", p_get_proc_address);
+        variant_set_named = (delegate* unmanaged[Cdecl]<delegate* unmanaged[Cdecl]<void>, delegate* unmanaged[Cdecl]<void>, delegate* unmanaged[Cdecl]<void>, GDExtensionBool*, void>)GetMethod("variant_set_named", p_get_proc_address);
+        variant_set_keyed = (delegate* unmanaged[Cdecl]<delegate* unmanaged[Cdecl]<void>, delegate* unmanaged[Cdecl]<void>, delegate* unmanaged[Cdecl]<void>, GDExtensionBool*, void>)GetMethod("variant_set_keyed", p_get_proc_address);
+        variant_set_indexed = (delegate* unmanaged[Cdecl]<delegate* unmanaged[Cdecl]<void>, GDExtensionInt, delegate* unmanaged[Cdecl]<void>, GDExtensionBool*, GDExtensionBool*, void>)GetMethod("variant_set_indexed", p_get_proc_address);
+        variant_get = (delegate* unmanaged[Cdecl]<delegate* unmanaged[Cdecl]<void>, delegate* unmanaged[Cdecl]<void>, delegate* unmanaged[Cdecl]<void>, GDExtensionBool*, void>)GetMethod("variant_get", p_get_proc_address);
+        variant_get_named = (delegate* unmanaged[Cdecl]<delegate* unmanaged[Cdecl]<void>, delegate* unmanaged[Cdecl]<void>, delegate* unmanaged[Cdecl]<void>, GDExtensionBool*, void>)GetMethod("variant_get_named", p_get_proc_address);
+        variant_get_keyed = (delegate* unmanaged[Cdecl]<delegate* unmanaged[Cdecl]<void>, delegate* unmanaged[Cdecl]<void>, delegate* unmanaged[Cdecl]<void>, GDExtensionBool*, void>)GetMethod("variant_get_keyed", p_get_proc_address);
+        variant_get_indexed = (delegate* unmanaged[Cdecl]<delegate* unmanaged[Cdecl]<void>, GDExtensionInt, delegate* unmanaged[Cdecl]<void>, GDExtensionBool*, GDExtensionBool*, void>)GetMethod("variant_get_indexed", p_get_proc_address);
+        variant_iter_init = (delegate* unmanaged[Cdecl]<delegate* unmanaged[Cdecl]<void>, delegate* unmanaged[Cdecl]<void>, GDExtensionBool*, GDExtensionBool>)GetMethod("variant_iter_init", p_get_proc_address);
+        variant_iter_next = (delegate* unmanaged[Cdecl]<delegate* unmanaged[Cdecl]<void>, delegate* unmanaged[Cdecl]<void>, GDExtensionBool*, GDExtensionBool>)GetMethod("variant_iter_next", p_get_proc_address);
+        variant_iter_get = (delegate* unmanaged[Cdecl]<delegate* unmanaged[Cdecl]<void>, delegate* unmanaged[Cdecl]<void>, delegate* unmanaged[Cdecl]<void>, GDExtensionBool*, void>)GetMethod("variant_iter_get", p_get_proc_address);
+        variant_hash = (delegate* unmanaged[Cdecl]<delegate* unmanaged[Cdecl]<void>, GDExtensionInt>)GetMethod("variant_hash", p_get_proc_address);
+        variant_recursive_hash = (delegate* unmanaged[Cdecl]<delegate* unmanaged[Cdecl]<void>, GDExtensionInt, GDExtensionInt>)GetMethod("variant_recursive_hash", p_get_proc_address);
+        variant_hash_compare = (delegate* unmanaged[Cdecl]<delegate* unmanaged[Cdecl]<void>, delegate* unmanaged[Cdecl]<void>, GDExtensionBool>)GetMethod("variant_hash_compare", p_get_proc_address);
+        variant_booleanize = (delegate* unmanaged[Cdecl]<delegate* unmanaged[Cdecl]<void>, GDExtensionBool>)GetMethod("variant_booleanize", p_get_proc_address);
+        variant_duplicate = (delegate* unmanaged[Cdecl]<delegate* unmanaged[Cdecl]<void>, delegate* unmanaged[Cdecl]<void>, GDExtensionBool, void>)GetMethod("variant_duplicate", p_get_proc_address);
+        variant_stringify = (delegate* unmanaged[Cdecl]<delegate* unmanaged[Cdecl]<void>, delegate* unmanaged[Cdecl]<void>, void>)GetMethod("variant_stringify", p_get_proc_address);
+        variant_get_type = (delegate* unmanaged[Cdecl]<delegate* unmanaged[Cdecl]<void>, GDExtensionVariantType>)GetMethod("variant_get_type", p_get_proc_address);
+        variant_has_method = (delegate* unmanaged[Cdecl]<delegate* unmanaged[Cdecl]<void>, delegate* unmanaged[Cdecl]<void>, GDExtensionBool>)GetMethod("variant_has_method", p_get_proc_address);
+        variant_has_member = (delegate* unmanaged[Cdecl]<GDExtensionVariantType, delegate* unmanaged[Cdecl]<void>, GDExtensionBool>)GetMethod("variant_has_member", p_get_proc_address);
+        variant_has_key = (delegate* unmanaged[Cdecl]<delegate* unmanaged[Cdecl]<void>, delegate* unmanaged[Cdecl]<void>, GDExtensionBool*, GDExtensionBool>)GetMethod("variant_has_key", p_get_proc_address);
+        variant_get_type_name = (delegate* unmanaged[Cdecl]<GDExtensionVariantType, delegate* unmanaged[Cdecl]<void>, void>)GetMethod("variant_get_type_name", p_get_proc_address);
+        variant_can_convert = (delegate* unmanaged[Cdecl]<GDExtensionVariantType, GDExtensionVariantType, GDExtensionBool>)GetMethod("variant_can_convert", p_get_proc_address);
+        variant_can_convert_strict = (delegate* unmanaged[Cdecl]<GDExtensionVariantType, GDExtensionVariantType, GDExtensionBool>)GetMethod("variant_can_convert_strict", p_get_proc_address);
+        get_variant_from_type_constructor = (delegate* unmanaged[Cdecl]<GDExtensionVariantType, delegate* unmanaged[Cdecl]<delegate* unmanaged[Cdecl]<void>, delegate* unmanaged[Cdecl]<void>, void>>)GetMethod("get_variant_from_type_constructor", p_get_proc_address);
+        get_variant_to_type_constructor = (delegate* unmanaged[Cdecl]<GDExtensionVariantType, delegate* unmanaged[Cdecl]<delegate* unmanaged[Cdecl]<void>, delegate* unmanaged[Cdecl]<void>, void>>)GetMethod("get_variant_to_type_constructor", p_get_proc_address);
+        variant_get_ptr_operator_evaluator = (delegate* unmanaged[Cdecl]<GDExtensionVariantOperator, GDExtensionVariantType, GDExtensionVariantType, delegate* unmanaged[Cdecl]<delegate* unmanaged[Cdecl]<void>, delegate* unmanaged[Cdecl]<void>, delegate* unmanaged[Cdecl]<void>, void>>)GetMethod("variant_get_ptr_operator_evaluator", p_get_proc_address);
+        variant_get_ptr_builtin_method = (delegate* unmanaged[Cdecl]<GDExtensionVariantType, delegate* unmanaged[Cdecl]<void>, GDExtensionInt, delegate* unmanaged[Cdecl]<delegate* unmanaged[Cdecl]<void>, delegate* unmanaged[Cdecl]<void>*, delegate* unmanaged[Cdecl]<void>, int, void>>)GetMethod("variant_get_ptr_builtin_method", p_get_proc_address);
+        variant_get_ptr_constructor = (delegate* unmanaged[Cdecl]<GDExtensionVariantType, int32_t, delegate* unmanaged[Cdecl]<delegate* unmanaged[Cdecl]<void>, delegate* unmanaged[Cdecl]<void>*, void>>)GetMethod("variant_get_ptr_constructor", p_get_proc_address);
+        variant_get_ptr_destructor = (delegate* unmanaged[Cdecl]<GDExtensionVariantType, delegate* unmanaged[Cdecl]<delegate* unmanaged[Cdecl]<void>, void>>)GetMethod("variant_get_ptr_destructor", p_get_proc_address);
+        variant_construct = (delegate* unmanaged[Cdecl]<GDExtensionVariantType, delegate* unmanaged[Cdecl]<void>, delegate* unmanaged[Cdecl]<void>*, int32_t, GDExtensionCallError*, void>)GetMethod("variant_construct", p_get_proc_address);
+        variant_get_ptr_setter = (delegate* unmanaged[Cdecl]<GDExtensionVariantType, delegate* unmanaged[Cdecl]<void>, delegate* unmanaged[Cdecl]<delegate* unmanaged[Cdecl]<void>, delegate* unmanaged[Cdecl]<void>, void>>)GetMethod("variant_get_ptr_setter", p_get_proc_address);
+        variant_get_ptr_getter = (delegate* unmanaged[Cdecl]<GDExtensionVariantType, delegate* unmanaged[Cdecl]<void>, delegate* unmanaged[Cdecl]<delegate* unmanaged[Cdecl]<void>, delegate* unmanaged[Cdecl]<void>, void>>)GetMethod("variant_get_ptr_getter", p_get_proc_address);
+        variant_get_ptr_indexed_setter = (delegate* unmanaged[Cdecl]<GDExtensionVariantType, delegate* unmanaged[Cdecl]<delegate* unmanaged[Cdecl]<void>, GDExtensionInt, delegate* unmanaged[Cdecl]<void>, void>>)GetMethod("variant_get_ptr_indexed_setter", p_get_proc_address);
+        variant_get_ptr_indexed_getter = (delegate* unmanaged[Cdecl]<GDExtensionVariantType, delegate* unmanaged[Cdecl]<delegate* unmanaged[Cdecl]<void>, GDExtensionInt, delegate* unmanaged[Cdecl]<void>, void>>)GetMethod("variant_get_ptr_indexed_getter", p_get_proc_address);
+        variant_get_ptr_keyed_setter = (delegate* unmanaged[Cdecl]<GDExtensionVariantType, delegate* unmanaged[Cdecl]<delegate* unmanaged[Cdecl]<void>, delegate* unmanaged[Cdecl]<void>, delegate* unmanaged[Cdecl]<void>, void>>)GetMethod("variant_get_ptr_keyed_setter", p_get_proc_address);
+        variant_get_ptr_keyed_getter = (delegate* unmanaged[Cdecl]<GDExtensionVariantType, delegate* unmanaged[Cdecl]<delegate* unmanaged[Cdecl]<void>, delegate* unmanaged[Cdecl]<void>, delegate* unmanaged[Cdecl]<void>, void>>)GetMethod("variant_get_ptr_keyed_getter", p_get_proc_address);
+        variant_get_ptr_keyed_checker = (delegate* unmanaged[Cdecl]<GDExtensionVariantType, delegate* unmanaged[Cdecl]<delegate* unmanaged[Cdecl]<void>, delegate* unmanaged[Cdecl]<void>, uint32_t>>)GetMethod("variant_get_ptr_keyed_checker", p_get_proc_address);
+        variant_get_constant_value = (delegate* unmanaged[Cdecl]<GDExtensionVariantType, delegate* unmanaged[Cdecl]<void>, delegate* unmanaged[Cdecl]<void>, void>)GetMethod("variant_get_constant_value", p_get_proc_address);
+        variant_get_ptr_utility_function = (delegate* unmanaged[Cdecl]<delegate* unmanaged[Cdecl]<void>, GDExtensionInt, delegate* unmanaged[Cdecl]<delegate* unmanaged[Cdecl]<void>, delegate* unmanaged[Cdecl]<void>*, int, void>>)GetMethod("variant_get_ptr_utility_function", p_get_proc_address);
+        string_new_with_latin1_chars = (delegate* unmanaged[Cdecl]<delegate* unmanaged[Cdecl]<void>, byte*, void>)GetMethod("string_new_with_latin1_chars", p_get_proc_address);
+        string_new_with_utf8_chars = (delegate* unmanaged[Cdecl]<delegate* unmanaged[Cdecl]<void>, byte*, void>)GetMethod("string_new_with_utf8_chars", p_get_proc_address);
+        string_new_with_utf16_chars = (delegate* unmanaged[Cdecl]<delegate* unmanaged[Cdecl]<void>, char16_t*, void>)GetMethod("string_new_with_utf16_chars", p_get_proc_address);
+        string_new_with_utf32_chars = (delegate* unmanaged[Cdecl]<delegate* unmanaged[Cdecl]<void>, char32_t*, void>)GetMethod("string_new_with_utf32_chars", p_get_proc_address);
+        string_new_with_wide_chars = (delegate* unmanaged[Cdecl]<delegate* unmanaged[Cdecl]<void>, wchar_t*, void>)GetMethod("string_new_with_wide_chars", p_get_proc_address);
+        string_new_with_latin1_chars_and_len = (delegate* unmanaged[Cdecl]<delegate* unmanaged[Cdecl]<void>, byte*, GDExtensionInt, void>)GetMethod("string_new_with_latin1_chars_and_len", p_get_proc_address);
+        string_new_with_utf8_chars_and_len = (delegate* unmanaged[Cdecl]<delegate* unmanaged[Cdecl]<void>, byte*, GDExtensionInt, void>)GetMethod("string_new_with_utf8_chars_and_len", p_get_proc_address);
+        string_new_with_utf16_chars_and_len = (delegate* unmanaged[Cdecl]<delegate* unmanaged[Cdecl]<void>, char16_t*, GDExtensionInt, void>)GetMethod("string_new_with_utf16_chars_and_len", p_get_proc_address);
+        string_new_with_utf32_chars_and_len = (delegate* unmanaged[Cdecl]<delegate* unmanaged[Cdecl]<void>, char32_t*, GDExtensionInt, void>)GetMethod("string_new_with_utf32_chars_and_len", p_get_proc_address);
+        string_new_with_wide_chars_and_len = (delegate* unmanaged[Cdecl]<delegate* unmanaged[Cdecl]<void>, wchar_t*, GDExtensionInt, void>)GetMethod("string_new_with_wide_chars_and_len", p_get_proc_address);
+        string_to_latin1_chars = (delegate* unmanaged[Cdecl]<delegate* unmanaged[Cdecl]<void>, byte*, GDExtensionInt, GDExtensionInt>)GetMethod("string_to_latin1_chars", p_get_proc_address);
+        string_to_utf8_chars = (delegate* unmanaged[Cdecl]<delegate* unmanaged[Cdecl]<void>, byte*, GDExtensionInt, GDExtensionInt>)GetMethod("string_to_utf8_chars", p_get_proc_address);
+        string_to_utf16_chars = (delegate* unmanaged[Cdecl]<delegate* unmanaged[Cdecl]<void>, char16_t*, GDExtensionInt, GDExtensionInt>)GetMethod("string_to_utf16_chars", p_get_proc_address);
+        string_to_utf32_chars = (delegate* unmanaged[Cdecl]<delegate* unmanaged[Cdecl]<void>, char32_t*, GDExtensionInt, GDExtensionInt>)GetMethod("string_to_utf32_chars", p_get_proc_address);
+        string_to_wide_chars = (delegate* unmanaged[Cdecl]<delegate* unmanaged[Cdecl]<void>, wchar_t*, GDExtensionInt, GDExtensionInt>)GetMethod("string_to_wide_chars", p_get_proc_address);
+        string_operator_index = (delegate* unmanaged[Cdecl]<delegate* unmanaged[Cdecl]<void>, GDExtensionInt, char32_t*>)GetMethod("string_operator_index", p_get_proc_address);
+        string_operator_index_const = (delegate* unmanaged[Cdecl]<delegate* unmanaged[Cdecl]<void>, GDExtensionInt, char32_t*>)GetMethod("string_operator_index_const", p_get_proc_address);
+        string_operator_plus_eq_string = (delegate* unmanaged[Cdecl]<delegate* unmanaged[Cdecl]<void>, delegate* unmanaged[Cdecl]<void>, void>)GetMethod("string_operator_plus_eq_string", p_get_proc_address);
+        string_operator_plus_eq_char = (delegate* unmanaged[Cdecl]<delegate* unmanaged[Cdecl]<void>, char32_t, void>)GetMethod("string_operator_plus_eq_char", p_get_proc_address);
+        string_operator_plus_eq_cstr = (delegate* unmanaged[Cdecl]<delegate* unmanaged[Cdecl]<void>, byte*, void>)GetMethod("string_operator_plus_eq_cstr", p_get_proc_address);
+        string_operator_plus_eq_wcstr = (delegate* unmanaged[Cdecl]<delegate* unmanaged[Cdecl]<void>, wchar_t*, void>)GetMethod("string_operator_plus_eq_wcstr", p_get_proc_address);
+        string_operator_plus_eq_c32str = (delegate* unmanaged[Cdecl]<delegate* unmanaged[Cdecl]<void>, char32_t*, void>)GetMethod("string_operator_plus_eq_c32str", p_get_proc_address);
+        xml_parser_open_buffer = (delegate* unmanaged[Cdecl]<delegate* unmanaged[Cdecl]<void>, uint8_t*, size_t, GDExtensionInt>)GetMethod("xml_parser_open_buffer", p_get_proc_address);
+        file_access_store_buffer = (delegate* unmanaged[Cdecl]<delegate* unmanaged[Cdecl]<void>, uint8_t*, uint64_t, void>)GetMethod("file_access_store_buffer", p_get_proc_address);
+        file_access_get_buffer = (delegate* unmanaged[Cdecl]<delegate* unmanaged[Cdecl]<void>, uint8_t*, uint64_t, uint64_t>)GetMethod("file_access_get_buffer", p_get_proc_address);
+        worker_thread_pool_add_native_group_task = (delegate* unmanaged[Cdecl]<delegate* unmanaged[Cdecl]<void>, GDExtensionInt, uint8_t*>)GetMethod("worker_thread_pool_add_native_group_task", p_get_proc_address);
+        packed_byte_array_operator_index_const = (delegate* unmanaged[Cdecl]<delegate* unmanaged[Cdecl]<void>, GDExtensionInt, uint8_t*>)GetMethod("packed_byte_array_operator_index_const", p_get_proc_address);
+        packed_color_array_operator_index = (delegate* unmanaged[Cdecl]<delegate* unmanaged[Cdecl]<void>, GDExtensionInt, delegate* unmanaged[Cdecl]<void>>)GetMethod("packed_color_array_operator_index", p_get_proc_address);
+        packed_color_array_operator_index_const = (delegate* unmanaged[Cdecl]<delegate* unmanaged[Cdecl]<void>, GDExtensionInt, delegate* unmanaged[Cdecl]<void>>)GetMethod("packed_color_array_operator_index_const", p_get_proc_address);
+        packed_float32_array_operator_index = (delegate* unmanaged[Cdecl]<delegate* unmanaged[Cdecl]<void>, GDExtensionInt, float*>)GetMethod("packed_float32_array_operator_index", p_get_proc_address);
+        packed_float32_array_operator_index_const = (delegate* unmanaged[Cdecl]<delegate* unmanaged[Cdecl]<void>, GDExtensionInt, float*>)GetMethod("packed_float32_array_operator_index_const", p_get_proc_address);
+        packed_float64_array_operator_index = (delegate* unmanaged[Cdecl]<delegate* unmanaged[Cdecl]<void>, GDExtensionInt, double*>)GetMethod("packed_float64_array_operator_index", p_get_proc_address);
+        packed_float64_array_operator_index_const = (delegate* unmanaged[Cdecl]<delegate* unmanaged[Cdecl]<void>, GDExtensionInt, double*>)GetMethod("packed_float64_array_operator_index_const", p_get_proc_address);
+        packed_int32_array_operator_index = (delegate* unmanaged[Cdecl]<delegate* unmanaged[Cdecl]<void>, GDExtensionInt, int32_t*>)GetMethod("packed_int32_array_operator_index", p_get_proc_address);
+        packed_int32_array_operator_index_const = (delegate* unmanaged[Cdecl]<delegate* unmanaged[Cdecl]<void>, GDExtensionInt, int32_t*>)GetMethod("packed_int32_array_operator_index_const", p_get_proc_address);
+        packed_int64_array_operator_index = (delegate* unmanaged[Cdecl]<delegate* unmanaged[Cdecl]<void>, GDExtensionInt, int64_t*>)GetMethod("packed_int64_array_operator_index", p_get_proc_address);
+        packed_int64_array_operator_index_const = (delegate* unmanaged[Cdecl]<delegate* unmanaged[Cdecl]<void>, GDExtensionInt, int64_t*>)GetMethod("packed_int64_array_operator_index_const", p_get_proc_address);
+        packed_string_array_operator_index = (delegate* unmanaged[Cdecl]<delegate* unmanaged[Cdecl]<void>, GDExtensionInt, delegate* unmanaged[Cdecl]<void>>)GetMethod("packed_string_array_operator_index", p_get_proc_address);
+        packed_string_array_operator_index_const = (delegate* unmanaged[Cdecl]<delegate* unmanaged[Cdecl]<void>, GDExtensionInt, delegate* unmanaged[Cdecl]<void>>)GetMethod("packed_string_array_operator_index_const", p_get_proc_address);
+        packed_vector2_array_operator_index = (delegate* unmanaged[Cdecl]<delegate* unmanaged[Cdecl]<void>, GDExtensionInt, delegate* unmanaged[Cdecl]<void>>)GetMethod("packed_vector2_array_operator_index", p_get_proc_address);
+        packed_vector2_array_operator_index_const = (delegate* unmanaged[Cdecl]<delegate* unmanaged[Cdecl]<void>, GDExtensionInt, delegate* unmanaged[Cdecl]<void>>)GetMethod("packed_vector2_array_operator_index_const", p_get_proc_address);
+        packed_vector3_array_operator_index = (delegate* unmanaged[Cdecl]<delegate* unmanaged[Cdecl]<void>, GDExtensionInt, delegate* unmanaged[Cdecl]<void>>)GetMethod("packed_vector3_array_operator_index", p_get_proc_address);
+        packed_vector3_array_operator_index_const = (delegate* unmanaged[Cdecl]<delegate* unmanaged[Cdecl]<void>, GDExtensionInt, delegate* unmanaged[Cdecl]<void>>)GetMethod("packed_vector3_array_operator_index_const", p_get_proc_address);
+        array_operator_index = (delegate* unmanaged[Cdecl]<delegate* unmanaged[Cdecl]<void>, GDExtensionInt, delegate* unmanaged[Cdecl]<void>>)GetMethod("array_operator_index", p_get_proc_address);
+        array_operator_index_const = (delegate* unmanaged[Cdecl]<delegate* unmanaged[Cdecl]<void>, GDExtensionInt, delegate* unmanaged[Cdecl]<void>>)GetMethod("array_operator_index_const", p_get_proc_address);
+        array_ref = (delegate* unmanaged[Cdecl]<delegate* unmanaged[Cdecl]<void>, delegate* unmanaged[Cdecl]<void>, void>)GetMethod("array_ref", p_get_proc_address);
+        array_set_typed = (delegate* unmanaged[Cdecl]<delegate* unmanaged[Cdecl]<void>, GDExtensionVariantType, delegate* unmanaged[Cdecl]<void>, delegate* unmanaged[Cdecl]<void>, void>)GetMethod("array_set_typed", p_get_proc_address);
+        dictionary_operator_index = (delegate* unmanaged[Cdecl]<delegate* unmanaged[Cdecl]<void>, delegate* unmanaged[Cdecl]<void>, delegate* unmanaged[Cdecl]<void>>)GetMethod("dictionary_operator_index", p_get_proc_address);
+        dictionary_operator_index_const = (delegate* unmanaged[Cdecl]<delegate* unmanaged[Cdecl]<void>, delegate* unmanaged[Cdecl]<void>, delegate* unmanaged[Cdecl]<void>>)GetMethod("dictionary_operator_index_const", p_get_proc_address);
+        object_method_bind_call = (delegate* unmanaged[Cdecl]<delegate* unmanaged[Cdecl]<void>, delegate* unmanaged[Cdecl]<void>, delegate* unmanaged[Cdecl]<void>*, GDExtensionInt, delegate* unmanaged[Cdecl]<void>, GDExtensionCallError*, void>)GetMethod("object_method_bind_call", p_get_proc_address);
+        object_method_bind_ptrcall = (delegate* unmanaged[Cdecl]<delegate* unmanaged[Cdecl]<void>, delegate* unmanaged[Cdecl]<void>, delegate* unmanaged[Cdecl]<void>*, delegate* unmanaged[Cdecl]<void>, void>)GetMethod("object_method_bind_ptrcall", p_get_proc_address);
+        object_destroy = (delegate* unmanaged[Cdecl]<delegate* unmanaged[Cdecl]<void>, void>)GetMethod("object_destroy", p_get_proc_address);
+        global_get_singleton = (delegate* unmanaged[Cdecl]<delegate* unmanaged[Cdecl]<void>, delegate* unmanaged[Cdecl]<void>>)GetMethod("global_get_singleton", p_get_proc_address);
+        object_get_instance_binding = (delegate* unmanaged[Cdecl]<delegate* unmanaged[Cdecl]<void>, void*, GDExtensionInstanceBindingCallbacks*, void*>)GetMethod("object_get_instance_binding", p_get_proc_address);
+        object_set_instance_binding = (delegate* unmanaged[Cdecl]<delegate* unmanaged[Cdecl]<void>, void*, void*, GDExtensionInstanceBindingCallbacks*, void>)GetMethod("object_set_instance_binding", p_get_proc_address);
+        object_set_instance = (delegate* unmanaged[Cdecl]<delegate* unmanaged[Cdecl]<void>, delegate* unmanaged[Cdecl]<void>, delegate* unmanaged[Cdecl]<void>, void>)GetMethod("object_set_instance", p_get_proc_address);
+        object_get_class_name = (delegate* unmanaged[Cdecl]<delegate* unmanaged[Cdecl]<void>, delegate* unmanaged[Cdecl]<void>, delegate* unmanaged[Cdecl]<void>, GDExtensionBool>)GetMethod("object_get_class_name", p_get_proc_address);
+        object_cast_to = (delegate* unmanaged[Cdecl]<delegate* unmanaged[Cdecl]<void>, void*, delegate* unmanaged[Cdecl]<void>>)GetMethod("object_cast_to", p_get_proc_address);
+        object_get_instance_from_id = (delegate* unmanaged[Cdecl]<GDObjectInstanceID, delegate* unmanaged[Cdecl]<void>>)GetMethod("object_get_instance_from_id", p_get_proc_address);
+        object_get_instance_id = (delegate* unmanaged[Cdecl]<delegate* unmanaged[Cdecl]<void>, GDObjectInstanceID>)GetMethod("object_get_instance_id", p_get_proc_address);
+        ref_get_object = (delegate* unmanaged[Cdecl]<delegate* unmanaged[Cdecl]<void>, delegate* unmanaged[Cdecl]<void>>)GetMethod("ref_get_object", p_get_proc_address);
+        ref_set_object = (delegate* unmanaged[Cdecl]<delegate* unmanaged[Cdecl]<void>, delegate* unmanaged[Cdecl]<void>, void>)GetMethod("ref_set_object", p_get_proc_address);
+        script_instance_create = (delegate* unmanaged[Cdecl]<GDExtensionScriptInstanceInfo*, delegate* unmanaged[Cdecl]<void>, delegate* unmanaged[Cdecl]<void>>)GetMethod("script_instance_create", p_get_proc_address);
+        classdb_construct_object = (delegate* unmanaged[Cdecl]<delegate* unmanaged[Cdecl]<void>, delegate* unmanaged[Cdecl]<void>>)GetMethod("classdb_construct_object", p_get_proc_address);
+        classdb_get_method_bind = (delegate* unmanaged[Cdecl]<delegate* unmanaged[Cdecl]<void>, delegate* unmanaged[Cdecl]<void>, GDExtensionInt, delegate* unmanaged[Cdecl]<void>>)GetMethod("classdb_get_method_bind", p_get_proc_address);
+        classdb_get_class_tag = (delegate* unmanaged[Cdecl]<delegate* unmanaged[Cdecl]<void>, void*>)GetMethod("classdb_get_class_tag", p_get_proc_address);
+        classdb_register_extension_class = (delegate* unmanaged[Cdecl]<delegate* unmanaged[Cdecl]<void>, delegate* unmanaged[Cdecl]<void>, delegate* unmanaged[Cdecl]<void>, GDExtensionClassCreationInfo*, void>)GetMethod("classdb_register_extension_class", p_get_proc_address);
+        classdb_register_extension_class_method = (delegate* unmanaged[Cdecl]<delegate* unmanaged[Cdecl]<void>, delegate* unmanaged[Cdecl]<void>, GDExtensionClassMethodInfo*, void>)GetMethod("classdb_register_extension_class_method", p_get_proc_address);
+        classdb_register_extension_class_integer_constant = (delegate* unmanaged[Cdecl]<delegate* unmanaged[Cdecl]<void>, delegate* unmanaged[Cdecl]<void>, delegate* unmanaged[Cdecl]<void>, delegate* unmanaged[Cdecl]<void>, GDExtensionInt, GDExtensionBool, void>)GetMethod("classdb_register_extension_class_integer_constant", p_get_proc_address);
+        classdb_register_extension_class_property = (delegate* unmanaged[Cdecl]<delegate* unmanaged[Cdecl]<void>, delegate* unmanaged[Cdecl]<void>, GDExtensionPropertyInfo*, delegate* unmanaged[Cdecl]<void>, delegate* unmanaged[Cdecl]<void>, void>)GetMethod("classdb_register_extension_class_property", p_get_proc_address);
+        classdb_register_extension_class_property_group = (delegate* unmanaged[Cdecl]<delegate* unmanaged[Cdecl]<void>, delegate* unmanaged[Cdecl]<void>, delegate* unmanaged[Cdecl]<void>, delegate* unmanaged[Cdecl]<void>, void>)GetMethod("classdb_register_extension_class_property_group", p_get_proc_address);
+        classdb_register_extension_class_property_subgroup = (delegate* unmanaged[Cdecl]<delegate* unmanaged[Cdecl]<void>, delegate* unmanaged[Cdecl]<void>, delegate* unmanaged[Cdecl]<void>, delegate* unmanaged[Cdecl]<void>, void>)GetMethod("classdb_register_extension_class_property_subgroup", p_get_proc_address);
+        classdb_register_extension_class_signal = (delegate* unmanaged[Cdecl]<delegate* unmanaged[Cdecl]<void>, delegate* unmanaged[Cdecl]<void>, delegate* unmanaged[Cdecl]<void>, GDExtensionPropertyInfo*, GDExtensionInt, void>)GetMethod("classdb_register_extension_class_signal", p_get_proc_address);
+        classdb_unregister_extension_class = (delegate* unmanaged[Cdecl]<delegate* unmanaged[Cdecl]<void>, delegate* unmanaged[Cdecl]<void>, void>)GetMethod("classdb_unregister_extension_class", p_get_proc_address);
+        get_library_path = (delegate* unmanaged[Cdecl]<delegate* unmanaged[Cdecl]<void>, delegate* unmanaged[Cdecl]<void>, void>)GetMethod("get_library_path", p_get_proc_address);
+        editor_add_plugin = (delegate* unmanaged[Cdecl]<delegate* unmanaged[Cdecl]<void>, void>)GetMethod("editor_add_plugin", p_get_proc_address);
+        editor_remove_plugin = (delegate* unmanaged[Cdecl]<delegate* unmanaged[Cdecl]<void>, void>)GetMethod("editor_remove_plugin", p_get_proc_address);
         // ReSharper restore StringLiteralTypo
     }
 
-    internal delegate* unmanaged[Cdecl]<GDExtensionGodotVersion*, void> GDExtensionInterfaceGetGodotVersion;
-
-    internal delegate* unmanaged[Cdecl]<size_t, void*> GDExtensionInterfaceMemAlloc;
-
-    internal delegate* unmanaged[Cdecl]<void*, size_t, void*> GDExtensionInterfaceMemRealloc;
-
-    internal delegate* unmanaged[Cdecl]<void*, void> GDExtensionInterfaceMemFree;
-
-    internal delegate* unmanaged[Cdecl]<byte*, byte*, byte*, int32_t, GDExtensionBool, void> GDExtensionInterfacePrintError;
-
-    internal delegate* unmanaged[Cdecl]<byte*, byte*, byte*, byte*, int32_t, GDExtensionBool, void> GDExtensionInterfacePrintErrorWithMessage;
-
-    internal delegate* unmanaged[Cdecl]<byte*, byte*, byte*, int32_t, GDExtensionBool, void> GDExtensionInterfacePrintWarning;
-
-    internal delegate* unmanaged[Cdecl]<byte*, byte*, byte*, byte*, int32_t, GDExtensionBool, void> GDExtensionInterfacePrintWarningWithMessage;
-
-    internal delegate* unmanaged[Cdecl]<byte*, byte*, byte*, int32_t, GDExtensionBool, void> GDExtensionInterfacePrintScriptError;
-
-    internal delegate* unmanaged[Cdecl]<byte*, byte*, byte*, byte*, int32_t, GDExtensionBool, void> GDExtensionInterfacePrintScriptErrorWithMessage;
-
-    internal delegate* unmanaged[Cdecl]<delegate* unmanaged[Cdecl]<void>, uint64_t> GDExtensionInterfaceGetNativeStructSize;
-
-    internal delegate* unmanaged[Cdecl]<delegate* unmanaged[Cdecl]<void>, delegate* unmanaged[Cdecl]<void>, void> GDExtensionInterfaceVariantNewCopy;
-
-    internal delegate* unmanaged[Cdecl]<delegate* unmanaged[Cdecl]<void>, void> GDExtensionInterfaceVariantNewNil;
-
-    internal delegate* unmanaged[Cdecl]<delegate* unmanaged[Cdecl]<void>, void> GDExtensionInterfaceVariantDestroy;
-
-    internal delegate* unmanaged[Cdecl]<delegate* unmanaged[Cdecl]<void>, delegate* unmanaged[Cdecl]<void>, delegate* unmanaged[Cdecl]<void>*, GDExtensionInt, delegate* unmanaged[Cdecl]<void>, GDExtensionCallError*, void> GDExtensionInterfaceVariantCall;
-
-    internal delegate* unmanaged[Cdecl]<GDExtensionVariantType, delegate* unmanaged[Cdecl]<void>, delegate* unmanaged[Cdecl]<void>*, GDExtensionInt, delegate* unmanaged[Cdecl]<void>, GDExtensionCallError*, void> GDExtensionInterfaceVariantCallStatic;
-
-    internal delegate* unmanaged[Cdecl]<GDExtensionVariantOperator, delegate* unmanaged[Cdecl]<void>, delegate* unmanaged[Cdecl]<void>, delegate* unmanaged[Cdecl]<void>, GDExtensionBool*, void> GDExtensionInterfaceVariantEvaluate;
-
-    internal delegate* unmanaged[Cdecl]<delegate* unmanaged[Cdecl]<void>, delegate* unmanaged[Cdecl]<void>, delegate* unmanaged[Cdecl]<void>, GDExtensionBool*, void> GDExtensionInterfaceVariantSet;
-
-    internal delegate* unmanaged[Cdecl]<delegate* unmanaged[Cdecl]<void>, delegate* unmanaged[Cdecl]<void>, delegate* unmanaged[Cdecl]<void>, GDExtensionBool*, void> GDExtensionInterfaceVariantSetNamed;
-
-    internal delegate* unmanaged[Cdecl]<delegate* unmanaged[Cdecl]<void>, delegate* unmanaged[Cdecl]<void>, delegate* unmanaged[Cdecl]<void>, GDExtensionBool*, void> GDExtensionInterfaceVariantSetKeyed;
-
-    internal delegate* unmanaged[Cdecl]<delegate* unmanaged[Cdecl]<void>, GDExtensionInt, delegate* unmanaged[Cdecl]<void>, GDExtensionBool*, GDExtensionBool*, void> GDExtensionInterfaceVariantSetIndexed;
-
-    internal delegate* unmanaged[Cdecl]<delegate* unmanaged[Cdecl]<void>, delegate* unmanaged[Cdecl]<void>, delegate* unmanaged[Cdecl]<void>, GDExtensionBool*, void> GDExtensionInterfaceVariantGet;
-
-    internal delegate* unmanaged[Cdecl]<delegate* unmanaged[Cdecl]<void>, delegate* unmanaged[Cdecl]<void>, delegate* unmanaged[Cdecl]<void>, GDExtensionBool*, void> GDExtensionInterfaceVariantGetNamed;
-
-    internal delegate* unmanaged[Cdecl]<delegate* unmanaged[Cdecl]<void>, delegate* unmanaged[Cdecl]<void>, delegate* unmanaged[Cdecl]<void>, GDExtensionBool*, void> GDExtensionInterfaceVariantGetKeyed;
-
-    internal delegate* unmanaged[Cdecl]<delegate* unmanaged[Cdecl]<void>, GDExtensionInt, delegate* unmanaged[Cdecl]<void>, GDExtensionBool*, GDExtensionBool*, void> GDExtensionInterfaceVariantGetIndexed;
-
-    internal delegate* unmanaged[Cdecl]<delegate* unmanaged[Cdecl]<void>, delegate* unmanaged[Cdecl]<void>, GDExtensionBool*, GDExtensionBool> GDExtensionInterfaceVariantIterInit;
-
-    internal delegate* unmanaged[Cdecl]<delegate* unmanaged[Cdecl]<void>, delegate* unmanaged[Cdecl]<void>, GDExtensionBool*, GDExtensionBool> GDExtensionInterfaceVariantIterNext;
-
-    internal delegate* unmanaged[Cdecl]<delegate* unmanaged[Cdecl]<void>, delegate* unmanaged[Cdecl]<void>, delegate* unmanaged[Cdecl]<void>, GDExtensionBool*, void> GDExtensionInterfaceVariantIterGet;
-
-    internal delegate* unmanaged[Cdecl]<delegate* unmanaged[Cdecl]<void>, GDExtensionInt> GDExtensionInterfaceVariantHash;
-
-    internal delegate* unmanaged[Cdecl]<delegate* unmanaged[Cdecl]<void>, GDExtensionInt, GDExtensionInt> GDExtensionInterfaceVariantRecursiveHash;
-
-    internal delegate* unmanaged[Cdecl]<delegate* unmanaged[Cdecl]<void>, delegate* unmanaged[Cdecl]<void>, GDExtensionBool> GDExtensionInterfaceVariantHashCompare;
-
-    internal delegate* unmanaged[Cdecl]<delegate* unmanaged[Cdecl]<void>, GDExtensionBool> GDExtensionInterfaceVariantBooleanize;
-
-    internal delegate* unmanaged[Cdecl]<delegate* unmanaged[Cdecl]<void>, delegate* unmanaged[Cdecl]<void>, GDExtensionBool, void> GDExtensionInterfaceVariantDuplicate;
-
-    internal delegate* unmanaged[Cdecl]<delegate* unmanaged[Cdecl]<void>, delegate* unmanaged[Cdecl]<void>, void> GDExtensionInterfaceVariantStringify;
-
-    internal delegate* unmanaged[Cdecl]<delegate* unmanaged[Cdecl]<void>, GDExtensionVariantType> GDExtensionInterfaceVariantGetType;
-
-    internal delegate* unmanaged[Cdecl]<delegate* unmanaged[Cdecl]<void>, delegate* unmanaged[Cdecl]<void>, GDExtensionBool> GDExtensionInterfaceVariantHasMethod;
-
-    internal delegate* unmanaged[Cdecl]<GDExtensionVariantType, delegate* unmanaged[Cdecl]<void>, GDExtensionBool> GDExtensionInterfaceVariantHasMember;
-
-    internal delegate* unmanaged[Cdecl]<delegate* unmanaged[Cdecl]<void>, delegate* unmanaged[Cdecl]<void>, GDExtensionBool*, GDExtensionBool> GDExtensionInterfaceVariantHasKey;
-
-    internal delegate* unmanaged[Cdecl]<GDExtensionVariantType, delegate* unmanaged[Cdecl]<void>, void> GDExtensionInterfaceVariantGetTypeName;
-
-    internal delegate* unmanaged[Cdecl]<GDExtensionVariantType, GDExtensionVariantType, GDExtensionBool> GDExtensionInterfaceVariantCanConvert;
-
-    internal delegate* unmanaged[Cdecl]<GDExtensionVariantType, GDExtensionVariantType, GDExtensionBool> GDExtensionInterfaceVariantCanConvertStrict;
-
-    internal delegate* unmanaged[Cdecl]<GDExtensionVariantType, delegate* unmanaged[Cdecl]<delegate* unmanaged[Cdecl]<void>, delegate* unmanaged[Cdecl]<void>, void>> GDExtensionInterfaceGetVariantFromTypeConstructor;
-
-    internal delegate* unmanaged[Cdecl]<GDExtensionVariantType, delegate* unmanaged[Cdecl]<delegate* unmanaged[Cdecl]<void>, delegate* unmanaged[Cdecl]<void>, void>> GDExtensionInterfaceGetVariantToTypeConstructor;
-
-    internal delegate* unmanaged[Cdecl]<GDExtensionVariantOperator, GDExtensionVariantType, GDExtensionVariantType, delegate* unmanaged[Cdecl]<delegate* unmanaged[Cdecl]<void>, delegate* unmanaged[Cdecl]<void>, delegate* unmanaged[Cdecl]<void>, void>> GDExtensionInterfaceVariantGetPtrOperatorEvaluator;
-
-    internal delegate* unmanaged[Cdecl]<GDExtensionVariantType, delegate* unmanaged[Cdecl]<void>, GDExtensionInt, delegate* unmanaged[Cdecl]<delegate* unmanaged[Cdecl]<void>, delegate* unmanaged[Cdecl]<void>*, delegate* unmanaged[Cdecl]<void>, int, void>> GDExtensionInterfaceVariantGetPtrBuiltinMethod;
-
-    internal delegate* unmanaged[Cdecl]<GDExtensionVariantType, int32_t, delegate* unmanaged[Cdecl]<delegate* unmanaged[Cdecl]<void>, delegate* unmanaged[Cdecl]<void>*, void>> GDExtensionInterfaceVariantGetPtrConstructor;
-
-    internal delegate* unmanaged[Cdecl]<GDExtensionVariantType, delegate* unmanaged[Cdecl]<delegate* unmanaged[Cdecl]<void>, void>> GDExtensionInterfaceVariantGetPtrDestructor;
-
-    internal delegate* unmanaged[Cdecl]<GDExtensionVariantType, delegate* unmanaged[Cdecl]<void>, delegate* unmanaged[Cdecl]<void>*, int32_t, GDExtensionCallError*, void> GDExtensionInterfaceVariantConstruct;
-
-    internal delegate* unmanaged[Cdecl]<GDExtensionVariantType, delegate* unmanaged[Cdecl]<void>, delegate* unmanaged[Cdecl]<delegate* unmanaged[Cdecl]<void>, delegate* unmanaged[Cdecl]<void>, void>> GDExtensionInterfaceVariantGetPtrSetter;
-
-    internal delegate* unmanaged[Cdecl]<GDExtensionVariantType, delegate* unmanaged[Cdecl]<void>, delegate* unmanaged[Cdecl]<delegate* unmanaged[Cdecl]<void>, delegate* unmanaged[Cdecl]<void>, void>> GDExtensionInterfaceVariantGetPtrGetter;
-
-    internal delegate* unmanaged[Cdecl]<GDExtensionVariantType, delegate* unmanaged[Cdecl]<delegate* unmanaged[Cdecl]<void>, GDExtensionInt, delegate* unmanaged[Cdecl]<void>, void>> GDExtensionInterfaceVariantGetPtrIndexedSetter;
-
-    internal delegate* unmanaged[Cdecl]<GDExtensionVariantType, delegate* unmanaged[Cdecl]<delegate* unmanaged[Cdecl]<void>, GDExtensionInt, delegate* unmanaged[Cdecl]<void>, void>> GDExtensionInterfaceVariantGetPtrIndexedGetter;
-
-    internal delegate* unmanaged[Cdecl]<GDExtensionVariantType, delegate* unmanaged[Cdecl]<delegate* unmanaged[Cdecl]<void>, delegate* unmanaged[Cdecl]<void>, delegate* unmanaged[Cdecl]<void>, void>> GDExtensionInterfaceVariantGetPtrKeyedSetter;
-
-    internal delegate* unmanaged[Cdecl]<GDExtensionVariantType, delegate* unmanaged[Cdecl]<delegate* unmanaged[Cdecl]<void>, delegate* unmanaged[Cdecl]<void>, delegate* unmanaged[Cdecl]<void>, void>> GDExtensionInterfaceVariantGetPtrKeyedGetter;
-
-    internal delegate* unmanaged[Cdecl]<GDExtensionVariantType, delegate* unmanaged[Cdecl]<delegate* unmanaged[Cdecl]<void>, delegate* unmanaged[Cdecl]<void>, uint32_t>> GDExtensionInterfaceVariantGetPtrKeyedChecker;
-
-    internal delegate* unmanaged[Cdecl]<GDExtensionVariantType, delegate* unmanaged[Cdecl]<void>, delegate* unmanaged[Cdecl]<void>, void> GDExtensionInterfaceVariantGetConstantValue;
-
-    internal delegate* unmanaged[Cdecl]<delegate* unmanaged[Cdecl]<void>, GDExtensionInt, delegate* unmanaged[Cdecl]<delegate* unmanaged[Cdecl]<void>, delegate* unmanaged[Cdecl]<void>*, int, void>> GDExtensionInterfaceVariantGetPtrUtilityFunction;
-
-    internal delegate* unmanaged[Cdecl]<delegate* unmanaged[Cdecl]<void>, byte*, void> GDExtensionInterfaceStringNewWithLatin1Chars;
-
-    internal delegate* unmanaged[Cdecl]<delegate* unmanaged[Cdecl]<void>, byte*, void> GDExtensionInterfaceStringNewWithUtf8Chars;
-
-    internal delegate* unmanaged[Cdecl]<delegate* unmanaged[Cdecl]<void>, char16_t*, void> GDExtensionInterfaceStringNewWithUtf16Chars;
-
-    internal delegate* unmanaged[Cdecl]<delegate* unmanaged[Cdecl]<void>, char32_t*, void> GDExtensionInterfaceStringNewWithUtf32Chars;
-
-    internal delegate* unmanaged[Cdecl]<delegate* unmanaged[Cdecl]<void>, wchar_t*, void> GDExtensionInterfaceStringNewWithWideChars;
-
-    internal delegate* unmanaged[Cdecl]<delegate* unmanaged[Cdecl]<void>, byte*, GDExtensionInt, void> GDExtensionInterfaceStringNewWithLatin1CharsAndLen;
-
-    internal delegate* unmanaged[Cdecl]<delegate* unmanaged[Cdecl]<void>, byte*, GDExtensionInt, void> GDExtensionInterfaceStringNewWithUtf8CharsAndLen;
-
-    internal delegate* unmanaged[Cdecl]<delegate* unmanaged[Cdecl]<void>, char16_t*, GDExtensionInt, void> GDExtensionInterfaceStringNewWithUtf16CharsAndLen;
-
-    internal delegate* unmanaged[Cdecl]<delegate* unmanaged[Cdecl]<void>, char32_t*, GDExtensionInt, void> GDExtensionInterfaceStringNewWithUtf32CharsAndLen;
-
-    internal delegate* unmanaged[Cdecl]<delegate* unmanaged[Cdecl]<void>, wchar_t*, GDExtensionInt, void> GDExtensionInterfaceStringNewWithWideCharsAndLen;
-
-    internal delegate* unmanaged[Cdecl]<delegate* unmanaged[Cdecl]<void>, byte*, GDExtensionInt, GDExtensionInt> GDExtensionInterfaceStringToLatin1Chars;
-
-    internal delegate* unmanaged[Cdecl]<delegate* unmanaged[Cdecl]<void>, byte*, GDExtensionInt, GDExtensionInt> GDExtensionInterfaceStringToUtf8Chars;
-
-    internal delegate* unmanaged[Cdecl]<delegate* unmanaged[Cdecl]<void>, char16_t*, GDExtensionInt, GDExtensionInt> GDExtensionInterfaceStringToUtf16Chars;
-
-    internal delegate* unmanaged[Cdecl]<delegate* unmanaged[Cdecl]<void>, char32_t*, GDExtensionInt, GDExtensionInt> GDExtensionInterfaceStringToUtf32Chars;
-
-    internal delegate* unmanaged[Cdecl]<delegate* unmanaged[Cdecl]<void>, wchar_t*, GDExtensionInt, GDExtensionInt> GDExtensionInterfaceStringToWideChars;
-
-    internal delegate* unmanaged[Cdecl]<delegate* unmanaged[Cdecl]<void>, GDExtensionInt, char32_t*> GDExtensionInterfaceStringOperatorIndex;
-
-    internal delegate* unmanaged[Cdecl]<delegate* unmanaged[Cdecl]<void>, GDExtensionInt, char32_t*> GDExtensionInterfaceStringOperatorIndexConst;
-
-    internal delegate* unmanaged[Cdecl]<delegate* unmanaged[Cdecl]<void>, delegate* unmanaged[Cdecl]<void>, void> GDExtensionInterfaceStringOperatorPlusEqString;
-
-    internal delegate* unmanaged[Cdecl]<delegate* unmanaged[Cdecl]<void>, char32_t, void> GDExtensionInterfaceStringOperatorPlusEqChar;
-
-    internal delegate* unmanaged[Cdecl]<delegate* unmanaged[Cdecl]<void>, byte*, void> GDExtensionInterfaceStringOperatorPlusEqCstr;
-
-    internal delegate* unmanaged[Cdecl]<delegate* unmanaged[Cdecl]<void>, wchar_t*, void> GDExtensionInterfaceStringOperatorPlusEqWcstr;
-
-    internal delegate* unmanaged[Cdecl]<delegate* unmanaged[Cdecl]<void>, char32_t*, void> GDExtensionInterfaceStringOperatorPlusEqC32str;
-
-    internal delegate* unmanaged[Cdecl]<delegate* unmanaged[Cdecl]<void>, uint8_t*, size_t, GDExtensionInt> GDExtensionInterfaceXmlParserOpenBuffer;
-
-    internal delegate* unmanaged[Cdecl]<delegate* unmanaged[Cdecl]<void>, uint8_t*, uint64_t, void> GDExtensionInterfaceFileAccessStoreBuffer;
-
-    internal delegate* unmanaged[Cdecl]<delegate* unmanaged[Cdecl]<void>, uint8_t*, uint64_t, uint64_t> GDExtensionInterfaceFileAccessGetBuffer;
-
-    internal delegate* unmanaged[Cdecl]<delegate* unmanaged[Cdecl]<void>, GDExtensionInt, uint8_t*> GDExtensionInterfacePackedByteArrayOperatorIndex;
-
-    internal delegate* unmanaged[Cdecl]<delegate* unmanaged[Cdecl]<void>, GDExtensionInt, uint8_t*> GDExtensionInterfacePackedByteArrayOperatorIndexConst;
-
-    internal delegate* unmanaged[Cdecl]<delegate* unmanaged[Cdecl]<void>, GDExtensionInt, delegate* unmanaged[Cdecl]<void>> GDExtensionInterfacePackedColorArrayOperatorIndex;
-
-    internal delegate* unmanaged[Cdecl]<delegate* unmanaged[Cdecl]<void>, GDExtensionInt, delegate* unmanaged[Cdecl]<void>> GDExtensionInterfacePackedColorArrayOperatorIndexConst;
-
-    internal delegate* unmanaged[Cdecl]<delegate* unmanaged[Cdecl]<void>, GDExtensionInt, float*> GDExtensionInterfacePackedFloat32ArrayOperatorIndex;
-
-    internal delegate* unmanaged[Cdecl]<delegate* unmanaged[Cdecl]<void>, GDExtensionInt, float*> GDExtensionInterfacePackedFloat32ArrayOperatorIndexConst;
-
-    internal delegate* unmanaged[Cdecl]<delegate* unmanaged[Cdecl]<void>, GDExtensionInt, double*> GDExtensionInterfacePackedFloat64ArrayOperatorIndex;
-
-    internal delegate* unmanaged[Cdecl]<delegate* unmanaged[Cdecl]<void>, GDExtensionInt, double*> GDExtensionInterfacePackedFloat64ArrayOperatorIndexConst;
-
-    internal delegate* unmanaged[Cdecl]<delegate* unmanaged[Cdecl]<void>, GDExtensionInt, int32_t*> GDExtensionInterfacePackedInt32ArrayOperatorIndex;
-
-    internal delegate* unmanaged[Cdecl]<delegate* unmanaged[Cdecl]<void>, GDExtensionInt, int32_t*> GDExtensionInterfacePackedInt32ArrayOperatorIndexConst;
-
-    internal delegate* unmanaged[Cdecl]<delegate* unmanaged[Cdecl]<void>, GDExtensionInt, int64_t*> GDExtensionInterfacePackedInt64ArrayOperatorIndex;
-
-    internal delegate* unmanaged[Cdecl]<delegate* unmanaged[Cdecl]<void>, GDExtensionInt, int64_t*> GDExtensionInterfacePackedInt64ArrayOperatorIndexConst;
-
-    internal delegate* unmanaged[Cdecl]<delegate* unmanaged[Cdecl]<void>, GDExtensionInt, delegate* unmanaged[Cdecl]<void>> GDExtensionInterfacePackedStringArrayOperatorIndex;
-
-    internal delegate* unmanaged[Cdecl]<delegate* unmanaged[Cdecl]<void>, GDExtensionInt, delegate* unmanaged[Cdecl]<void>> GDExtensionInterfacePackedStringArrayOperatorIndexConst;
-
-    internal delegate* unmanaged[Cdecl]<delegate* unmanaged[Cdecl]<void>, GDExtensionInt, delegate* unmanaged[Cdecl]<void>> GDExtensionInterfacePackedVector2ArrayOperatorIndex;
-
-    internal delegate* unmanaged[Cdecl]<delegate* unmanaged[Cdecl]<void>, GDExtensionInt, delegate* unmanaged[Cdecl]<void>> GDExtensionInterfacePackedVector2ArrayOperatorIndexConst;
-
-    internal delegate* unmanaged[Cdecl]<delegate* unmanaged[Cdecl]<void>, GDExtensionInt, delegate* unmanaged[Cdecl]<void>> GDExtensionInterfacePackedVector3ArrayOperatorIndex;
-
-    internal delegate* unmanaged[Cdecl]<delegate* unmanaged[Cdecl]<void>, GDExtensionInt, delegate* unmanaged[Cdecl]<void>> GDExtensionInterfacePackedVector3ArrayOperatorIndexConst;
-
-    internal delegate* unmanaged[Cdecl]<delegate* unmanaged[Cdecl]<void>, GDExtensionInt, delegate* unmanaged[Cdecl]<void>> GDExtensionInterfaceArrayOperatorIndex;
-
-    internal delegate* unmanaged[Cdecl]<delegate* unmanaged[Cdecl]<void>, GDExtensionInt, delegate* unmanaged[Cdecl]<void>> GDExtensionInterfaceArrayOperatorIndexConst;
-
-    internal delegate* unmanaged[Cdecl]<delegate* unmanaged[Cdecl]<void>, delegate* unmanaged[Cdecl]<void>, void> GDExtensionInterfaceArrayRef;
-
-    internal delegate* unmanaged[Cdecl]<delegate* unmanaged[Cdecl]<void>, GDExtensionVariantType, delegate* unmanaged[Cdecl]<void>, delegate* unmanaged[Cdecl]<void>, void> GDExtensionInterfaceArraySetTyped;
-
-    internal delegate* unmanaged[Cdecl]<delegate* unmanaged[Cdecl]<void>, delegate* unmanaged[Cdecl]<void>, delegate* unmanaged[Cdecl]<void>> GDExtensionInterfaceDictionaryOperatorIndex;
-
-    internal delegate* unmanaged[Cdecl]<delegate* unmanaged[Cdecl]<void>, delegate* unmanaged[Cdecl]<void>, delegate* unmanaged[Cdecl]<void>> GDExtensionInterfaceDictionaryOperatorIndexConst;
-
-    internal delegate* unmanaged[Cdecl]<delegate* unmanaged[Cdecl]<void>, delegate* unmanaged[Cdecl]<void>, delegate* unmanaged[Cdecl]<void>*, GDExtensionInt, delegate* unmanaged[Cdecl]<void>, GDExtensionCallError*, void> GDExtensionInterfaceObjectMethodBindCall;
-
-    internal delegate* unmanaged[Cdecl]<delegate* unmanaged[Cdecl]<void>, delegate* unmanaged[Cdecl]<void>, delegate* unmanaged[Cdecl]<void>*, delegate* unmanaged[Cdecl]<void>, void> GDExtensionInterfaceObjectMethodBindPtrcall;
-
-    internal delegate* unmanaged[Cdecl]<delegate* unmanaged[Cdecl]<void>, void> GDExtensionInterfaceObjectDestroy;
-
-    internal delegate* unmanaged[Cdecl]<delegate* unmanaged[Cdecl]<void>, delegate* unmanaged[Cdecl]<void>> GDExtensionInterfaceGlobalGetSingleton;
-
-    internal delegate* unmanaged[Cdecl]<delegate* unmanaged[Cdecl]<void>, void*, GDExtensionInstanceBindingCallbacks*, void*> GDExtensionInterfaceObjectGetInstanceBinding;
-
-    internal delegate* unmanaged[Cdecl]<delegate* unmanaged[Cdecl]<void>, void*, void*, GDExtensionInstanceBindingCallbacks*, void> GDExtensionInterfaceObjectSetInstanceBinding;
-
-    internal delegate* unmanaged[Cdecl]<delegate* unmanaged[Cdecl]<void>, delegate* unmanaged[Cdecl]<void>, delegate* unmanaged[Cdecl]<void>, void> GDExtensionInterfaceObjectSetInstance;
-
-    internal delegate* unmanaged[Cdecl]<delegate* unmanaged[Cdecl]<void>, delegate* unmanaged[Cdecl]<void>, delegate* unmanaged[Cdecl]<void>, GDExtensionBool> GDExtensionInterfaceObjectGetClassName;
-
-    internal delegate* unmanaged[Cdecl]<delegate* unmanaged[Cdecl]<void>, void*, delegate* unmanaged[Cdecl]<void>> GDExtensionInterfaceObjectCastTo;
-
-    internal delegate* unmanaged[Cdecl]<GDObjectInstanceID, delegate* unmanaged[Cdecl]<void>> GDExtensionInterfaceObjectGetInstanceFromId;
-
-    internal delegate* unmanaged[Cdecl]<delegate* unmanaged[Cdecl]<void>, GDObjectInstanceID> GDExtensionInterfaceObjectGetInstanceId;
-
-    internal delegate* unmanaged[Cdecl]<delegate* unmanaged[Cdecl]<void>, delegate* unmanaged[Cdecl]<void>> GDExtensionInterfaceRefGetObject;
-
-    internal delegate* unmanaged[Cdecl]<delegate* unmanaged[Cdecl]<void>, delegate* unmanaged[Cdecl]<void>, void> GDExtensionInterfaceRefSetObject;
-
-    internal delegate* unmanaged[Cdecl]<GDExtensionScriptInstanceInfo*, delegate* unmanaged[Cdecl]<void>, delegate* unmanaged[Cdecl]<void>> GDExtensionInterfaceScriptInstanceCreate;
-
-    internal delegate* unmanaged[Cdecl]<delegate* unmanaged[Cdecl]<void>, delegate* unmanaged[Cdecl]<void>> GDExtensionInterfaceClassdbConstructObject;
-
-    internal delegate* unmanaged[Cdecl]<delegate* unmanaged[Cdecl]<void>, delegate* unmanaged[Cdecl]<void>, GDExtensionInt, delegate* unmanaged[Cdecl]<void>> GDExtensionInterfaceClassdbGetMethodBind;
-
-    internal delegate* unmanaged[Cdecl]<delegate* unmanaged[Cdecl]<void>, void*> GDExtensionInterfaceClassdbGetClassTag;
-
-    internal delegate* unmanaged[Cdecl]<delegate* unmanaged[Cdecl]<void>, delegate* unmanaged[Cdecl]<void>, delegate* unmanaged[Cdecl]<void>, GDExtensionClassCreationInfo*, void> GDExtensionInterfaceClassdbRegisterExtensionClass;
-
-    internal delegate* unmanaged[Cdecl]<delegate* unmanaged[Cdecl]<void>, delegate* unmanaged[Cdecl]<void>, GDExtensionClassMethodInfo*, void> GDExtensionInterfaceClassdbRegisterExtensionClassMethod;
-
-    internal delegate* unmanaged[Cdecl]<delegate* unmanaged[Cdecl]<void>, delegate* unmanaged[Cdecl]<void>, delegate* unmanaged[Cdecl]<void>, delegate* unmanaged[Cdecl]<void>, GDExtensionInt, GDExtensionBool, void> GDExtensionInterfaceClassdbRegisterExtensionClassIntegerConstant;
-
-    internal delegate* unmanaged[Cdecl]<delegate* unmanaged[Cdecl]<void>, delegate* unmanaged[Cdecl]<void>, GDExtensionPropertyInfo*, delegate* unmanaged[Cdecl]<void>, delegate* unmanaged[Cdecl]<void>, void> GDExtensionInterfaceClassdbRegisterExtensionClassProperty;
-
-    internal delegate* unmanaged[Cdecl]<delegate* unmanaged[Cdecl]<void>, delegate* unmanaged[Cdecl]<void>, delegate* unmanaged[Cdecl]<void>, delegate* unmanaged[Cdecl]<void>, void> GDExtensionInterfaceClassdbRegisterExtensionClassPropertyGroup;
-
-    internal delegate* unmanaged[Cdecl]<delegate* unmanaged[Cdecl]<void>, delegate* unmanaged[Cdecl]<void>, delegate* unmanaged[Cdecl]<void>, delegate* unmanaged[Cdecl]<void>, void> GDExtensionInterfaceClassdbRegisterExtensionClassPropertySubgroup;
-
-    internal delegate* unmanaged[Cdecl]<delegate* unmanaged[Cdecl]<void>, delegate* unmanaged[Cdecl]<void>, delegate* unmanaged[Cdecl]<void>, GDExtensionPropertyInfo*, GDExtensionInt, void> GDExtensionInterfaceClassdbRegisterExtensionClassSignal;
-
-    internal delegate* unmanaged[Cdecl]<delegate* unmanaged[Cdecl]<void>, delegate* unmanaged[Cdecl]<void>, void> GDExtensionInterfaceClassdbUnregisterExtensionClass;
-
-    internal delegate* unmanaged[Cdecl]<delegate* unmanaged[Cdecl]<void>, delegate* unmanaged[Cdecl]<void>, void> GDExtensionInterfaceGetLibraryPath;
-
-    internal delegate* unmanaged[Cdecl]<delegate* unmanaged[Cdecl]<void>, void> GDExtensionInterfaceEditorAddPlugin;
-
-    internal delegate* unmanaged[Cdecl]<delegate* unmanaged[Cdecl]<void>, void> GDExtensionInterfaceEditorRemovePlugin;
-
+#region Delegate Methods
+
+    /// <summary>
+    /// Since: 4.1
+    /// </summary>
+    /// <param name="r_godot_version">A pointer to the structure to write the version information into.</param>
+    internal void GDExtensionInterfaceGetGodotVersion(GDExtensionGodotVersion* r_godot_version) => 
+        get_godot_version(r_godot_version);
+
+    /// <summary>
+    /// Since: 4.1
+    /// </summary>
+    /// <param name="p_bytes">The amount of memory to allocate in bytes.</param>
+    /// <returns>A pointer to the allocated memory, or NULL if unsuccessful.</returns>
+    internal void* GDExtensionInterfaceMemAlloc(size_t p_bytes) => 
+        mem_alloc(p_bytes);
+
+    /// <summary>
+    /// Since: 4.1
+    /// </summary>
+    /// <param name="p_ptr">A pointer to the previously allocated memory.</param>
+    /// <param name="p_bytes">The number of bytes to resize the memory block to.</param>
+    /// <returns>A pointer to the allocated memory, or NULL if unsuccessful.</returns>
+    internal void* GDExtensionInterfaceMemRealloc(void* p_ptr, size_t p_bytes) => 
+        mem_realloc(p_ptr, p_bytes);
+
+    /// <summary>
+    /// Since: 4.1
+    /// </summary>
+    /// <param name="p_ptr">A pointer to the previously allocated memory.</param>
+    internal void GDExtensionInterfaceMemFree(void* p_ptr) => 
+        mem_free(p_ptr);
+
+    /// <summary>
+    /// Since: 4.1
+    /// </summary>
+    /// <param name="p_description">The code trigging the error.</param>
+    /// <param name="p_function">The function name where the error occurred.</param>
+    /// <param name="p_file">The file where the error occurred.</param>
+    /// <param name="p_line">The line where the error occurred.</param>
+    /// <param name="p_editor_notify">Whether or not to notify the editor.</param>
+    internal void GDExtensionInterfacePrintError(byte* p_description, byte* p_function, byte* p_file, int32_t p_line, GDExtensionBool p_editor_notify) => 
+        print_error(p_description, p_function, p_file, p_line, p_editor_notify);
+
+    /// <summary>
+    /// Since: 4.1
+    /// </summary>
+    /// <param name="p_description">The code trigging the error.</param>
+    /// <param name="p_message">The message to show along with the error.</param>
+    /// <param name="p_function">The function name where the error occurred.</param>
+    /// <param name="p_file">The file where the error occurred.</param>
+    /// <param name="p_line">The line where the error occurred.</param>
+    /// <param name="p_editor_notify">Whether or not to notify the editor.</param>
+    internal void GDExtensionInterfacePrintErrorWithMessage(byte* p_description, byte* p_message, byte* p_function, byte* p_file, int32_t p_line, GDExtensionBool p_editor_notify) => 
+        print_error_with_message(p_description, p_message, p_function, p_file, p_line, p_editor_notify);
+
+    /// <summary>
+    /// Since: 4.1
+    /// </summary>
+    /// <param name="p_description">The code trigging the warning.</param>
+    /// <param name="p_function">The function name where the warning occurred.</param>
+    /// <param name="p_file">The file where the warning occurred.</param>
+    /// <param name="p_line">The line where the warning occurred.</param>
+    /// <param name="p_editor_notify">Whether or not to notify the editor.</param>
+    internal void GDExtensionInterfacePrintWarning(byte* p_description, byte* p_function, byte* p_file, int32_t p_line, GDExtensionBool p_editor_notify) => 
+        print_warning(p_description, p_function, p_file, p_line, p_editor_notify);
+
+    /// <summary>
+    /// Since: 4.1
+    /// </summary>
+    /// <param name="p_description">The code trigging the warning.</param>
+    /// <param name="p_message">The message to show along with the warning.</param>
+    /// <param name="p_function">The function name where the warning occurred.</param>
+    /// <param name="p_file">The file where the warning occurred.</param>
+    /// <param name="p_line">The line where the warning occurred.</param>
+    /// <param name="p_editor_notify">Whether or not to notify the editor.</param>
+    internal void GDExtensionInterfacePrintWarningWithMessage(byte* p_description, byte* p_message, byte* p_function, byte* p_file, int32_t p_line, GDExtensionBool p_editor_notify) => 
+        print_warning_with_message(p_description, p_message, p_function, p_file, p_line, p_editor_notify);
+
+    /// <summary>
+    /// Since: 4.1
+    /// </summary>
+    /// <param name="p_description">The code trigging the error.</param>
+    /// <param name="p_function">The function name where the error occurred.</param>
+    /// <param name="p_file">The file where the error occurred.</param>
+    /// <param name="p_line">The line where the error occurred.</param>
+    /// <param name="p_editor_notify">Whether or not to notify the editor.</param>
+    internal void GDExtensionInterfacePrintScriptError(byte* p_description, byte* p_function, byte* p_file, int32_t p_line, GDExtensionBool p_editor_notify) => 
+        print_script_error(p_description, p_function, p_file, p_line, p_editor_notify);
+
+    /// <summary>
+    /// Since: 4.1
+    /// </summary>
+    /// <param name="p_description">The code trigging the error.</param>
+    /// <param name="p_message">The message to show along with the error.</param>
+    /// <param name="p_function">The function name where the error occurred.</param>
+    /// <param name="p_file">The file where the error occurred.</param>
+    /// <param name="p_line">The line where the error occurred.</param>
+    /// <param name="p_editor_notify">Whether or not to notify the editor.</param>
+    internal void GDExtensionInterfacePrintScriptErrorWithMessage(byte* p_description, byte* p_message, byte* p_function, byte* p_file, int32_t p_line, GDExtensionBool p_editor_notify) => 
+        print_script_error_with_message(p_description, p_message, p_function, p_file, p_line, p_editor_notify);
+
+    /// <summary>
+    /// Since: 4.1
+    /// </summary>
+    /// <param name="p_name">A pointer to a StringName identifying the struct name.</param>
+    /// <returns>The size in bytes.</returns>
+    internal uint64_t GDExtensionInterfaceGetNativeStructSize(delegate* unmanaged[Cdecl]<void> p_name) => 
+        get_native_struct_size(p_name);
+
+    /// <summary>
+    /// Since: 4.1
+    /// </summary>
+    /// <param name="r_dest">A pointer to the destination Variant.</param>
+    /// <param name="p_src">A pointer to the source Variant.</param>
+    internal void GDExtensionInterfaceVariantNewCopy(delegate* unmanaged[Cdecl]<void> r_dest, delegate* unmanaged[Cdecl]<void> p_src) => 
+        variant_new_copy(r_dest, p_src);
+
+    /// <summary>
+    /// Since: 4.1
+    /// </summary>
+    /// <param name="r_dest">A pointer to the destination Variant.</param>
+    internal void GDExtensionInterfaceVariantNewNil(delegate* unmanaged[Cdecl]<void> r_dest) => 
+        variant_new_nil(r_dest);
+
+    /// <summary>
+    /// Since: 4.1
+    /// </summary>
+    /// <param name="p_self">A pointer to the Variant to destroy.</param>
+    internal void GDExtensionInterfaceVariantDestroy(delegate* unmanaged[Cdecl]<void> p_self) => 
+        variant_destroy(p_self);
+
+    /// <summary>
+    /// Since: 4.1
+    /// See: Variant::callp()
+    /// </summary>
+    /// <param name="p_self">A pointer to the Variant.</param>
+    /// <param name="p_method">A pointer to a StringName identifying the method.</param>
+    /// <param name="p_args">A pointer to a C array of Variant.</param>
+    /// <param name="p_argument_count">The number of arguments.</param>
+    /// <param name="r_return">A pointer a Variant which will be assigned the return value.</param>
+    /// <param name="r_error">A pointer the structure which will hold error information.</param>
+    internal void GDExtensionInterfaceVariantCall(delegate* unmanaged[Cdecl]<void> p_self, delegate* unmanaged[Cdecl]<void> p_method, delegate* unmanaged[Cdecl]<void>* p_args, GDExtensionInt p_argument_count, delegate* unmanaged[Cdecl]<void> r_return, GDExtensionCallError* r_error) => 
+        variant_call(p_self, p_method, p_args, p_argument_count, r_return, r_error);
+
+    /// <summary>
+    /// Since: 4.1
+    /// See: Variant::call_static()
+    /// </summary>
+    /// <param name="p_self">A pointer to the Variant.</param>
+    /// <param name="p_method">A pointer to a StringName identifying the method.</param>
+    /// <param name="p_args">A pointer to a C array of Variant.</param>
+    /// <param name="p_argument_count">The number of arguments.</param>
+    /// <param name="r_return">A pointer a Variant which will be assigned the return value.</param>
+    /// <param name="r_error">A pointer the structure which will be updated with error information.</param>
+    internal void GDExtensionInterfaceVariantCallStatic(GDExtensionVariantType p_type, delegate* unmanaged[Cdecl]<void> p_method, delegate* unmanaged[Cdecl]<void>* p_args, GDExtensionInt p_argument_count, delegate* unmanaged[Cdecl]<void> r_return, GDExtensionCallError* r_error) => 
+        variant_call_static(p_type, p_method, p_args, p_argument_count, r_return, r_error);
+
+    /// <summary>
+    /// Since: 4.1
+    /// See: Variant::evaluate()
+    /// </summary>
+    /// <param name="p_op">The operator to evaluate.</param>
+    /// <param name="p_a">The first Variant.</param>
+    /// <param name="p_b">The second Variant.</param>
+    /// <param name="r_return">A pointer a Variant which will be assigned the return value.</param>
+    /// <param name="r_valid">A pointer to a boolean which will be set to false if the operation is invalid.</param>
+    internal void GDExtensionInterfaceVariantEvaluate(GDExtensionVariantOperator p_op, delegate* unmanaged[Cdecl]<void> p_a, delegate* unmanaged[Cdecl]<void> p_b, delegate* unmanaged[Cdecl]<void> r_return, GDExtensionBool* r_valid) => 
+        variant_evaluate(p_op, p_a, p_b, r_return, r_valid);
+
+    /// <summary>
+    /// Since: 4.1
+    /// See: Variant::set()
+    /// </summary>
+    /// <param name="p_self">A pointer to the Variant.</param>
+    /// <param name="p_key">A pointer to a Variant representing the key.</param>
+    /// <param name="p_value">A pointer to a Variant representing the value.</param>
+    /// <param name="r_valid">A pointer to a boolean which will be set to false if the operation is invalid.</param>
+    internal void GDExtensionInterfaceVariantSet(delegate* unmanaged[Cdecl]<void> p_self, delegate* unmanaged[Cdecl]<void> p_key, delegate* unmanaged[Cdecl]<void> p_value, GDExtensionBool* r_valid) => 
+        variant_set(p_self, p_key, p_value, r_valid);
+
+    /// <summary>
+    /// Since: 4.1
+    /// See: Variant::set_named()
+    /// </summary>
+    /// <param name="p_self">A pointer to the Variant.</param>
+    /// <param name="p_key">A pointer to a StringName representing the key.</param>
+    /// <param name="p_value">A pointer to a Variant representing the value.</param>
+    /// <param name="r_valid">A pointer to a boolean which will be set to false if the operation is invalid.</param>
+    internal void GDExtensionInterfaceVariantSetNamed(delegate* unmanaged[Cdecl]<void> p_self, delegate* unmanaged[Cdecl]<void> p_key, delegate* unmanaged[Cdecl]<void> p_value, GDExtensionBool* r_valid) => 
+        variant_set_named(p_self, p_key, p_value, r_valid);
+
+    /// <summary>
+    /// Since: 4.1
+    /// See: Variant::set_keyed()
+    /// </summary>
+    /// <param name="p_self">A pointer to the Variant.</param>
+    /// <param name="p_key">A pointer to a Variant representing the key.</param>
+    /// <param name="p_value">A pointer to a Variant representing the value.</param>
+    /// <param name="r_valid">A pointer to a boolean which will be set to false if the operation is invalid.</param>
+    internal void GDExtensionInterfaceVariantSetKeyed(delegate* unmanaged[Cdecl]<void> p_self, delegate* unmanaged[Cdecl]<void> p_key, delegate* unmanaged[Cdecl]<void> p_value, GDExtensionBool* r_valid) => 
+        variant_set_keyed(p_self, p_key, p_value, r_valid);
+
+    /// <summary>
+    /// Since: 4.1
+    /// </summary>
+    /// <param name="p_self">A pointer to the Variant.</param>
+    /// <param name="p_index">The index.</param>
+    /// <param name="p_value">A pointer to a Variant representing the value.</param>
+    /// <param name="r_valid">A pointer to a boolean which will be set to false if the operation is invalid.</param>
+    /// <param name="r_oob">A pointer to a boolean which will be set to true if the index is out of bounds.</param>
+    internal void GDExtensionInterfaceVariantSetIndexed(delegate* unmanaged[Cdecl]<void> p_self, GDExtensionInt p_index, delegate* unmanaged[Cdecl]<void> p_value, GDExtensionBool* r_valid, GDExtensionBool* r_oob) => 
+        variant_set_indexed(p_self, p_index, p_value, r_valid, r_oob);
+
+    /// <summary>
+    /// Since: 4.1
+    /// </summary>
+    /// <param name="p_self">A pointer to the Variant.</param>
+    /// <param name="p_key">A pointer to a Variant representing the key.</param>
+    /// <param name="r_ret">A pointer to a Variant which will be assigned the value.</param>
+    /// <param name="r_valid">A pointer to a boolean which will be set to false if the operation is invalid.</param>
+    internal void GDExtensionInterfaceVariantGet(delegate* unmanaged[Cdecl]<void> p_self, delegate* unmanaged[Cdecl]<void> p_key, delegate* unmanaged[Cdecl]<void> r_ret, GDExtensionBool* r_valid) => 
+        variant_get(p_self, p_key, r_ret, r_valid);
+
+    /// <summary>
+    /// Since: 4.1
+    /// </summary>
+    /// <param name="p_self">A pointer to the Variant.</param>
+    /// <param name="p_key">A pointer to a StringName representing the key.</param>
+    /// <param name="r_ret">A pointer to a Variant which will be assigned the value.</param>
+    /// <param name="r_valid">A pointer to a boolean which will be set to false if the operation is invalid.</param>
+    internal void GDExtensionInterfaceVariantGetNamed(delegate* unmanaged[Cdecl]<void> p_self, delegate* unmanaged[Cdecl]<void> p_key, delegate* unmanaged[Cdecl]<void> r_ret, GDExtensionBool* r_valid) => 
+        variant_get_named(p_self, p_key, r_ret, r_valid);
+
+    /// <summary>
+    /// Since: 4.1
+    /// </summary>
+    /// <param name="p_self">A pointer to the Variant.</param>
+    /// <param name="p_key">A pointer to a Variant representing the key.</param>
+    /// <param name="r_ret">A pointer to a Variant which will be assigned the value.</param>
+    /// <param name="r_valid">A pointer to a boolean which will be set to false if the operation is invalid.</param>
+    internal void GDExtensionInterfaceVariantGetKeyed(delegate* unmanaged[Cdecl]<void> p_self, delegate* unmanaged[Cdecl]<void> p_key, delegate* unmanaged[Cdecl]<void> r_ret, GDExtensionBool* r_valid) => 
+        variant_get_keyed(p_self, p_key, r_ret, r_valid);
+
+    /// <summary>
+    /// Since: 4.1
+    /// </summary>
+    /// <param name="p_self">A pointer to the Variant.</param>
+    /// <param name="p_index">The index.</param>
+    /// <param name="r_ret">A pointer to a Variant which will be assigned the value.</param>
+    /// <param name="r_valid">A pointer to a boolean which will be set to false if the operation is invalid.</param>
+    /// <param name="r_oob">A pointer to a boolean which will be set to true if the index is out of bounds.</param>
+    internal void GDExtensionInterfaceVariantGetIndexed(delegate* unmanaged[Cdecl]<void> p_self, GDExtensionInt p_index, delegate* unmanaged[Cdecl]<void> r_ret, GDExtensionBool* r_valid, GDExtensionBool* r_oob) => 
+        variant_get_indexed(p_self, p_index, r_ret, r_valid, r_oob);
+
+    /// <summary>
+    /// Since: 4.1
+    /// See: Variant::iter_init()
+    /// </summary>
+    /// <param name="p_self">A pointer to the Variant.</param>
+    /// <param name="r_iter">A pointer to a Variant which will be assigned the iterator.</param>
+    /// <param name="r_valid">A pointer to a boolean which will be set to false if the operation is invalid.</param>
+    /// <returns>true if the operation is valid; otherwise false.</returns>
+    internal GDExtensionBool GDExtensionInterfaceVariantIterInit(delegate* unmanaged[Cdecl]<void> p_self, delegate* unmanaged[Cdecl]<void> r_iter, GDExtensionBool* r_valid) => 
+        variant_iter_init(p_self, r_iter, r_valid);
+
+    /// <summary>
+    /// Since: 4.1
+    /// See: Variant::iter_next()
+    /// </summary>
+    /// <param name="p_self">A pointer to the Variant.</param>
+    /// <param name="r_iter">A pointer to a Variant which will be assigned the iterator.</param>
+    /// <param name="r_valid">A pointer to a boolean which will be set to false if the operation is invalid.</param>
+    /// <returns>true if the operation is valid; otherwise false.</returns>
+    internal GDExtensionBool GDExtensionInterfaceVariantIterNext(delegate* unmanaged[Cdecl]<void> p_self, delegate* unmanaged[Cdecl]<void> r_iter, GDExtensionBool* r_valid) => 
+        variant_iter_next(p_self, r_iter, r_valid);
+
+    /// <summary>
+    /// Since: 4.1
+    /// See: Variant::iter_get()
+    /// </summary>
+    /// <param name="p_self">A pointer to the Variant.</param>
+    /// <param name="r_iter">A pointer to a Variant which will be assigned the iterator.</param>
+    /// <param name="r_ret">A pointer to a Variant which will be assigned false if the operation is invalid.</param>
+    /// <param name="r_valid">A pointer to a boolean which will be set to false if the operation is invalid.</param>
+    internal void GDExtensionInterfaceVariantIterGet(delegate* unmanaged[Cdecl]<void> p_self, delegate* unmanaged[Cdecl]<void> r_iter, delegate* unmanaged[Cdecl]<void> r_ret, GDExtensionBool* r_valid) => 
+        variant_iter_get(p_self, r_iter, r_ret, r_valid);
+
+    /// <summary>
+    /// Since: 4.1
+    /// See: Variant::hash()
+    /// </summary>
+    /// <param name="p_self">A pointer to the Variant.</param>
+    /// <returns>The hash value.</returns>
+    internal GDExtensionInt GDExtensionInterfaceVariantHash(delegate* unmanaged[Cdecl]<void> p_self) => 
+        variant_hash(p_self);
+
+    /// <summary>
+    /// Since: 4.1
+    /// See: Variant::recursive_hash()
+    /// </summary>
+    /// <param name="p_self">A pointer to the Variant.</param>
+    /// <param name="p_recursion_count">The number of recursive loops so far.</param>
+    /// <returns>The hash value.</returns>
+    internal GDExtensionInt GDExtensionInterfaceVariantRecursiveHash(delegate* unmanaged[Cdecl]<void> p_self, GDExtensionInt p_recursion_count) => 
+        variant_recursive_hash(p_self, p_recursion_count);
+
+    /// <summary>
+    /// Since: 4.1
+    /// See: Variant::hash_compare()
+    /// </summary>
+    /// <param name="p_self">A pointer to the Variant.</param>
+    /// <param name="p_other">A pointer to the other Variant to compare it to.</param>
+    /// <returns>The hash value.</returns>
+    internal GDExtensionBool GDExtensionInterfaceVariantHashCompare(delegate* unmanaged[Cdecl]<void> p_self, delegate* unmanaged[Cdecl]<void> p_other) => 
+        variant_hash_compare(p_self, p_other);
+
+    /// <summary>
+    /// Since: 4.1
+    /// </summary>
+    /// <param name="p_self">A pointer to the Variant.</param>
+    /// <returns>The boolean value of the Variant.</returns>
+    internal GDExtensionBool GDExtensionInterfaceVariantBooleanize(delegate* unmanaged[Cdecl]<void> p_self) => 
+        variant_booleanize(p_self);
+
+    /// <summary>
+    /// Since: 4.1
+    /// </summary>
+    /// <param name="p_self">A pointer to the Variant.</param>
+    /// <param name="r_ret">A pointer to a Variant to store the duplicated value.</param>
+    /// <param name="p_deep">Whether or not to duplicate deeply (when supported by the Variant type).</param>
+    internal void GDExtensionInterfaceVariantDuplicate(delegate* unmanaged[Cdecl]<void> p_self, delegate* unmanaged[Cdecl]<void> r_ret, GDExtensionBool p_deep) => 
+        variant_duplicate(p_self, r_ret, p_deep);
+
+    /// <summary>
+    /// Since: 4.1
+    /// </summary>
+    /// <param name="p_self">A pointer to the Variant.</param>
+    /// <param name="r_ret">A pointer to a String to store the resulting value.</param>
+    internal void GDExtensionInterfaceVariantStringify(delegate* unmanaged[Cdecl]<void> p_self, delegate* unmanaged[Cdecl]<void> r_ret) => 
+        variant_stringify(p_self, r_ret);
+
+    /// <summary>
+    /// Since: 4.1
+    /// </summary>
+    /// <param name="p_self">A pointer to the Variant.</param>
+    /// <returns>The variant type.</returns>
+    internal GDExtensionVariantType GDExtensionInterfaceVariantGetType(delegate* unmanaged[Cdecl]<void> p_self) => 
+        variant_get_type(p_self);
+
+    /// <summary>
+    /// Since: 4.1
+    /// </summary>
+    /// <param name="p_self">A pointer to the Variant.</param>
+    /// <param name="p_method">A pointer to a StringName with the method name.</param>
+    internal GDExtensionBool GDExtensionInterfaceVariantHasMethod(delegate* unmanaged[Cdecl]<void> p_self, delegate* unmanaged[Cdecl]<void> p_method) => 
+        variant_has_method(p_self, p_method);
+
+    /// <summary>
+    /// Since: 4.1
+    /// </summary>
+    /// <param name="p_type">The Variant type.</param>
+    /// <param name="p_member">A pointer to a StringName with the member name.</param>
+    internal GDExtensionBool GDExtensionInterfaceVariantHasMember(GDExtensionVariantType p_type, delegate* unmanaged[Cdecl]<void> p_member) => 
+        variant_has_member(p_type, p_member);
+
+    /// <summary>
+    /// Since: 4.1
+    /// </summary>
+    /// <param name="p_self">A pointer to the Variant.</param>
+    /// <param name="p_key">A pointer to a Variant representing the key.</param>
+    /// <param name="r_valid">A pointer to a boolean which will be set to false if the key doesn't exist.</param>
+    /// <returns>true if the key exists; otherwise false.</returns>
+    internal GDExtensionBool GDExtensionInterfaceVariantHasKey(delegate* unmanaged[Cdecl]<void> p_self, delegate* unmanaged[Cdecl]<void> p_key, GDExtensionBool* r_valid) => 
+        variant_has_key(p_self, p_key, r_valid);
+
+    /// <summary>
+    /// Since: 4.1
+    /// </summary>
+    /// <param name="p_type">The Variant type.</param>
+    /// <param name="r_name">A pointer to a String to store the Variant type name.</param>
+    internal void GDExtensionInterfaceVariantGetTypeName(GDExtensionVariantType p_type, delegate* unmanaged[Cdecl]<void> r_name) => 
+        variant_get_type_name(p_type, r_name);
+
+    /// <summary>
+    /// Since: 4.1
+    /// </summary>
+    /// <param name="p_from">The Variant type to convert from.</param>
+    /// <param name="p_to">The Variant type to convert to.</param>
+    /// <returns>true if the conversion is possible; otherwise false.</returns>
+    internal GDExtensionBool GDExtensionInterfaceVariantCanConvert(GDExtensionVariantType p_from, GDExtensionVariantType p_to) => 
+        variant_can_convert(p_from, p_to);
+
+    /// <summary>
+    /// Since: 4.1
+    /// </summary>
+    /// <param name="p_from">The Variant type to convert from.</param>
+    /// <param name="p_to">The Variant type to convert to.</param>
+    /// <returns>true if the conversion is possible; otherwise false.</returns>
+    internal GDExtensionBool GDExtensionInterfaceVariantCanConvertStrict(GDExtensionVariantType p_from, GDExtensionVariantType p_to) => 
+        variant_can_convert_strict(p_from, p_to);
+
+    /// <summary>
+    /// Since: 4.1
+    /// </summary>
+    /// <param name="p_type">The Variant type.</param>
+    /// <returns>A pointer to a function that can create a Variant of the given type from a raw value.</returns>
+    internal delegate* unmanaged[Cdecl]<delegate* unmanaged[Cdecl]<void>, delegate* unmanaged[Cdecl]<void>, void> GDExtensionInterfaceGetVariantFromTypeConstructor(GDExtensionVariantType p_type) => 
+        get_variant_from_type_constructor(p_type);
+
+    /// <summary>
+    /// Since: 4.1
+    /// </summary>
+    /// <param name="p_type">The Variant type.</param>
+    /// <returns>A pointer to a function that can get the raw value from a Variant of the given type.</returns>
+    internal delegate* unmanaged[Cdecl]<delegate* unmanaged[Cdecl]<void>, delegate* unmanaged[Cdecl]<void>, void> GDExtensionInterfaceGetVariantToTypeConstructor(GDExtensionVariantType p_type) => 
+        get_variant_to_type_constructor(p_type);
+
+    /// <summary>
+    /// Since: 4.1
+    /// </summary>
+    /// <param name="p_operator">The variant operator.</param>
+    /// <param name="p_type_a">The type of the first Variant.</param>
+    /// <param name="p_type_b">The type of the second Variant.</param>
+    /// <returns>A pointer to a function that can evaluate the given Variant operator on the given Variant types.</returns>
+    internal delegate* unmanaged[Cdecl]<delegate* unmanaged[Cdecl]<void>, delegate* unmanaged[Cdecl]<void>, delegate* unmanaged[Cdecl]<void>, void> GDExtensionInterfaceVariantGetPtrOperatorEvaluator(GDExtensionVariantOperator p_operator, GDExtensionVariantType p_type_a, GDExtensionVariantType p_type_b) => 
+        variant_get_ptr_operator_evaluator(p_operator, p_type_a, p_type_b);
+
+    /// <summary>
+    /// Since: 4.1
+    /// </summary>
+    /// <param name="p_type">The Variant type.</param>
+    /// <param name="p_method">A pointer to a StringName with the method name.</param>
+    /// <param name="p_hash">A hash representing the method signature.</param>
+    /// <returns>A pointer to a function that can call a builtin method on a type of Variant.</returns>
+    internal delegate* unmanaged[Cdecl]<delegate* unmanaged[Cdecl]<void>, delegate* unmanaged[Cdecl]<void>*, delegate* unmanaged[Cdecl]<void>, int, void> GDExtensionInterfaceVariantGetPtrBuiltinMethod(GDExtensionVariantType p_type, delegate* unmanaged[Cdecl]<void> p_method, GDExtensionInt p_hash) => 
+        variant_get_ptr_builtin_method(p_type, p_method, p_hash);
+
+    /// <summary>
+    /// Since: 4.1
+    /// </summary>
+    /// <param name="p_type">The Variant type.</param>
+    /// <param name="p_constructor">The index of the constructor.</param>
+    /// <returns>A pointer to a function that can call one of the constructors for a type of Variant.</returns>
+    internal delegate* unmanaged[Cdecl]<delegate* unmanaged[Cdecl]<void>, delegate* unmanaged[Cdecl]<void>*, void> GDExtensionInterfaceVariantGetPtrConstructor(GDExtensionVariantType p_type, int32_t p_constructor) => 
+        variant_get_ptr_constructor(p_type, p_constructor);
+
+    /// <summary>
+    /// Since: 4.1
+    /// </summary>
+    /// <param name="p_type">The Variant type.</param>
+    /// <returns>A pointer to a function than can call the destructor for a type of Variant.</returns>
+    internal delegate* unmanaged[Cdecl]<delegate* unmanaged[Cdecl]<void>, void> GDExtensionInterfaceVariantGetPtrDestructor(GDExtensionVariantType p_type) => 
+        variant_get_ptr_destructor(p_type);
+
+    /// <summary>
+    /// Since: 4.1
+    /// </summary>
+    /// <param name="p_type">The Variant type.</param>
+    /// <param name="p_base">A pointer to a Variant to store the constructed value.</param>
+    /// <param name="p_args">A pointer to a C array of Variant pointers representing the arguments for the constructor.</param>
+    /// <param name="p_argument_count">The number of arguments to pass to the constructor.</param>
+    /// <param name="r_error">A pointer the structure which will be updated with error information.</param>
+    internal void GDExtensionInterfaceVariantConstruct(GDExtensionVariantType p_type, delegate* unmanaged[Cdecl]<void> r_base, delegate* unmanaged[Cdecl]<void>* p_args, int32_t p_argument_count, GDExtensionCallError* r_error) => 
+        variant_construct(p_type, r_base, p_args, p_argument_count, r_error);
+
+    /// <summary>
+    /// Since: 4.1
+    /// </summary>
+    /// <param name="p_type">The Variant type.</param>
+    /// <param name="p_member">A pointer to a StringName with the member name.</param>
+    /// <returns>A pointer to a function that can call a member's setter on the given Variant type.</returns>
+    internal delegate* unmanaged[Cdecl]<delegate* unmanaged[Cdecl]<void>, delegate* unmanaged[Cdecl]<void>, void> GDExtensionInterfaceVariantGetPtrSetter(GDExtensionVariantType p_type, delegate* unmanaged[Cdecl]<void> p_member) => 
+        variant_get_ptr_setter(p_type, p_member);
+
+    /// <summary>
+    /// Since: 4.1
+    /// </summary>
+    /// <param name="p_type">The Variant type.</param>
+    /// <param name="p_member">A pointer to a StringName with the member name.</param>
+    /// <returns>A pointer to a function that can call a member's getter on the given Variant type.</returns>
+    internal delegate* unmanaged[Cdecl]<delegate* unmanaged[Cdecl]<void>, delegate* unmanaged[Cdecl]<void>, void> GDExtensionInterfaceVariantGetPtrGetter(GDExtensionVariantType p_type, delegate* unmanaged[Cdecl]<void> p_member) => 
+        variant_get_ptr_getter(p_type, p_member);
+
+    /// <summary>
+    /// Since: 4.1
+    /// </summary>
+    /// <param name="p_type">The Variant type.</param>
+    /// <returns>A pointer to a function that can set an index on the given Variant type.</returns>
+    internal delegate* unmanaged[Cdecl]<delegate* unmanaged[Cdecl]<void>, GDExtensionInt, delegate* unmanaged[Cdecl]<void>, void> GDExtensionInterfaceVariantGetPtrIndexedSetter(GDExtensionVariantType p_type) => 
+        variant_get_ptr_indexed_setter(p_type);
+
+    /// <summary>
+    /// Since: 4.1
+    /// </summary>
+    /// <param name="p_type">The Variant type.</param>
+    /// <returns>A pointer to a function that can get an index on the given Variant type.</returns>
+    internal delegate* unmanaged[Cdecl]<delegate* unmanaged[Cdecl]<void>, GDExtensionInt, delegate* unmanaged[Cdecl]<void>, void> GDExtensionInterfaceVariantGetPtrIndexedGetter(GDExtensionVariantType p_type) => 
+        variant_get_ptr_indexed_getter(p_type);
+
+    /// <summary>
+    /// Since: 4.1
+    /// </summary>
+    /// <param name="p_type">The Variant type.</param>
+    /// <returns>A pointer to a function that can set a key on the given Variant type.</returns>
+    internal delegate* unmanaged[Cdecl]<delegate* unmanaged[Cdecl]<void>, delegate* unmanaged[Cdecl]<void>, delegate* unmanaged[Cdecl]<void>, void> GDExtensionInterfaceVariantGetPtrKeyedSetter(GDExtensionVariantType p_type) => 
+        variant_get_ptr_keyed_setter(p_type);
+
+    /// <summary>
+    /// Since: 4.1
+    /// </summary>
+    /// <param name="p_type">The Variant type.</param>
+    /// <returns>A pointer to a function that can get a key on the given Variant type.</returns>
+    internal delegate* unmanaged[Cdecl]<delegate* unmanaged[Cdecl]<void>, delegate* unmanaged[Cdecl]<void>, delegate* unmanaged[Cdecl]<void>, void> GDExtensionInterfaceVariantGetPtrKeyedGetter(GDExtensionVariantType p_type) => 
+        variant_get_ptr_keyed_getter(p_type);
+
+    /// <summary>
+    /// Since: 4.1
+    /// </summary>
+    /// <param name="p_type">The Variant type.</param>
+    /// <returns>A pointer to a function that can check a key on the given Variant type.</returns>
+    internal delegate* unmanaged[Cdecl]<delegate* unmanaged[Cdecl]<void>, delegate* unmanaged[Cdecl]<void>, uint32_t> GDExtensionInterfaceVariantGetPtrKeyedChecker(GDExtensionVariantType p_type) => 
+        variant_get_ptr_keyed_checker(p_type);
+
+    /// <summary>
+    /// Since: 4.1
+    /// </summary>
+    /// <param name="p_type">The Variant type.</param>
+    /// <param name="p_constant">A pointer to a StringName with the constant name.</param>
+    /// <param name="r_ret">A pointer to a Variant to store the value.</param>
+    internal void GDExtensionInterfaceVariantGetConstantValue(GDExtensionVariantType p_type, delegate* unmanaged[Cdecl]<void> p_constant, delegate* unmanaged[Cdecl]<void> r_ret) => 
+        variant_get_constant_value(p_type, p_constant, r_ret);
+
+    /// <summary>
+    /// Since: 4.1
+    /// </summary>
+    /// <param name="p_function">A pointer to a StringName with the function name.</param>
+    /// <param name="p_hash">A hash representing the function signature.</param>
+    /// <returns>A pointer to a function that can call a Variant utility function.</returns>
+    internal delegate* unmanaged[Cdecl]<delegate* unmanaged[Cdecl]<void>, delegate* unmanaged[Cdecl]<void>*, int, void> GDExtensionInterfaceVariantGetPtrUtilityFunction(delegate* unmanaged[Cdecl]<void> p_function, GDExtensionInt p_hash) => 
+        variant_get_ptr_utility_function(p_function, p_hash);
+
+    /// <summary>
+    /// Since: 4.1
+    /// </summary>
+    /// <param name="r_dest">A pointer to a Variant to hold the newly created String.</param>
+    /// <param name="p_contents">A pointer to a Latin-1 encoded C string (null terminated).</param>
+    internal void GDExtensionInterfaceStringNewWithLatin1Chars(delegate* unmanaged[Cdecl]<void> r_dest, byte* p_contents) => 
+        string_new_with_latin1_chars(r_dest, p_contents);
+
+    /// <summary>
+    /// Since: 4.1
+    /// </summary>
+    /// <param name="r_dest">A pointer to a Variant to hold the newly created String.</param>
+    /// <param name="p_contents">A pointer to a UTF-8 encoded C string (null terminated).</param>
+    internal void GDExtensionInterfaceStringNewWithUtf8Chars(delegate* unmanaged[Cdecl]<void> r_dest, byte* p_contents) => 
+        string_new_with_utf8_chars(r_dest, p_contents);
+
+    /// <summary>
+    /// Since: 4.1
+    /// </summary>
+    /// <param name="r_dest">A pointer to a Variant to hold the newly created String.</param>
+    /// <param name="p_contents">A pointer to a UTF-16 encoded C string (null terminated).</param>
+    internal void GDExtensionInterfaceStringNewWithUtf16Chars(delegate* unmanaged[Cdecl]<void> r_dest, char16_t* p_contents) => 
+        string_new_with_utf16_chars(r_dest, p_contents);
+
+    /// <summary>
+    /// Since: 4.1
+    /// </summary>
+    /// <param name="r_dest">A pointer to a Variant to hold the newly created String.</param>
+    /// <param name="p_contents">A pointer to a UTF-32 encoded C string (null terminated).</param>
+    internal void GDExtensionInterfaceStringNewWithUtf32Chars(delegate* unmanaged[Cdecl]<void> r_dest, char32_t* p_contents) => 
+        string_new_with_utf32_chars(r_dest, p_contents);
+
+    /// <summary>
+    /// Since: 4.1
+    /// </summary>
+    /// <param name="r_dest">A pointer to a Variant to hold the newly created String.</param>
+    /// <param name="p_contents">A pointer to a wide C string (null terminated).</param>
+    internal void GDExtensionInterfaceStringNewWithWideChars(delegate* unmanaged[Cdecl]<void> r_dest, wchar_t* p_contents) => 
+        string_new_with_wide_chars(r_dest, p_contents);
+
+    /// <summary>
+    /// Since: 4.1
+    /// </summary>
+    /// <param name="r_dest">A pointer to a Variant to hold the newly created String.</param>
+    /// <param name="p_contents">A pointer to a Latin-1 encoded C string.</param>
+    /// <param name="p_size">The number of characters.</param>
+    internal void GDExtensionInterfaceStringNewWithLatin1CharsAndLen(delegate* unmanaged[Cdecl]<void> r_dest, byte* p_contents, GDExtensionInt p_size) => 
+        string_new_with_latin1_chars_and_len(r_dest, p_contents, p_size);
+
+    /// <summary>
+    /// Since: 4.1
+    /// </summary>
+    /// <param name="r_dest">A pointer to a Variant to hold the newly created String.</param>
+    /// <param name="p_contents">A pointer to a UTF-8 encoded C string.</param>
+    /// <param name="p_size">The number of characters.</param>
+    internal void GDExtensionInterfaceStringNewWithUtf8CharsAndLen(delegate* unmanaged[Cdecl]<void> r_dest, byte* p_contents, GDExtensionInt p_size) => 
+        string_new_with_utf8_chars_and_len(r_dest, p_contents, p_size);
+
+    /// <summary>
+    /// Since: 4.1
+    /// </summary>
+    /// <param name="r_dest">A pointer to a Variant to hold the newly created String.</param>
+    /// <param name="p_contents">A pointer to a UTF-16 encoded C string.</param>
+    /// <param name="p_size">The number of characters.</param>
+    internal void GDExtensionInterfaceStringNewWithUtf16CharsAndLen(delegate* unmanaged[Cdecl]<void> r_dest, char16_t* p_contents, GDExtensionInt p_size) => 
+        string_new_with_utf16_chars_and_len(r_dest, p_contents, p_size);
+
+    /// <summary>
+    /// Since: 4.1
+    /// </summary>
+    /// <param name="r_dest">A pointer to a Variant to hold the newly created String.</param>
+    /// <param name="p_contents">A pointer to a UTF-32 encoded C string.</param>
+    /// <param name="p_size">The number of characters.</param>
+    internal void GDExtensionInterfaceStringNewWithUtf32CharsAndLen(delegate* unmanaged[Cdecl]<void> r_dest, char32_t* p_contents, GDExtensionInt p_size) => 
+        string_new_with_utf32_chars_and_len(r_dest, p_contents, p_size);
+
+    /// <summary>
+    /// Since: 4.1
+    /// </summary>
+    /// <param name="r_dest">A pointer to a Variant to hold the newly created String.</param>
+    /// <param name="p_contents">A pointer to a wide C string.</param>
+    /// <param name="p_size">The number of characters.</param>
+    internal void GDExtensionInterfaceStringNewWithWideCharsAndLen(delegate* unmanaged[Cdecl]<void> r_dest, wchar_t* p_contents, GDExtensionInt p_size) => 
+        string_new_with_wide_chars_and_len(r_dest, p_contents, p_size);
+
+    /// <summary>
+    /// Since: 4.1
+    /// </summary>
+    /// <param name="p_self">A pointer to the String.</param>
+    /// <param name="r_text">A pointer to the buffer to hold the resulting data. If NULL is passed in, only the length will be computed.</param>
+    /// <param name="p_max_write_length">The maximum number of characters that can be written to r_text. It has no affect on the return value.</param>
+    /// <returns>The resulting encoded string length in characters (not bytes), not including a null terminator.</returns>
+    internal GDExtensionInt GDExtensionInterfaceStringToLatin1Chars(delegate* unmanaged[Cdecl]<void> p_self, byte* r_text, GDExtensionInt p_max_write_length) => 
+        string_to_latin1_chars(p_self, r_text, p_max_write_length);
+
+    /// <summary>
+    /// Since: 4.1
+    /// </summary>
+    /// <param name="p_self">A pointer to the String.</param>
+    /// <param name="r_text">A pointer to the buffer to hold the resulting data. If NULL is passed in, only the length will be computed.</param>
+    /// <param name="p_max_write_length">The maximum number of characters that can be written to r_text. It has no affect on the return value.</param>
+    /// <returns>The resulting encoded string length in characters (not bytes), not including a null terminator.</returns>
+    internal GDExtensionInt GDExtensionInterfaceStringToUtf8Chars(delegate* unmanaged[Cdecl]<void> p_self, byte* r_text, GDExtensionInt p_max_write_length) => 
+        string_to_utf8_chars(p_self, r_text, p_max_write_length);
+
+    /// <summary>
+    /// Since: 4.1
+    /// </summary>
+    /// <param name="p_self">A pointer to the String.</param>
+    /// <param name="r_text">A pointer to the buffer to hold the resulting data. If NULL is passed in, only the length will be computed.</param>
+    /// <param name="p_max_write_length">The maximum number of characters that can be written to r_text. It has no affect on the return value.</param>
+    /// <returns>The resulting encoded string length in characters (not bytes), not including a null terminator.</returns>
+    internal GDExtensionInt GDExtensionInterfaceStringToUtf16Chars(delegate* unmanaged[Cdecl]<void> p_self, char16_t* r_text, GDExtensionInt p_max_write_length) => 
+        string_to_utf16_chars(p_self, r_text, p_max_write_length);
+
+    /// <summary>
+    /// Since: 4.1
+    /// </summary>
+    /// <param name="p_self">A pointer to the String.</param>
+    /// <param name="r_text">A pointer to the buffer to hold the resulting data. If NULL is passed in, only the length will be computed.</param>
+    /// <param name="p_max_write_length">The maximum number of characters that can be written to r_text. It has no affect on the return value.</param>
+    /// <returns>The resulting encoded string length in characters (not bytes), not including a null terminator.</returns>
+    internal GDExtensionInt GDExtensionInterfaceStringToUtf32Chars(delegate* unmanaged[Cdecl]<void> p_self, char32_t* r_text, GDExtensionInt p_max_write_length) => 
+        string_to_utf32_chars(p_self, r_text, p_max_write_length);
+
+    /// <summary>
+    /// Since: 4.1
+    /// </summary>
+    /// <param name="p_self">A pointer to the String.</param>
+    /// <param name="r_text">A pointer to the buffer to hold the resulting data. If NULL is passed in, only the length will be computed.</param>
+    /// <param name="p_max_write_length">The maximum number of characters that can be written to r_text. It has no affect on the return value.</param>
+    /// <returns>The resulting encoded string length in characters (not bytes), not including a null terminator.</returns>
+    internal GDExtensionInt GDExtensionInterfaceStringToWideChars(delegate* unmanaged[Cdecl]<void> p_self, wchar_t* r_text, GDExtensionInt p_max_write_length) => 
+        string_to_wide_chars(p_self, r_text, p_max_write_length);
+
+    /// <summary>
+    /// Since: 4.1
+    /// </summary>
+    /// <param name="p_self">A pointer to the String.</param>
+    /// <param name="p_index">The index.</param>
+    /// <returns>A pointer to the requested character.</returns>
+    internal char32_t* GDExtensionInterfaceStringOperatorIndex(delegate* unmanaged[Cdecl]<void> p_self, GDExtensionInt p_index) => 
+        string_operator_index(p_self, p_index);
+
+    /// <summary>
+    /// Since: 4.1
+    /// </summary>
+    /// <param name="p_self">A pointer to the String.</param>
+    /// <param name="p_index">The index.</param>
+    /// <returns>A const pointer to the requested character.</returns>
+    internal char32_t* GDExtensionInterfaceStringOperatorIndexConst(delegate* unmanaged[Cdecl]<void> p_self, GDExtensionInt p_index) => 
+        string_operator_index_const(p_self, p_index);
+
+    /// <summary>
+    /// Since: 4.1
+    /// </summary>
+    /// <param name="p_self">A pointer to the String.</param>
+    /// <param name="p_b">A pointer to the other String to append.</param>
+    internal void GDExtensionInterfaceStringOperatorPlusEqString(delegate* unmanaged[Cdecl]<void> p_self, delegate* unmanaged[Cdecl]<void> p_b) => 
+        string_operator_plus_eq_string(p_self, p_b);
+
+    /// <summary>
+    /// Since: 4.1
+    /// </summary>
+    /// <param name="p_self">A pointer to the String.</param>
+    /// <param name="p_b">A pointer to the character to append.</param>
+    internal void GDExtensionInterfaceStringOperatorPlusEqChar(delegate* unmanaged[Cdecl]<void> p_self, char32_t p_b) => 
+        string_operator_plus_eq_char(p_self, p_b);
+
+    /// <summary>
+    /// Since: 4.1
+    /// </summary>
+    /// <param name="p_self">A pointer to the String.</param>
+    /// <param name="p_b">A pointer to a Latin-1 encoded C string (null terminated).</param>
+    internal void GDExtensionInterfaceStringOperatorPlusEqCstr(delegate* unmanaged[Cdecl]<void> p_self, byte* p_b) => 
+        string_operator_plus_eq_cstr(p_self, p_b);
+
+    /// <summary>
+    /// Since: 4.1
+    /// </summary>
+    /// <param name="p_self">A pointer to the String.</param>
+    /// <param name="p_b">A pointer to a wide C string (null terminated).</param>
+    internal void GDExtensionInterfaceStringOperatorPlusEqWcstr(delegate* unmanaged[Cdecl]<void> p_self, wchar_t* p_b) => 
+        string_operator_plus_eq_wcstr(p_self, p_b);
+
+    /// <summary>
+    /// Since: 4.1
+    /// </summary>
+    /// <param name="p_self">A pointer to the String.</param>
+    /// <param name="p_b">A pointer to a UTF-32 encoded C string (null terminated).</param>
+    internal void GDExtensionInterfaceStringOperatorPlusEqC32str(delegate* unmanaged[Cdecl]<void> p_self, char32_t* p_b) => 
+        string_operator_plus_eq_c32str(p_self, p_b);
+
+    /// <summary>
+    /// Since: 4.1
+    /// See: XMLParser::open_buffer()
+    /// </summary>
+    /// <param name="p_instance">A pointer to an XMLParser object.</param>
+    /// <param name="p_buffer">A pointer to the buffer.</param>
+    /// <param name="p_size">The size of the buffer.</param>
+    /// <returns>A Godot error code (ex. OK, ERR_INVALID_DATA, etc).</returns>
+    internal GDExtensionInt GDExtensionInterfaceXmlParserOpenBuffer(delegate* unmanaged[Cdecl]<void> p_instance, uint8_t* p_buffer, size_t p_size) => 
+        xml_parser_open_buffer(p_instance, p_buffer, p_size);
+
+    /// <summary>
+    /// Since: 4.1
+    /// See: FileAccess::store_buffer()
+    /// </summary>
+    /// <param name="p_instance">A pointer to a FileAccess object.</param>
+    /// <param name="p_src">A pointer to the buffer.</param>
+    /// <param name="p_length">The size of the buffer.</param>
+    internal void GDExtensionInterfaceFileAccessStoreBuffer(delegate* unmanaged[Cdecl]<void> p_instance, uint8_t* p_src, uint64_t p_length) => 
+        file_access_store_buffer(p_instance, p_src, p_length);
+
+    /// <summary>
+    /// Since: 4.1
+    /// </summary>
+    /// <param name="p_instance">A pointer to a FileAccess object.</param>
+    /// <param name="p_dst">A pointer to the buffer to store the data.</param>
+    /// <param name="p_length">The requested number of bytes to read.</param>
+    /// <returns>The actual number of bytes read (may be less than requested).</returns>
+    internal uint64_t GDExtensionInterfaceFileAccessGetBuffer(delegate* unmanaged[Cdecl]<void> p_instance, uint8_t* p_dst, uint64_t p_length) => 
+        file_access_get_buffer(p_instance, p_dst, p_length);
+
+    /// <summary>
+    /// Since: 4.1
+    /// See: WorkerThreadPool::add_group_task()
+    /// </summary>
+    /// <param name="p_instance">A pointer to a WorkerThreadPool object.</param>
+    /// <param name="p_func">A pointer to a function to run in the thread pool.</param>
+    /// <param name="p_userdata">A pointer to arbitrary data which will be passed to p_func.</param>
+    /// <param name="p_tasks">The number of tasks needed in the group.</param>
+    /// <param name="p_high_priority">Whether or not this is a high priority task.</param>
+    /// <param name="p_description">A pointer to a String with the task description.</param>
+    /// <param name="p_instance">A pointer to a WorkerThreadPool object.</param>
+    /// <param name="p_func">A pointer to a function to run in the thread pool.</param>
+    /// <param name="p_userdata">A pointer to arbitrary data which will be passed to p_func.</param>
+    /// <param name="p_high_priority">Whether or not this is a high priority task.</param>
+    /// <param name="p_description">A pointer to a String with the task description.</param>
+    /// <param name="p_self">A pointer to a PackedByteArray object.</param>
+    /// <param name="p_index">The index of the byte to get.</param>
+    /// <returns>The task group ID.</returns>
+    internal uint8_t* GDExtensionInterfacePackedByteArrayOperatorIndex(delegate* unmanaged[Cdecl]<void> p_self, GDExtensionInt p_index) => 
+        worker_thread_pool_add_native_group_task(p_self, p_index);
+
+    /// <summary>
+    /// Since: 4.1
+    /// </summary>
+    /// <param name="p_self">A const pointer to a PackedByteArray object.</param>
+    /// <param name="p_index">The index of the byte to get.</param>
+    /// <returns>A const pointer to the requested byte.</returns>
+    internal uint8_t* GDExtensionInterfacePackedByteArrayOperatorIndexConst(delegate* unmanaged[Cdecl]<void> p_self, GDExtensionInt p_index) => 
+        packed_byte_array_operator_index_const(p_self, p_index);
+
+    /// <summary>
+    /// Since: 4.1
+    /// </summary>
+    /// <param name="p_self">A pointer to a PackedColorArray object.</param>
+    /// <param name="p_index">The index of the Color to get.</param>
+    /// <returns>A pointer to the requested Color.</returns>
+    internal delegate* unmanaged[Cdecl]<void> GDExtensionInterfacePackedColorArrayOperatorIndex(delegate* unmanaged[Cdecl]<void> p_self, GDExtensionInt p_index) => 
+        packed_color_array_operator_index(p_self, p_index);
+
+    /// <summary>
+    /// Since: 4.1
+    /// </summary>
+    /// <param name="p_self">A const pointer to a const PackedColorArray object.</param>
+    /// <param name="p_index">The index of the Color to get.</param>
+    /// <returns>A const pointer to the requested Color.</returns>
+    internal delegate* unmanaged[Cdecl]<void> GDExtensionInterfacePackedColorArrayOperatorIndexConst(delegate* unmanaged[Cdecl]<void> p_self, GDExtensionInt p_index) => 
+        packed_color_array_operator_index_const(p_self, p_index);
+
+    /// <summary>
+    /// Since: 4.1
+    /// </summary>
+    /// <param name="p_self">A pointer to a PackedFloat32Array object.</param>
+    /// <param name="p_index">The index of the float to get.</param>
+    /// <returns>A pointer to the requested 32-bit float.</returns>
+    internal float* GDExtensionInterfacePackedFloat32ArrayOperatorIndex(delegate* unmanaged[Cdecl]<void> p_self, GDExtensionInt p_index) => 
+        packed_float32_array_operator_index(p_self, p_index);
+
+    /// <summary>
+    /// Since: 4.1
+    /// </summary>
+    /// <param name="p_self">A const pointer to a PackedFloat32Array object.</param>
+    /// <param name="p_index">The index of the float to get.</param>
+    /// <returns>A const pointer to the requested 32-bit float.</returns>
+    internal float* GDExtensionInterfacePackedFloat32ArrayOperatorIndexConst(delegate* unmanaged[Cdecl]<void> p_self, GDExtensionInt p_index) => 
+        packed_float32_array_operator_index_const(p_self, p_index);
+
+    /// <summary>
+    /// Since: 4.1
+    /// </summary>
+    /// <param name="p_self">A pointer to a PackedFloat64Array object.</param>
+    /// <param name="p_index">The index of the float to get.</param>
+    /// <returns>A pointer to the requested 64-bit float.</returns>
+    internal double* GDExtensionInterfacePackedFloat64ArrayOperatorIndex(delegate* unmanaged[Cdecl]<void> p_self, GDExtensionInt p_index) => 
+        packed_float64_array_operator_index(p_self, p_index);
+
+    /// <summary>
+    /// Since: 4.1
+    /// </summary>
+    /// <param name="p_self">A const pointer to a PackedFloat64Array object.</param>
+    /// <param name="p_index">The index of the float to get.</param>
+    /// <returns>A const pointer to the requested 64-bit float.</returns>
+    internal double* GDExtensionInterfacePackedFloat64ArrayOperatorIndexConst(delegate* unmanaged[Cdecl]<void> p_self, GDExtensionInt p_index) => 
+        packed_float64_array_operator_index_const(p_self, p_index);
+
+    /// <summary>
+    /// Since: 4.1
+    /// </summary>
+    /// <param name="p_self">A pointer to a PackedInt32Array object.</param>
+    /// <param name="p_index">The index of the integer to get.</param>
+    /// <returns>A pointer to the requested 32-bit integer.</returns>
+    internal int32_t* GDExtensionInterfacePackedInt32ArrayOperatorIndex(delegate* unmanaged[Cdecl]<void> p_self, GDExtensionInt p_index) => 
+        packed_int32_array_operator_index(p_self, p_index);
+
+    /// <summary>
+    /// Since: 4.1
+    /// </summary>
+    /// <param name="p_self">A const pointer to a PackedInt32Array object.</param>
+    /// <param name="p_index">The index of the integer to get.</param>
+    /// <returns>A const pointer to the requested 32-bit integer.</returns>
+    internal int32_t* GDExtensionInterfacePackedInt32ArrayOperatorIndexConst(delegate* unmanaged[Cdecl]<void> p_self, GDExtensionInt p_index) => 
+        packed_int32_array_operator_index_const(p_self, p_index);
+
+    /// <summary>
+    /// Since: 4.1
+    /// </summary>
+    /// <param name="p_self">A pointer to a PackedInt64Array object.</param>
+    /// <param name="p_index">The index of the integer to get.</param>
+    /// <returns>A pointer to the requested 64-bit integer.</returns>
+    internal int64_t* GDExtensionInterfacePackedInt64ArrayOperatorIndex(delegate* unmanaged[Cdecl]<void> p_self, GDExtensionInt p_index) => 
+        packed_int64_array_operator_index(p_self, p_index);
+
+    /// <summary>
+    /// Since: 4.1
+    /// </summary>
+    /// <param name="p_self">A const pointer to a PackedInt64Array object.</param>
+    /// <param name="p_index">The index of the integer to get.</param>
+    /// <returns>A const pointer to the requested 64-bit integer.</returns>
+    internal int64_t* GDExtensionInterfacePackedInt64ArrayOperatorIndexConst(delegate* unmanaged[Cdecl]<void> p_self, GDExtensionInt p_index) => 
+        packed_int64_array_operator_index_const(p_self, p_index);
+
+    /// <summary>
+    /// Since: 4.1
+    /// </summary>
+    /// <param name="p_self">A pointer to a PackedStringArray object.</param>
+    /// <param name="p_index">The index of the String to get.</param>
+    /// <returns>A pointer to the requested String.</returns>
+    internal delegate* unmanaged[Cdecl]<void> GDExtensionInterfacePackedStringArrayOperatorIndex(delegate* unmanaged[Cdecl]<void> p_self, GDExtensionInt p_index) => 
+        packed_string_array_operator_index(p_self, p_index);
+
+    /// <summary>
+    /// Since: 4.1
+    /// </summary>
+    /// <param name="p_self">A const pointer to a PackedStringArray object.</param>
+    /// <param name="p_index">The index of the String to get.</param>
+    /// <returns>A const pointer to the requested String.</returns>
+    internal delegate* unmanaged[Cdecl]<void> GDExtensionInterfacePackedStringArrayOperatorIndexConst(delegate* unmanaged[Cdecl]<void> p_self, GDExtensionInt p_index) => 
+        packed_string_array_operator_index_const(p_self, p_index);
+
+    /// <summary>
+    /// Since: 4.1
+    /// </summary>
+    /// <param name="p_self">A pointer to a PackedVector2Array object.</param>
+    /// <param name="p_index">The index of the Vector2 to get.</param>
+    /// <returns>A pointer to the requested Vector2.</returns>
+    internal delegate* unmanaged[Cdecl]<void> GDExtensionInterfacePackedVector2ArrayOperatorIndex(delegate* unmanaged[Cdecl]<void> p_self, GDExtensionInt p_index) => 
+        packed_vector2_array_operator_index(p_self, p_index);
+
+    /// <summary>
+    /// Since: 4.1
+    /// </summary>
+    /// <param name="p_self">A const pointer to a PackedVector2Array object.</param>
+    /// <param name="p_index">The index of the Vector2 to get.</param>
+    /// <returns>A const pointer to the requested Vector2.</returns>
+    internal delegate* unmanaged[Cdecl]<void> GDExtensionInterfacePackedVector2ArrayOperatorIndexConst(delegate* unmanaged[Cdecl]<void> p_self, GDExtensionInt p_index) => 
+        packed_vector2_array_operator_index_const(p_self, p_index);
+
+    /// <summary>
+    /// Since: 4.1
+    /// </summary>
+    /// <param name="p_self">A pointer to a PackedVector3Array object.</param>
+    /// <param name="p_index">The index of the Vector3 to get.</param>
+    /// <returns>A pointer to the requested Vector3.</returns>
+    internal delegate* unmanaged[Cdecl]<void> GDExtensionInterfacePackedVector3ArrayOperatorIndex(delegate* unmanaged[Cdecl]<void> p_self, GDExtensionInt p_index) => 
+        packed_vector3_array_operator_index(p_self, p_index);
+
+    /// <summary>
+    /// Since: 4.1
+    /// </summary>
+    /// <param name="p_self">A const pointer to a PackedVector3Array object.</param>
+    /// <param name="p_index">The index of the Vector3 to get.</param>
+    /// <returns>A const pointer to the requested Vector3.</returns>
+    internal delegate* unmanaged[Cdecl]<void> GDExtensionInterfacePackedVector3ArrayOperatorIndexConst(delegate* unmanaged[Cdecl]<void> p_self, GDExtensionInt p_index) => 
+        packed_vector3_array_operator_index_const(p_self, p_index);
+
+    /// <summary>
+    /// Since: 4.1
+    /// </summary>
+    /// <param name="p_self">A pointer to an Array object.</param>
+    /// <param name="p_index">The index of the Variant to get.</param>
+    /// <returns>A pointer to the requested Variant.</returns>
+    internal delegate* unmanaged[Cdecl]<void> GDExtensionInterfaceArrayOperatorIndex(delegate* unmanaged[Cdecl]<void> p_self, GDExtensionInt p_index) => 
+        array_operator_index(p_self, p_index);
+
+    /// <summary>
+    /// Since: 4.1
+    /// </summary>
+    /// <param name="p_self">A const pointer to an Array object.</param>
+    /// <param name="p_index">The index of the Variant to get.</param>
+    /// <returns>A const pointer to the requested Variant.</returns>
+    internal delegate* unmanaged[Cdecl]<void> GDExtensionInterfaceArrayOperatorIndexConst(delegate* unmanaged[Cdecl]<void> p_self, GDExtensionInt p_index) => 
+        array_operator_index_const(p_self, p_index);
+
+    /// <summary>
+    /// Since: 4.1
+    /// </summary>
+    /// <param name="p_self">A pointer to the Array object to update.</param>
+    /// <param name="p_from">A pointer to the Array object to reference.</param>
+    internal void GDExtensionInterfaceArrayRef(delegate* unmanaged[Cdecl]<void> p_self, delegate* unmanaged[Cdecl]<void> p_from) => 
+        array_ref(p_self, p_from);
+
+    /// <summary>
+    /// Since: 4.1
+    /// </summary>
+    /// <param name="p_self">A pointer to the Array.</param>
+    /// <param name="p_type">The type of Variant the Array will store.</param>
+    /// <param name="p_class_name">A pointer to a StringName with the name of the object (if p_type is GDEXTENSION_VARIANT_TYPE_OBJECT).</param>
+    /// <param name="p_script">A pointer to a Script object (if p_type is GDEXTENSION_VARIANT_TYPE_OBJECT and the base class is extended by a script).</param>
+    internal void GDExtensionInterfaceArraySetTyped(delegate* unmanaged[Cdecl]<void> p_self, GDExtensionVariantType p_type, delegate* unmanaged[Cdecl]<void> p_class_name, delegate* unmanaged[Cdecl]<void> p_script) => 
+        array_set_typed(p_self, p_type, p_class_name, p_script);
+
+    /// <summary>
+    /// Since: 4.1
+    /// </summary>
+    /// <param name="p_self">A pointer to a Dictionary object.</param>
+    /// <param name="p_key">A pointer to a Variant representing the key.</param>
+    /// <returns>A pointer to a Variant representing the value at the given key.</returns>
+    internal delegate* unmanaged[Cdecl]<void> GDExtensionInterfaceDictionaryOperatorIndex(delegate* unmanaged[Cdecl]<void> p_self, delegate* unmanaged[Cdecl]<void> p_key) => 
+        dictionary_operator_index(p_self, p_key);
+
+    /// <summary>
+    /// Since: 4.1
+    /// </summary>
+    /// <param name="p_self">A const pointer to a Dictionary object.</param>
+    /// <param name="p_key">A pointer to a Variant representing the key.</param>
+    /// <returns>A const pointer to a Variant representing the value at the given key.</returns>
+    internal delegate* unmanaged[Cdecl]<void> GDExtensionInterfaceDictionaryOperatorIndexConst(delegate* unmanaged[Cdecl]<void> p_self, delegate* unmanaged[Cdecl]<void> p_key) => 
+        dictionary_operator_index_const(p_self, p_key);
+
+    /// <summary>
+    /// Since: 4.1
+    /// </summary>
+    /// <param name="p_method_bind">A pointer to the MethodBind representing the method on the Object's class.</param>
+    /// <param name="p_instance">A pointer to the Object.</param>
+    /// <param name="p_args">A pointer to a C array of Variants representing the arguments.</param>
+    /// <param name="p_arg_count">The number of arguments.</param>
+    /// <param name="r_ret">A pointer to Variant which will receive the return value.</param>
+    /// <param name="r_error">A pointer to a GDExtensionCallError struct that will receive error information.</param>
+    internal void GDExtensionInterfaceObjectMethodBindCall(delegate* unmanaged[Cdecl]<void> p_method_bind, delegate* unmanaged[Cdecl]<void> p_instance, delegate* unmanaged[Cdecl]<void>* p_args, GDExtensionInt p_arg_count, delegate* unmanaged[Cdecl]<void> r_ret, GDExtensionCallError* r_error) => 
+        object_method_bind_call(p_method_bind, p_instance, p_args, p_arg_count, r_ret, r_error);
+
+    /// <summary>
+    /// Since: 4.1
+    /// </summary>
+    /// <param name="p_method_bind">A pointer to the MethodBind representing the method on the Object's class.</param>
+    /// <param name="p_instance">A pointer to the Object.</param>
+    /// <param name="p_args">A pointer to a C array representing the arguments.</param>
+    /// <param name="r_ret">A pointer to the Object that will receive the return value.</param>
+    internal void GDExtensionInterfaceObjectMethodBindPtrcall(delegate* unmanaged[Cdecl]<void> p_method_bind, delegate* unmanaged[Cdecl]<void> p_instance, delegate* unmanaged[Cdecl]<void>* p_args, delegate* unmanaged[Cdecl]<void> r_ret) => 
+        object_method_bind_ptrcall(p_method_bind, p_instance, p_args, r_ret);
+
+    /// <summary>
+    /// Since: 4.1
+    /// </summary>
+    /// <param name="p_o">A pointer to the Object.</param>
+    internal void GDExtensionInterfaceObjectDestroy(delegate* unmanaged[Cdecl]<void> p_o) => 
+        object_destroy(p_o);
+
+    /// <summary>
+    /// Since: 4.1
+    /// </summary>
+    /// <param name="p_name">A pointer to a StringName with the singleton name.</param>
+    /// <returns>A pointer to the singleton Object.</returns>
+    internal delegate* unmanaged[Cdecl]<void> GDExtensionInterfaceGlobalGetSingleton(delegate* unmanaged[Cdecl]<void> p_name) => 
+        global_get_singleton(p_name);
+
+    /// <summary>
+    /// Since: 4.1
+    /// </summary>
+    /// <param name="p_o">A pointer to the Object.</param>
+    /// <param name="p_library">A token the library received by the GDExtension's entry point function.</param>
+    /// <param name="p_callbacks">A pointer to a GDExtensionInstanceBindingCallbacks struct.</param>
+    internal void* GDExtensionInterfaceObjectGetInstanceBinding(delegate* unmanaged[Cdecl]<void> p_o, void* p_token, GDExtensionInstanceBindingCallbacks* p_callbacks) => 
+        object_get_instance_binding(p_o, p_token, p_callbacks);
+
+    /// <summary>
+    /// Since: 4.1
+    /// </summary>
+    /// <param name="p_o">A pointer to the Object.</param>
+    /// <param name="p_library">A token the library received by the GDExtension's entry point function.</param>
+    /// <param name="p_binding">A pointer to the instance binding.</param>
+    /// <param name="p_callbacks">A pointer to a GDExtensionInstanceBindingCallbacks struct.</param>
+    internal void GDExtensionInterfaceObjectSetInstanceBinding(delegate* unmanaged[Cdecl]<void> p_o, void* p_token, void* p_binding, GDExtensionInstanceBindingCallbacks* p_callbacks) => 
+        object_set_instance_binding(p_o, p_token, p_binding, p_callbacks);
+
+    /// <summary>
+    /// Since: 4.1
+    /// </summary>
+    /// <param name="p_o">A pointer to the Object.</param>
+    /// <param name="p_classname">A pointer to a StringName with the registered extension class's name.</param>
+    /// <param name="p_instance">A pointer to the extension class instance.</param>
+    internal void GDExtensionInterfaceObjectSetInstance(delegate* unmanaged[Cdecl]<void> p_o, delegate* unmanaged[Cdecl]<void> p_classname, delegate* unmanaged[Cdecl]<void> p_instance) => 
+        object_set_instance(p_o, p_classname, p_instance);
+
+    /// <summary>
+    /// Since: 4.1
+    /// </summary>
+    /// <param name="p_object">A pointer to the Object.</param>
+    /// <param name="p_library">A pointer the library received by the GDExtension's entry point function.</param>
+    /// <param name="r_class_name">A pointer to a String to receive the class name.</param>
+    /// <returns>true if successful in getting the class name; otherwise false.</returns>
+    internal GDExtensionBool GDExtensionInterfaceObjectGetClassName(delegate* unmanaged[Cdecl]<void> p_object, delegate* unmanaged[Cdecl]<void> p_library, delegate* unmanaged[Cdecl]<void> r_class_name) => 
+        object_get_class_name(p_object, p_library, r_class_name);
+
+    /// <summary>
+    /// Since: 4.1
+    /// </summary>
+    /// <param name="p_object">A pointer to the Object.</param>
+    /// <param name="p_class_tag">A pointer uniquely identifying a built-in class in the ClassDB.</param>
+    /// <returns>Returns a pointer to the Object, or NULL if it can't be cast to the requested type.</returns>
+    internal delegate* unmanaged[Cdecl]<void> GDExtensionInterfaceObjectCastTo(delegate* unmanaged[Cdecl]<void> p_object, void* p_class_tag) => 
+        object_cast_to(p_object, p_class_tag);
+
+    /// <summary>
+    /// Since: 4.1
+    /// </summary>
+    /// <param name="p_instance_id">The instance ID.</param>
+    /// <returns>A pointer to the Object.</returns>
+    internal delegate* unmanaged[Cdecl]<void> GDExtensionInterfaceObjectGetInstanceFromId(GDObjectInstanceID p_instance_id) => 
+        object_get_instance_from_id(p_instance_id);
+
+    /// <summary>
+    /// Since: 4.1
+    /// </summary>
+    /// <param name="p_object">A pointer to the Object.</param>
+    /// <returns>The instance ID.</returns>
+    internal GDObjectInstanceID GDExtensionInterfaceObjectGetInstanceId(delegate* unmanaged[Cdecl]<void> p_object) => 
+        object_get_instance_id(p_object);
+
+    /// <summary>
+    /// Since: 4.1
+    /// </summary>
+    /// <param name="p_ref">A pointer to the reference.</param>
+    /// <returns>A pointer to the Object from the reference or NULL.</returns>
+    internal delegate* unmanaged[Cdecl]<void> GDExtensionInterfaceRefGetObject(delegate* unmanaged[Cdecl]<void> p_ref) => 
+        ref_get_object(p_ref);
+
+    /// <summary>
+    /// Since: 4.1
+    /// </summary>
+    /// <param name="p_ref">A pointer to the reference.</param>
+    /// <param name="p_object">A pointer to the Object to refer to.</param>
+    internal void GDExtensionInterfaceRefSetObject(delegate* unmanaged[Cdecl]<void> p_ref, delegate* unmanaged[Cdecl]<void> p_object) => 
+        ref_set_object(p_ref, p_object);
+
+    /// <summary>
+    /// Since: 4.1
+    /// </summary>
+    /// <param name="p_info">A pointer to a GDExtensionScriptInstanceInfo struct.</param>
+    /// <param name="p_instance_data">A pointer to a data representing the script instance in the GDExtension. This will be passed to all the function pointers on p_info.</param>
+    /// <returns>A pointer to a ScriptInstanceExtension object.</returns>
+    internal delegate* unmanaged[Cdecl]<void> GDExtensionInterfaceScriptInstanceCreate(GDExtensionScriptInstanceInfo* p_info, delegate* unmanaged[Cdecl]<void> p_instance_data) => 
+        script_instance_create(p_info, p_instance_data);
+
+    /// <summary>
+    /// Since: 4.1
+    /// </summary>
+    /// <param name="p_classname">A pointer to a StringName with the class name.</param>
+    /// <returns>A pointer to the newly created Object.</returns>
+    internal delegate* unmanaged[Cdecl]<void> GDExtensionInterfaceClassdbConstructObject(delegate* unmanaged[Cdecl]<void> p_classname) => 
+        classdb_construct_object(p_classname);
+
+    /// <summary>
+    /// Since: 4.1
+    /// </summary>
+    /// <param name="p_classname">A pointer to a StringName with the class name.</param>
+    /// <param name="p_methodname">A pointer to a StringName with the method name.</param>
+    /// <param name="p_hash">A hash representing the function signature.</param>
+    /// <returns>A pointer to the MethodBind from ClassDB.</returns>
+    internal delegate* unmanaged[Cdecl]<void> GDExtensionInterfaceClassdbGetMethodBind(delegate* unmanaged[Cdecl]<void> p_classname, delegate* unmanaged[Cdecl]<void> p_methodname, GDExtensionInt p_hash) => 
+        classdb_get_method_bind(p_classname, p_methodname, p_hash);
+
+    /// <summary>
+    /// Since: 4.1
+    /// </summary>
+    /// <param name="p_classname">A pointer to a StringName with the class name.</param>
+    /// <returns>A pointer uniquely identifying the built-in class in the ClassDB.</returns>
+    internal void* GDExtensionInterfaceClassdbGetClassTag(delegate* unmanaged[Cdecl]<void> p_classname) => 
+        classdb_get_class_tag(p_classname);
+
+    /// <summary>
+    /// Since: 4.1
+    /// </summary>
+    /// <param name="p_library">A pointer the library received by the GDExtension's entry point function.</param>
+    /// <param name="p_class_name">A pointer to a StringName with the class name.</param>
+    /// <param name="p_parent_class_name">A pointer to a StringName with the parent class name.</param>
+    /// <param name="p_extension_funcs">A pointer to a GDExtensionClassCreationInfo struct.</param>
+    internal void GDExtensionInterfaceClassdbRegisterExtensionClass(delegate* unmanaged[Cdecl]<void> p_library, delegate* unmanaged[Cdecl]<void> p_class_name, delegate* unmanaged[Cdecl]<void> p_parent_class_name, GDExtensionClassCreationInfo* p_extension_funcs) => 
+        classdb_register_extension_class(p_library, p_class_name, p_parent_class_name, p_extension_funcs);
+
+    /// <summary>
+    /// Since: 4.1
+    /// </summary>
+    /// <param name="p_library">A pointer the library received by the GDExtension's entry point function.</param>
+    /// <param name="p_class_name">A pointer to a StringName with the class name.</param>
+    /// <param name="p_method_info">A pointer to a GDExtensionClassMethodInfo struct.</param>
+    internal void GDExtensionInterfaceClassdbRegisterExtensionClassMethod(delegate* unmanaged[Cdecl]<void> p_library, delegate* unmanaged[Cdecl]<void> p_class_name, GDExtensionClassMethodInfo* p_method_info) => 
+        classdb_register_extension_class_method(p_library, p_class_name, p_method_info);
+
+    /// <summary>
+    /// Since: 4.1
+    /// </summary>
+    /// <param name="p_library">A pointer the library received by the GDExtension's entry point function.</param>
+    /// <param name="p_class_name">A pointer to a StringName with the class name.</param>
+    /// <param name="p_enum_name">A pointer to a StringName with the enum name.</param>
+    /// <param name="p_constant_name">A pointer to a StringName with the constant name.</param>
+    /// <param name="p_constant_value">The constant value.</param>
+    /// <param name="p_is_bitfield">Whether or not this is a bit field.</param>
+    internal void GDExtensionInterfaceClassdbRegisterExtensionClassIntegerConstant(delegate* unmanaged[Cdecl]<void> p_library, delegate* unmanaged[Cdecl]<void> p_class_name, delegate* unmanaged[Cdecl]<void> p_enum_name, delegate* unmanaged[Cdecl]<void> p_constant_name, GDExtensionInt p_constant_value, GDExtensionBool p_is_bitfield) => 
+        classdb_register_extension_class_integer_constant(p_library, p_class_name, p_enum_name, p_constant_name, p_constant_value, p_is_bitfield);
+
+    /// <summary>
+    /// Since: 4.1
+    /// </summary>
+    /// <param name="p_library">A pointer the library received by the GDExtension's entry point function.</param>
+    /// <param name="p_class_name">A pointer to a StringName with the class name.</param>
+    /// <param name="p_info">A pointer to a GDExtensionPropertyInfo struct.</param>
+    /// <param name="p_setter">A pointer to a StringName with the name of the setter method.</param>
+    /// <param name="p_getter">A pointer to a StringName with the name of the getter method.</param>
+    internal void GDExtensionInterfaceClassdbRegisterExtensionClassProperty(delegate* unmanaged[Cdecl]<void> p_library, delegate* unmanaged[Cdecl]<void> p_class_name, GDExtensionPropertyInfo* p_info, delegate* unmanaged[Cdecl]<void> p_setter, delegate* unmanaged[Cdecl]<void> p_getter) => 
+        classdb_register_extension_class_property(p_library, p_class_name, p_info, p_setter, p_getter);
+
+    /// <summary>
+    /// Since: 4.1
+    /// </summary>
+    /// <param name="p_library">A pointer the library received by the GDExtension's entry point function.</param>
+    /// <param name="p_class_name">A pointer to a StringName with the class name.</param>
+    /// <param name="p_group_name">A pointer to a String with the group name.</param>
+    /// <param name="p_prefix">A pointer to a String with the prefix used by properties in this group.</param>
+    internal void GDExtensionInterfaceClassdbRegisterExtensionClassPropertyGroup(delegate* unmanaged[Cdecl]<void> p_library, delegate* unmanaged[Cdecl]<void> p_class_name, delegate* unmanaged[Cdecl]<void> p_group_name, delegate* unmanaged[Cdecl]<void> p_prefix) => 
+        classdb_register_extension_class_property_group(p_library, p_class_name, p_group_name, p_prefix);
+
+    /// <summary>
+    /// Since: 4.1
+    /// </summary>
+    /// <param name="p_library">A pointer the library received by the GDExtension's entry point function.</param>
+    /// <param name="p_class_name">A pointer to a StringName with the class name.</param>
+    /// <param name="p_subgroup_name">A pointer to a String with the subgroup name.</param>
+    /// <param name="p_prefix">A pointer to a String with the prefix used by properties in this subgroup.</param>
+    internal void GDExtensionInterfaceClassdbRegisterExtensionClassPropertySubgroup(delegate* unmanaged[Cdecl]<void> p_library, delegate* unmanaged[Cdecl]<void> p_class_name, delegate* unmanaged[Cdecl]<void> p_subgroup_name, delegate* unmanaged[Cdecl]<void> p_prefix) => 
+        classdb_register_extension_class_property_subgroup(p_library, p_class_name, p_subgroup_name, p_prefix);
+
+    /// <summary>
+    /// Since: 4.1
+    /// </summary>
+    /// <param name="p_library">A pointer the library received by the GDExtension's entry point function.</param>
+    /// <param name="p_class_name">A pointer to a StringName with the class name.</param>
+    /// <param name="p_signal_name">A pointer to a StringName with the signal name.</param>
+    /// <param name="p_argument_info">A pointer to a GDExtensionPropertyInfo struct.</param>
+    /// <param name="p_argument_count">The number of arguments the signal receives.</param>
+    internal void GDExtensionInterfaceClassdbRegisterExtensionClassSignal(delegate* unmanaged[Cdecl]<void> p_library, delegate* unmanaged[Cdecl]<void> p_class_name, delegate* unmanaged[Cdecl]<void> p_signal_name, GDExtensionPropertyInfo* p_argument_info, GDExtensionInt p_argument_count) => 
+        classdb_register_extension_class_signal(p_library, p_class_name, p_signal_name, p_argument_info, p_argument_count);
+
+    /// <summary>
+    /// Since: 4.1
+    /// </summary>
+    /// <param name="p_library">A pointer the library received by the GDExtension's entry point function.</param>
+    /// <param name="p_class_name">A pointer to a StringName with the class name.</param>
+    internal void GDExtensionInterfaceClassdbUnregisterExtensionClass(delegate* unmanaged[Cdecl]<void> p_library, delegate* unmanaged[Cdecl]<void> p_class_name) => 
+        classdb_unregister_extension_class(p_library, p_class_name);
+
+    /// <summary>
+    /// Since: 4.1
+    /// </summary>
+    /// <param name="p_library">A pointer the library received by the GDExtension's entry point function.</param>
+    /// <param name="r_path">A pointer to a String which will receive the path.</param>
+    internal void GDExtensionInterfaceGetLibraryPath(delegate* unmanaged[Cdecl]<void> p_library, delegate* unmanaged[Cdecl]<void> r_path) => 
+        get_library_path(p_library, r_path);
+
+    /// <summary>
+    /// Since: 4.1
+    /// </summary>
+    /// <param name="p_class_name">A pointer to a StringName with the name of a class (descending from EditorPlugin) which is already registered with ClassDB.</param>
+    internal void GDExtensionInterfaceEditorAddPlugin(delegate* unmanaged[Cdecl]<void> p_class_name) => 
+        editor_add_plugin(p_class_name);
+
+    /// <summary>
+    /// Since: 4.1
+    /// </summary>
+    /// <param name="p_class_name">A pointer to a StringName with the name of a class that was previously added as an editor plugin.</param>
+    internal void GDExtensionInterfaceEditorRemovePlugin(delegate* unmanaged[Cdecl]<void> p_class_name) => 
+        editor_remove_plugin(p_class_name);
+
+#endregion
+
+#region Delegates
+
+    private readonly delegate* unmanaged[Cdecl]<GDExtensionGodotVersion*, void> get_godot_version;
+
+    private readonly delegate* unmanaged[Cdecl]<size_t, void*> mem_alloc;
+
+    private readonly delegate* unmanaged[Cdecl]<void*, size_t, void*> mem_realloc;
+
+    private readonly delegate* unmanaged[Cdecl]<void*, void> mem_free;
+
+    private readonly delegate* unmanaged[Cdecl]<byte*, byte*, byte*, int32_t, GDExtensionBool, void> print_error;
+
+    private readonly delegate* unmanaged[Cdecl]<byte*, byte*, byte*, byte*, int32_t, GDExtensionBool, void> print_error_with_message;
+
+    private readonly delegate* unmanaged[Cdecl]<byte*, byte*, byte*, int32_t, GDExtensionBool, void> print_warning;
+
+    private readonly delegate* unmanaged[Cdecl]<byte*, byte*, byte*, byte*, int32_t, GDExtensionBool, void> print_warning_with_message;
+
+    private readonly delegate* unmanaged[Cdecl]<byte*, byte*, byte*, int32_t, GDExtensionBool, void> print_script_error;
+
+    private readonly delegate* unmanaged[Cdecl]<byte*, byte*, byte*, byte*, int32_t, GDExtensionBool, void> print_script_error_with_message;
+
+    private readonly delegate* unmanaged[Cdecl]<delegate* unmanaged[Cdecl]<void>, uint64_t> get_native_struct_size;
+
+    private readonly delegate* unmanaged[Cdecl]<delegate* unmanaged[Cdecl]<void>, delegate* unmanaged[Cdecl]<void>, void> variant_new_copy;
+
+    private readonly delegate* unmanaged[Cdecl]<delegate* unmanaged[Cdecl]<void>, void> variant_new_nil;
+
+    private readonly delegate* unmanaged[Cdecl]<delegate* unmanaged[Cdecl]<void>, void> variant_destroy;
+
+    private readonly delegate* unmanaged[Cdecl]<delegate* unmanaged[Cdecl]<void>, delegate* unmanaged[Cdecl]<void>, delegate* unmanaged[Cdecl]<void>*, GDExtensionInt, delegate* unmanaged[Cdecl]<void>, GDExtensionCallError*, void> variant_call;
+
+    private readonly delegate* unmanaged[Cdecl]<GDExtensionVariantType, delegate* unmanaged[Cdecl]<void>, delegate* unmanaged[Cdecl]<void>*, GDExtensionInt, delegate* unmanaged[Cdecl]<void>, GDExtensionCallError*, void> variant_call_static;
+
+    private readonly delegate* unmanaged[Cdecl]<GDExtensionVariantOperator, delegate* unmanaged[Cdecl]<void>, delegate* unmanaged[Cdecl]<void>, delegate* unmanaged[Cdecl]<void>, GDExtensionBool*, void> variant_evaluate;
+
+    private readonly delegate* unmanaged[Cdecl]<delegate* unmanaged[Cdecl]<void>, delegate* unmanaged[Cdecl]<void>, delegate* unmanaged[Cdecl]<void>, GDExtensionBool*, void> variant_set;
+
+    private readonly delegate* unmanaged[Cdecl]<delegate* unmanaged[Cdecl]<void>, delegate* unmanaged[Cdecl]<void>, delegate* unmanaged[Cdecl]<void>, GDExtensionBool*, void> variant_set_named;
+
+    private readonly delegate* unmanaged[Cdecl]<delegate* unmanaged[Cdecl]<void>, delegate* unmanaged[Cdecl]<void>, delegate* unmanaged[Cdecl]<void>, GDExtensionBool*, void> variant_set_keyed;
+
+    private readonly delegate* unmanaged[Cdecl]<delegate* unmanaged[Cdecl]<void>, GDExtensionInt, delegate* unmanaged[Cdecl]<void>, GDExtensionBool*, GDExtensionBool*, void> variant_set_indexed;
+
+    private readonly delegate* unmanaged[Cdecl]<delegate* unmanaged[Cdecl]<void>, delegate* unmanaged[Cdecl]<void>, delegate* unmanaged[Cdecl]<void>, GDExtensionBool*, void> variant_get;
+
+    private readonly delegate* unmanaged[Cdecl]<delegate* unmanaged[Cdecl]<void>, delegate* unmanaged[Cdecl]<void>, delegate* unmanaged[Cdecl]<void>, GDExtensionBool*, void> variant_get_named;
+
+    private readonly delegate* unmanaged[Cdecl]<delegate* unmanaged[Cdecl]<void>, delegate* unmanaged[Cdecl]<void>, delegate* unmanaged[Cdecl]<void>, GDExtensionBool*, void> variant_get_keyed;
+
+    private readonly delegate* unmanaged[Cdecl]<delegate* unmanaged[Cdecl]<void>, GDExtensionInt, delegate* unmanaged[Cdecl]<void>, GDExtensionBool*, GDExtensionBool*, void> variant_get_indexed;
+
+    private readonly delegate* unmanaged[Cdecl]<delegate* unmanaged[Cdecl]<void>, delegate* unmanaged[Cdecl]<void>, GDExtensionBool*, GDExtensionBool> variant_iter_init;
+
+    private readonly delegate* unmanaged[Cdecl]<delegate* unmanaged[Cdecl]<void>, delegate* unmanaged[Cdecl]<void>, GDExtensionBool*, GDExtensionBool> variant_iter_next;
+
+    private readonly delegate* unmanaged[Cdecl]<delegate* unmanaged[Cdecl]<void>, delegate* unmanaged[Cdecl]<void>, delegate* unmanaged[Cdecl]<void>, GDExtensionBool*, void> variant_iter_get;
+
+    private readonly delegate* unmanaged[Cdecl]<delegate* unmanaged[Cdecl]<void>, GDExtensionInt> variant_hash;
+
+    private readonly delegate* unmanaged[Cdecl]<delegate* unmanaged[Cdecl]<void>, GDExtensionInt, GDExtensionInt> variant_recursive_hash;
+
+    private readonly delegate* unmanaged[Cdecl]<delegate* unmanaged[Cdecl]<void>, delegate* unmanaged[Cdecl]<void>, GDExtensionBool> variant_hash_compare;
+
+    private readonly delegate* unmanaged[Cdecl]<delegate* unmanaged[Cdecl]<void>, GDExtensionBool> variant_booleanize;
+
+    private readonly delegate* unmanaged[Cdecl]<delegate* unmanaged[Cdecl]<void>, delegate* unmanaged[Cdecl]<void>, GDExtensionBool, void> variant_duplicate;
+
+    private readonly delegate* unmanaged[Cdecl]<delegate* unmanaged[Cdecl]<void>, delegate* unmanaged[Cdecl]<void>, void> variant_stringify;
+
+    private readonly delegate* unmanaged[Cdecl]<delegate* unmanaged[Cdecl]<void>, GDExtensionVariantType> variant_get_type;
+
+    private readonly delegate* unmanaged[Cdecl]<delegate* unmanaged[Cdecl]<void>, delegate* unmanaged[Cdecl]<void>, GDExtensionBool> variant_has_method;
+
+    private readonly delegate* unmanaged[Cdecl]<GDExtensionVariantType, delegate* unmanaged[Cdecl]<void>, GDExtensionBool> variant_has_member;
+
+    private readonly delegate* unmanaged[Cdecl]<delegate* unmanaged[Cdecl]<void>, delegate* unmanaged[Cdecl]<void>, GDExtensionBool*, GDExtensionBool> variant_has_key;
+
+    private readonly delegate* unmanaged[Cdecl]<GDExtensionVariantType, delegate* unmanaged[Cdecl]<void>, void> variant_get_type_name;
+
+    private readonly delegate* unmanaged[Cdecl]<GDExtensionVariantType, GDExtensionVariantType, GDExtensionBool> variant_can_convert;
+
+    private readonly delegate* unmanaged[Cdecl]<GDExtensionVariantType, GDExtensionVariantType, GDExtensionBool> variant_can_convert_strict;
+
+    private readonly delegate* unmanaged[Cdecl]<GDExtensionVariantType, delegate* unmanaged[Cdecl]<delegate* unmanaged[Cdecl]<void>, delegate* unmanaged[Cdecl]<void>, void>> get_variant_from_type_constructor;
+
+    private readonly delegate* unmanaged[Cdecl]<GDExtensionVariantType, delegate* unmanaged[Cdecl]<delegate* unmanaged[Cdecl]<void>, delegate* unmanaged[Cdecl]<void>, void>> get_variant_to_type_constructor;
+
+    private readonly delegate* unmanaged[Cdecl]<GDExtensionVariantOperator, GDExtensionVariantType, GDExtensionVariantType, delegate* unmanaged[Cdecl]<delegate* unmanaged[Cdecl]<void>, delegate* unmanaged[Cdecl]<void>, delegate* unmanaged[Cdecl]<void>, void>> variant_get_ptr_operator_evaluator;
+
+    private readonly delegate* unmanaged[Cdecl]<GDExtensionVariantType, delegate* unmanaged[Cdecl]<void>, GDExtensionInt, delegate* unmanaged[Cdecl]<delegate* unmanaged[Cdecl]<void>, delegate* unmanaged[Cdecl]<void>*, delegate* unmanaged[Cdecl]<void>, int, void>> variant_get_ptr_builtin_method;
+
+    private readonly delegate* unmanaged[Cdecl]<GDExtensionVariantType, int32_t, delegate* unmanaged[Cdecl]<delegate* unmanaged[Cdecl]<void>, delegate* unmanaged[Cdecl]<void>*, void>> variant_get_ptr_constructor;
+
+    private readonly delegate* unmanaged[Cdecl]<GDExtensionVariantType, delegate* unmanaged[Cdecl]<delegate* unmanaged[Cdecl]<void>, void>> variant_get_ptr_destructor;
+
+    private readonly delegate* unmanaged[Cdecl]<GDExtensionVariantType, delegate* unmanaged[Cdecl]<void>, delegate* unmanaged[Cdecl]<void>*, int32_t, GDExtensionCallError*, void> variant_construct;
+
+    private readonly delegate* unmanaged[Cdecl]<GDExtensionVariantType, delegate* unmanaged[Cdecl]<void>, delegate* unmanaged[Cdecl]<delegate* unmanaged[Cdecl]<void>, delegate* unmanaged[Cdecl]<void>, void>> variant_get_ptr_setter;
+
+    private readonly delegate* unmanaged[Cdecl]<GDExtensionVariantType, delegate* unmanaged[Cdecl]<void>, delegate* unmanaged[Cdecl]<delegate* unmanaged[Cdecl]<void>, delegate* unmanaged[Cdecl]<void>, void>> variant_get_ptr_getter;
+
+    private readonly delegate* unmanaged[Cdecl]<GDExtensionVariantType, delegate* unmanaged[Cdecl]<delegate* unmanaged[Cdecl]<void>, GDExtensionInt, delegate* unmanaged[Cdecl]<void>, void>> variant_get_ptr_indexed_setter;
+
+    private readonly delegate* unmanaged[Cdecl]<GDExtensionVariantType, delegate* unmanaged[Cdecl]<delegate* unmanaged[Cdecl]<void>, GDExtensionInt, delegate* unmanaged[Cdecl]<void>, void>> variant_get_ptr_indexed_getter;
+
+    private readonly delegate* unmanaged[Cdecl]<GDExtensionVariantType, delegate* unmanaged[Cdecl]<delegate* unmanaged[Cdecl]<void>, delegate* unmanaged[Cdecl]<void>, delegate* unmanaged[Cdecl]<void>, void>> variant_get_ptr_keyed_setter;
+
+    private readonly delegate* unmanaged[Cdecl]<GDExtensionVariantType, delegate* unmanaged[Cdecl]<delegate* unmanaged[Cdecl]<void>, delegate* unmanaged[Cdecl]<void>, delegate* unmanaged[Cdecl]<void>, void>> variant_get_ptr_keyed_getter;
+
+    private readonly delegate* unmanaged[Cdecl]<GDExtensionVariantType, delegate* unmanaged[Cdecl]<delegate* unmanaged[Cdecl]<void>, delegate* unmanaged[Cdecl]<void>, uint32_t>> variant_get_ptr_keyed_checker;
+
+    private readonly delegate* unmanaged[Cdecl]<GDExtensionVariantType, delegate* unmanaged[Cdecl]<void>, delegate* unmanaged[Cdecl]<void>, void> variant_get_constant_value;
+
+    private readonly delegate* unmanaged[Cdecl]<delegate* unmanaged[Cdecl]<void>, GDExtensionInt, delegate* unmanaged[Cdecl]<delegate* unmanaged[Cdecl]<void>, delegate* unmanaged[Cdecl]<void>*, int, void>> variant_get_ptr_utility_function;
+
+    private readonly delegate* unmanaged[Cdecl]<delegate* unmanaged[Cdecl]<void>, byte*, void> string_new_with_latin1_chars;
+
+    private readonly delegate* unmanaged[Cdecl]<delegate* unmanaged[Cdecl]<void>, byte*, void> string_new_with_utf8_chars;
+
+    private readonly delegate* unmanaged[Cdecl]<delegate* unmanaged[Cdecl]<void>, char16_t*, void> string_new_with_utf16_chars;
+
+    private readonly delegate* unmanaged[Cdecl]<delegate* unmanaged[Cdecl]<void>, char32_t*, void> string_new_with_utf32_chars;
+
+    private readonly delegate* unmanaged[Cdecl]<delegate* unmanaged[Cdecl]<void>, wchar_t*, void> string_new_with_wide_chars;
+
+    private readonly delegate* unmanaged[Cdecl]<delegate* unmanaged[Cdecl]<void>, byte*, GDExtensionInt, void> string_new_with_latin1_chars_and_len;
+
+    private readonly delegate* unmanaged[Cdecl]<delegate* unmanaged[Cdecl]<void>, byte*, GDExtensionInt, void> string_new_with_utf8_chars_and_len;
+
+    private readonly delegate* unmanaged[Cdecl]<delegate* unmanaged[Cdecl]<void>, char16_t*, GDExtensionInt, void> string_new_with_utf16_chars_and_len;
+
+    private readonly delegate* unmanaged[Cdecl]<delegate* unmanaged[Cdecl]<void>, char32_t*, GDExtensionInt, void> string_new_with_utf32_chars_and_len;
+
+    private readonly delegate* unmanaged[Cdecl]<delegate* unmanaged[Cdecl]<void>, wchar_t*, GDExtensionInt, void> string_new_with_wide_chars_and_len;
+
+    private readonly delegate* unmanaged[Cdecl]<delegate* unmanaged[Cdecl]<void>, byte*, GDExtensionInt, GDExtensionInt> string_to_latin1_chars;
+
+    private readonly delegate* unmanaged[Cdecl]<delegate* unmanaged[Cdecl]<void>, byte*, GDExtensionInt, GDExtensionInt> string_to_utf8_chars;
+
+    private readonly delegate* unmanaged[Cdecl]<delegate* unmanaged[Cdecl]<void>, char16_t*, GDExtensionInt, GDExtensionInt> string_to_utf16_chars;
+
+    private readonly delegate* unmanaged[Cdecl]<delegate* unmanaged[Cdecl]<void>, char32_t*, GDExtensionInt, GDExtensionInt> string_to_utf32_chars;
+
+    private readonly delegate* unmanaged[Cdecl]<delegate* unmanaged[Cdecl]<void>, wchar_t*, GDExtensionInt, GDExtensionInt> string_to_wide_chars;
+
+    private readonly delegate* unmanaged[Cdecl]<delegate* unmanaged[Cdecl]<void>, GDExtensionInt, char32_t*> string_operator_index;
+
+    private readonly delegate* unmanaged[Cdecl]<delegate* unmanaged[Cdecl]<void>, GDExtensionInt, char32_t*> string_operator_index_const;
+
+    private readonly delegate* unmanaged[Cdecl]<delegate* unmanaged[Cdecl]<void>, delegate* unmanaged[Cdecl]<void>, void> string_operator_plus_eq_string;
+
+    private readonly delegate* unmanaged[Cdecl]<delegate* unmanaged[Cdecl]<void>, char32_t, void> string_operator_plus_eq_char;
+
+    private readonly delegate* unmanaged[Cdecl]<delegate* unmanaged[Cdecl]<void>, byte*, void> string_operator_plus_eq_cstr;
+
+    private readonly delegate* unmanaged[Cdecl]<delegate* unmanaged[Cdecl]<void>, wchar_t*, void> string_operator_plus_eq_wcstr;
+
+    private readonly delegate* unmanaged[Cdecl]<delegate* unmanaged[Cdecl]<void>, char32_t*, void> string_operator_plus_eq_c32str;
+
+    private readonly delegate* unmanaged[Cdecl]<delegate* unmanaged[Cdecl]<void>, uint8_t*, size_t, GDExtensionInt> xml_parser_open_buffer;
+
+    private readonly delegate* unmanaged[Cdecl]<delegate* unmanaged[Cdecl]<void>, uint8_t*, uint64_t, void> file_access_store_buffer;
+
+    private readonly delegate* unmanaged[Cdecl]<delegate* unmanaged[Cdecl]<void>, uint8_t*, uint64_t, uint64_t> file_access_get_buffer;
+
+    private readonly delegate* unmanaged[Cdecl]<delegate* unmanaged[Cdecl]<void>, GDExtensionInt, uint8_t*> worker_thread_pool_add_native_group_task;
+
+    private readonly delegate* unmanaged[Cdecl]<delegate* unmanaged[Cdecl]<void>, GDExtensionInt, uint8_t*> packed_byte_array_operator_index_const;
+
+    private readonly delegate* unmanaged[Cdecl]<delegate* unmanaged[Cdecl]<void>, GDExtensionInt, delegate* unmanaged[Cdecl]<void>> packed_color_array_operator_index;
+
+    private readonly delegate* unmanaged[Cdecl]<delegate* unmanaged[Cdecl]<void>, GDExtensionInt, delegate* unmanaged[Cdecl]<void>> packed_color_array_operator_index_const;
+
+    private readonly delegate* unmanaged[Cdecl]<delegate* unmanaged[Cdecl]<void>, GDExtensionInt, float*> packed_float32_array_operator_index;
+
+    private readonly delegate* unmanaged[Cdecl]<delegate* unmanaged[Cdecl]<void>, GDExtensionInt, float*> packed_float32_array_operator_index_const;
+
+    private readonly delegate* unmanaged[Cdecl]<delegate* unmanaged[Cdecl]<void>, GDExtensionInt, double*> packed_float64_array_operator_index;
+
+    private readonly delegate* unmanaged[Cdecl]<delegate* unmanaged[Cdecl]<void>, GDExtensionInt, double*> packed_float64_array_operator_index_const;
+
+    private readonly delegate* unmanaged[Cdecl]<delegate* unmanaged[Cdecl]<void>, GDExtensionInt, int32_t*> packed_int32_array_operator_index;
+
+    private readonly delegate* unmanaged[Cdecl]<delegate* unmanaged[Cdecl]<void>, GDExtensionInt, int32_t*> packed_int32_array_operator_index_const;
+
+    private readonly delegate* unmanaged[Cdecl]<delegate* unmanaged[Cdecl]<void>, GDExtensionInt, int64_t*> packed_int64_array_operator_index;
+
+    private readonly delegate* unmanaged[Cdecl]<delegate* unmanaged[Cdecl]<void>, GDExtensionInt, int64_t*> packed_int64_array_operator_index_const;
+
+    private readonly delegate* unmanaged[Cdecl]<delegate* unmanaged[Cdecl]<void>, GDExtensionInt, delegate* unmanaged[Cdecl]<void>> packed_string_array_operator_index;
+
+    private readonly delegate* unmanaged[Cdecl]<delegate* unmanaged[Cdecl]<void>, GDExtensionInt, delegate* unmanaged[Cdecl]<void>> packed_string_array_operator_index_const;
+
+    private readonly delegate* unmanaged[Cdecl]<delegate* unmanaged[Cdecl]<void>, GDExtensionInt, delegate* unmanaged[Cdecl]<void>> packed_vector2_array_operator_index;
+
+    private readonly delegate* unmanaged[Cdecl]<delegate* unmanaged[Cdecl]<void>, GDExtensionInt, delegate* unmanaged[Cdecl]<void>> packed_vector2_array_operator_index_const;
+
+    private readonly delegate* unmanaged[Cdecl]<delegate* unmanaged[Cdecl]<void>, GDExtensionInt, delegate* unmanaged[Cdecl]<void>> packed_vector3_array_operator_index;
+
+    private readonly delegate* unmanaged[Cdecl]<delegate* unmanaged[Cdecl]<void>, GDExtensionInt, delegate* unmanaged[Cdecl]<void>> packed_vector3_array_operator_index_const;
+
+    private readonly delegate* unmanaged[Cdecl]<delegate* unmanaged[Cdecl]<void>, GDExtensionInt, delegate* unmanaged[Cdecl]<void>> array_operator_index;
+
+    private readonly delegate* unmanaged[Cdecl]<delegate* unmanaged[Cdecl]<void>, GDExtensionInt, delegate* unmanaged[Cdecl]<void>> array_operator_index_const;
+
+    private readonly delegate* unmanaged[Cdecl]<delegate* unmanaged[Cdecl]<void>, delegate* unmanaged[Cdecl]<void>, void> array_ref;
+
+    private readonly delegate* unmanaged[Cdecl]<delegate* unmanaged[Cdecl]<void>, GDExtensionVariantType, delegate* unmanaged[Cdecl]<void>, delegate* unmanaged[Cdecl]<void>, void> array_set_typed;
+
+    private readonly delegate* unmanaged[Cdecl]<delegate* unmanaged[Cdecl]<void>, delegate* unmanaged[Cdecl]<void>, delegate* unmanaged[Cdecl]<void>> dictionary_operator_index;
+
+    private readonly delegate* unmanaged[Cdecl]<delegate* unmanaged[Cdecl]<void>, delegate* unmanaged[Cdecl]<void>, delegate* unmanaged[Cdecl]<void>> dictionary_operator_index_const;
+
+    private readonly delegate* unmanaged[Cdecl]<delegate* unmanaged[Cdecl]<void>, delegate* unmanaged[Cdecl]<void>, delegate* unmanaged[Cdecl]<void>*, GDExtensionInt, delegate* unmanaged[Cdecl]<void>, GDExtensionCallError*, void> object_method_bind_call;
+
+    private readonly delegate* unmanaged[Cdecl]<delegate* unmanaged[Cdecl]<void>, delegate* unmanaged[Cdecl]<void>, delegate* unmanaged[Cdecl]<void>*, delegate* unmanaged[Cdecl]<void>, void> object_method_bind_ptrcall;
+
+    private readonly delegate* unmanaged[Cdecl]<delegate* unmanaged[Cdecl]<void>, void> object_destroy;
+
+    private readonly delegate* unmanaged[Cdecl]<delegate* unmanaged[Cdecl]<void>, delegate* unmanaged[Cdecl]<void>> global_get_singleton;
+
+    private readonly delegate* unmanaged[Cdecl]<delegate* unmanaged[Cdecl]<void>, void*, GDExtensionInstanceBindingCallbacks*, void*> object_get_instance_binding;
+
+    private readonly delegate* unmanaged[Cdecl]<delegate* unmanaged[Cdecl]<void>, void*, void*, GDExtensionInstanceBindingCallbacks*, void> object_set_instance_binding;
+
+    private readonly delegate* unmanaged[Cdecl]<delegate* unmanaged[Cdecl]<void>, delegate* unmanaged[Cdecl]<void>, delegate* unmanaged[Cdecl]<void>, void> object_set_instance;
+
+    private readonly delegate* unmanaged[Cdecl]<delegate* unmanaged[Cdecl]<void>, delegate* unmanaged[Cdecl]<void>, delegate* unmanaged[Cdecl]<void>, GDExtensionBool> object_get_class_name;
+
+    private readonly delegate* unmanaged[Cdecl]<delegate* unmanaged[Cdecl]<void>, void*, delegate* unmanaged[Cdecl]<void>> object_cast_to;
+
+    private readonly delegate* unmanaged[Cdecl]<GDObjectInstanceID, delegate* unmanaged[Cdecl]<void>> object_get_instance_from_id;
+
+    private readonly delegate* unmanaged[Cdecl]<delegate* unmanaged[Cdecl]<void>, GDObjectInstanceID> object_get_instance_id;
+
+    private readonly delegate* unmanaged[Cdecl]<delegate* unmanaged[Cdecl]<void>, delegate* unmanaged[Cdecl]<void>> ref_get_object;
+
+    private readonly delegate* unmanaged[Cdecl]<delegate* unmanaged[Cdecl]<void>, delegate* unmanaged[Cdecl]<void>, void> ref_set_object;
+
+    private readonly delegate* unmanaged[Cdecl]<GDExtensionScriptInstanceInfo*, delegate* unmanaged[Cdecl]<void>, delegate* unmanaged[Cdecl]<void>> script_instance_create;
+
+    private readonly delegate* unmanaged[Cdecl]<delegate* unmanaged[Cdecl]<void>, delegate* unmanaged[Cdecl]<void>> classdb_construct_object;
+
+    private readonly delegate* unmanaged[Cdecl]<delegate* unmanaged[Cdecl]<void>, delegate* unmanaged[Cdecl]<void>, GDExtensionInt, delegate* unmanaged[Cdecl]<void>> classdb_get_method_bind;
+
+    private readonly delegate* unmanaged[Cdecl]<delegate* unmanaged[Cdecl]<void>, void*> classdb_get_class_tag;
+
+    private readonly delegate* unmanaged[Cdecl]<delegate* unmanaged[Cdecl]<void>, delegate* unmanaged[Cdecl]<void>, delegate* unmanaged[Cdecl]<void>, GDExtensionClassCreationInfo*, void> classdb_register_extension_class;
+
+    private readonly delegate* unmanaged[Cdecl]<delegate* unmanaged[Cdecl]<void>, delegate* unmanaged[Cdecl]<void>, GDExtensionClassMethodInfo*, void> classdb_register_extension_class_method;
+
+    private readonly delegate* unmanaged[Cdecl]<delegate* unmanaged[Cdecl]<void>, delegate* unmanaged[Cdecl]<void>, delegate* unmanaged[Cdecl]<void>, delegate* unmanaged[Cdecl]<void>, GDExtensionInt, GDExtensionBool, void> classdb_register_extension_class_integer_constant;
+
+    private readonly delegate* unmanaged[Cdecl]<delegate* unmanaged[Cdecl]<void>, delegate* unmanaged[Cdecl]<void>, GDExtensionPropertyInfo*, delegate* unmanaged[Cdecl]<void>, delegate* unmanaged[Cdecl]<void>, void> classdb_register_extension_class_property;
+
+    private readonly delegate* unmanaged[Cdecl]<delegate* unmanaged[Cdecl]<void>, delegate* unmanaged[Cdecl]<void>, delegate* unmanaged[Cdecl]<void>, delegate* unmanaged[Cdecl]<void>, void> classdb_register_extension_class_property_group;
+
+    private readonly delegate* unmanaged[Cdecl]<delegate* unmanaged[Cdecl]<void>, delegate* unmanaged[Cdecl]<void>, delegate* unmanaged[Cdecl]<void>, delegate* unmanaged[Cdecl]<void>, void> classdb_register_extension_class_property_subgroup;
+
+    private readonly delegate* unmanaged[Cdecl]<delegate* unmanaged[Cdecl]<void>, delegate* unmanaged[Cdecl]<void>, delegate* unmanaged[Cdecl]<void>, GDExtensionPropertyInfo*, GDExtensionInt, void> classdb_register_extension_class_signal;
+
+    private readonly delegate* unmanaged[Cdecl]<delegate* unmanaged[Cdecl]<void>, delegate* unmanaged[Cdecl]<void>, void> classdb_unregister_extension_class;
+
+    private readonly delegate* unmanaged[Cdecl]<delegate* unmanaged[Cdecl]<void>, delegate* unmanaged[Cdecl]<void>, void> get_library_path;
+
+    private readonly delegate* unmanaged[Cdecl]<delegate* unmanaged[Cdecl]<void>, void> editor_add_plugin;
+
+    private readonly delegate* unmanaged[Cdecl]<delegate* unmanaged[Cdecl]<void>, void> editor_remove_plugin;
+
+#endregion
 }
 
 [StructLayout(LayoutKind.Sequential)]
@@ -821,14 +2074,9 @@ internal unsafe struct GDExtensionInitialization
 
     /// <summary>
     /// This function will be called multiple times for each initialization level.<br/>
-    /// <br/>
-    /// delegate void* initialize(void* userdata, GDExtensionInitializationLevel p_level)
     /// </summary>
     internal delegate* unmanaged[Cdecl]<void*, GDExtensionInitializationLevel, void*> initialize;
 
-    /// <summary>
-    /// delegate void* deinitialize(void* userdata, GDExtensionInitializationLevel p_level)
-    /// </summary>
     internal delegate* unmanaged[Cdecl]<void*, GDExtensionInitializationLevel, void*> deinitialize;
 
 }

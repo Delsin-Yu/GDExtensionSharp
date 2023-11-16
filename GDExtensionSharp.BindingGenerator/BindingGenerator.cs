@@ -15,13 +15,14 @@ public static partial class BindingGenerator
 
         foreach (Match match in GetEnumGlobalRegex().Matches(source)) ProcessEnum(match, builder);
 
-        var delegateBodyDictionary = new Dictionary<string, string>();
-        var tempStringBuilder = new StringBuilder();
         {
-            var delegateDefinitions = new List<(string delegateName, string delegateBody, string delegateComment, string delegatePseudoCode)>();
+            var delegateBodyDictionary = new Dictionary<string, string>();
+            var tempStringBuilder = new StringBuilder();
+            var tempStringBuilder2 = new StringBuilder();
+            var delegateDefinitions = new List<(string delegateName, string delegateBody, string delegateComment, string delegateMethod, string delegateCallBody)>();
 
             var delegateBodyBuilder = new StringBuilder();
-            var delegatePseudoCodeStringBuilder = new StringBuilder();
+            var delegateMethodStringBuilder = new StringBuilder();
             var delegateCommentStringBuilder = new StringBuilder();
 
             foreach (Match match in GetDelegateGlobalRegex().Matches(source))
@@ -29,23 +30,27 @@ public static partial class BindingGenerator
                 PreProcessDelegate(
                     match,
                     delegateBodyBuilder,
-                    delegatePseudoCodeStringBuilder,
+                    delegateMethodStringBuilder,
                     delegateCommentStringBuilder,
+                    tempStringBuilder,
                     out var delegateName
                 );
 
                 var delegateBody = delegateBodyBuilder.ToString();
-                var delegatePseudoCode = delegatePseudoCodeStringBuilder.ToString();
+                var delegateMethod = delegateMethodStringBuilder.ToString();
                 var delegateComment = delegateCommentStringBuilder.ToString().TrimStart().TrimStart('\n').TrimEnd().TrimEnd('\n');
-
-                delegateDefinitions.Add((delegateName, delegateBody, delegateComment, delegatePseudoCode));
+                var delegateCallBody = tempStringBuilder.ToString(); 
+                
+                delegateDefinitions.Add((delegateName, delegateBody, delegateComment, delegateMethod, delegateCallBody));
                 delegateBodyDictionary.Add(delegateName, delegateBody);
 
                 delegateBodyBuilder.Clear();
-                delegatePseudoCodeStringBuilder.Clear();
+                delegateMethodStringBuilder.Clear();
                 delegateCommentStringBuilder.Clear();
 
                 delegateBodyBuilder.Clear();
+
+                tempStringBuilder.Clear();
             }
 
             for (var i = 0; i < 20; i++)
@@ -63,53 +68,26 @@ public static partial class BindingGenerator
                 }
             }
 
-            var godotInterfaceDelegates = new List<(string delegateName, string delegateGodotName, string generatedDocumentationComment, string delegateBody, string delegatePseudoCode)>();
+            var godotInterfaceDelegates = new List<(string delegateName, string delegateGodotName, string generatedDocumentationComment, string delegateBody, string delegateCallBody, string delegatePseudoCode)>();
 
-            foreach (var (delegateName, delegateBody, delegateComment, delegatePseudoCode) in delegateDefinitions)
+            foreach (var (delegateName, delegateBody, delegateComment, delegatePseudoCode, delegateCallBody) in delegateDefinitions)
             {
-                var godotMethodName = GetDelegateNameDocumentationCommentRegex().Match(delegateComment).Groups["MethodName"].Value;
-                if (string.IsNullOrWhiteSpace(godotMethodName)) continue;
+                if (ProcessGodotInterfaceDelegate(
+                        delegateComment,
+                        tempStringBuilder,
+                        out var godotMethodName
+                    )) continue;
 
-                var sinceDocumentationComment = GetDelegateSinceDocumentationCommentRegex().Match(delegateComment).Groups["SinceComment"].Value;
-                var paramDocumentationComment = GetDelegateParamDocumentationCommentRegex().Matches(delegateComment);
-                var returnDocumentationComment = GetDelegateReturnDocumentationCommentRegex().Match(delegateComment).Groups["ReturnComment"].Value;
-                var seeDocumentationComment = GetDelegateSeeDocumentationCommentRegex().Match(delegateComment).Groups["SeeComment"].Value;
-                var methodCommentDocumentationComment = GetDelegateMethodCommentDocumentationCommentRegex().Match(delegateComment).Groups["MethodComment"].Value;
-
-                tempStringBuilder
-                   .AppendLine("/// <summary>");
-
-                if (!string.IsNullOrWhiteSpace(methodCommentDocumentationComment))
-                    tempStringBuilder
-                       .Append("/// ")
-                       .AppendLine(methodCommentDocumentationComment);
-
-                if (!string.IsNullOrWhiteSpace(sinceDocumentationComment))
-                    tempStringBuilder
-                       .Append("/// Since: ")
-                       .AppendLine(sinceDocumentationComment);
-
-                if (!string.IsNullOrWhiteSpace(seeDocumentationComment))
-                    tempStringBuilder
-                       .Append("/// See: ")
-                       .AppendLine(seeDocumentationComment);
-
-                foreach (Match paramMatch in paramDocumentationComment)
-                {
-                    var paramName = paramMatch.Groups["ParamName"].Value;
-                    var paramComment = paramMatch.Groups["ParamComment"].Value;
-
-                    tempStringBuilder
-                       .Append("/// <param name=\"")
-                       .Append(paramName)
-                       .Append('>')
-                       .Append(paramComment)
-                       .AppendLine("</param>");
-                }
-
-                if (!string.IsNullOrWhiteSpace(returnDocumentationComment)) tempStringBuilder.AppendFormat(DocumentationCommentReturn, returnDocumentationComment);
-
-                godotInterfaceDelegates.Add((delegateName, godotMethodName, tempStringBuilder.ToString(), delegateBody, delegatePseudoCode));
+                godotInterfaceDelegates.Add(
+                    (
+                        delegateName,
+                        godotMethodName,
+                        tempStringBuilder.ToString(),
+                        delegateBody,
+                        delegateCallBody,
+                        delegatePseudoCode
+                    )
+                );
 
                 tempStringBuilder.Clear();
             }
@@ -141,7 +119,7 @@ public static partial class BindingGenerator
                .AppendIndentation()
                .AppendLine("// ReSharper disable StringLiteralTypo");
 
-            foreach (var (delegateName, delegateGodotName, generatedDocumentationComment, delegateBody, delegatePseudoCode) in godotInterfaceDelegates)
+            foreach (var (delegateName, delegateGodotName, generatedDocumentationComment, delegateBody, delegateCallBody, delegateMethod) in godotInterfaceDelegates)
             {
                 ProcessDelegateInitialization(
                     builder,
@@ -149,7 +127,6 @@ public static partial class BindingGenerator
                     UtilityFunctionName,
                     GetDelegateCallbackName,
                     delegateGodotName,
-                    delegateName,
                     delegateBody,
                     delegateBodyDictionary
                 );
@@ -167,17 +144,46 @@ public static partial class BindingGenerator
                .AppendLine("}")
                .AppendLine();
 
-            foreach (var (delegateName, delegateGodotName, generatedDocumentationComment, delegateBody, delegatePseudoCode) in godotInterfaceDelegates)
+            builder
+               .AppendLine("#region Delegate Methods")
+               .AppendLine();
+
+            foreach (var (delegateName, delegateGodotName, generatedDocumentationComment, delegateBody, delegateCallBody, delegateMethod) in godotInterfaceDelegates)
+            {
+                ProcessDelegateMethodDeclaration(
+                    builder,
+                    tempStringBuilder,
+                    delegateGodotName,
+                    delegateName,
+                    delegateMethod,
+                    delegateCallBody,
+                    generatedDocumentationComment,
+                    delegateBodyDictionary
+                );
+                tempStringBuilder.Clear();
+            }
+
+            builder
+               .AppendLine("#endregion")
+               .AppendLine();
+
+            builder
+               .AppendLine("#region Delegates")
+               .AppendLine();
+
+            foreach (var (delegateName, delegateGodotName, generatedDocumentationComment, delegateBody, delegateCallBody, delegateMethod) in godotInterfaceDelegates)
             {
                 ProcessDelegateDeclaration(
                     builder,
                     tempStringBuilder,
-                    delegateName,
+                    delegateGodotName,
                     delegateBody,
                     delegateBodyDictionary
                 );
                 tempStringBuilder.Clear();
             }
+
+            builder.AppendLine("#endregion");
 
             _indentationLevel--;
 
@@ -185,11 +191,6 @@ public static partial class BindingGenerator
                .AppendIndentation()
                .AppendLine("}")
                .AppendLine();
-        }
-
-
-        {
-            var tempStringBuilder2 = new StringBuilder();
 
             foreach (Match match in GetStructGlobalRegex().Matches(source))
             {

@@ -92,7 +92,9 @@ public static partial class BindingGenerator
     private static readonly char[] _trimChars =
     {
         ' ',
-        '*'
+        '*',
+        '\n',
+        '\r'
     };
 
     [GeneratedRegex(@"typedef enum {\n?(?<EnumBody>.+?)\n?} (?<EnumName>.+?);", RegexOptions.Singleline)]

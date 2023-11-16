@@ -73,9 +73,9 @@ public static partial class BindingGenerator
             var delegateName = bodyMatch.Groups["DelegateName"].Value;
             var delegateBody = bodyMatch.Groups["DelegateBody"].Value;
 
-            BuildDelegate(tempStringBuilder, tempStringBuilder2, delegateName, returnType, pointerInfo, delegateBody);
+            BuildDelegate(tempStringBuilder, tempStringBuilder2, null, returnType, pointerInfo, delegateBody);
 
-            PrintHeaderContent(delegateHeaderComment, tempStringBuilder2.ToString());
+            PrintHeaderContent(delegateHeaderComment);
 
             stringBuilder
                .AppendIndentation()
@@ -88,7 +88,6 @@ public static partial class BindingGenerator
                .AppendLine();
 
             tempStringBuilder.Clear();
-            tempStringBuilder2.Clear();
         }
 
         _indentationLevel--;
