@@ -9,5 +9,11 @@
         <RootNamespace>GDExtensionSharp</RootNamespace>
     </PropertyGroup>
 
+    <ItemGroup>
+        <Content Include=".\gdextension_csharp.gdextension">
+            <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+        </Content>
+    </ItemGroup>
+
 
 </Project>
