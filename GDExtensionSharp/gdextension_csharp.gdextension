@@ -1,4 +1,4 @@
-﻿[configuration]
+[configuration]
 
 entry_symbol = "gdextension_csharp_init"
 compatibility_minimum = "4.1"

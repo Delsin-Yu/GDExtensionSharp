@@ -34,7 +34,7 @@ public static partial class BindingGenerator
     {
         delegatePseudoCodeStringBuilder
            .Append("delegate ")
-           .Append(returnType)
+           .Append(returnType.EscapeType())
            .Append(delegatePointerInfo)
            .Append(' ')
            .Append(delegateName.EscapeContextualKeyWord())
@@ -51,12 +51,12 @@ public static partial class BindingGenerator
             var parameterName = bodyMatch.Groups["ParameterName"].Value;
 
             delegateBodyBuilder
-               .Append(parameterType)
+               .Append(parameterType.EscapeType())
                .Append(parameterPointerInfo)
                .Append(", ");
 
             delegatePseudoCodeStringBuilder
-               .Append(parameterType)
+               .Append(parameterType.EscapeType())
                .Append(parameterPointerInfo)
                .Append(' ')
                .Append(string.IsNullOrWhiteSpace(parameterName) ? parameterType.PascalCaseToSnakeCase() : parameterName)

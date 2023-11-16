@@ -186,20 +186,31 @@ internal enum GDExtensionInitializationLevel
 internal unsafe struct MethodTable
 {
 
-    private static void* GetMethod(string methodName, delegate* unmanaged <char*, delegate* unmanaged <void>> p_get_proc_address)    {        var bstrString = Marshal.StringToBSTR(methodName);        var methodPointer = p_get_proc_address((char*)bstrString);        Marshal.FreeBSTR(bstrString);        return methodPointer;    }
+    private static void* GetMethod(string methodName, delegate* unmanaged <byte*, delegate* unmanaged <void>> p_get_proc_address)
+    {
+        var array = stackalloc byte[methodName.Length + 1];
+        for (var i = 0; i < methodName.Length; i++)
+        {
+            array[i] = (byte)methodName[i];
+        }
+        array[methodName.Length] = 0;
+        var methodPointer = p_get_proc_address(array);
+        return methodPointer;
+    }
 
-    internal MethodTable(delegate* unmanaged <char*, delegate* unmanaged <void>> p_get_proc_address)    {
+    internal MethodTable(delegate* unmanaged <byte*, delegate* unmanaged <void>> p_get_proc_address)
+    {
         // ReSharper disable StringLiteralTypo
         GDExtensionInterfaceGetGodotVersion = (delegate* unmanaged[Cdecl]<GDExtensionGodotVersion*, void>)GetMethod("get_godot_version", p_get_proc_address);
         GDExtensionInterfaceMemAlloc = (delegate* unmanaged[Cdecl]<size_t, void*>)GetMethod("mem_alloc", p_get_proc_address);
         GDExtensionInterfaceMemRealloc = (delegate* unmanaged[Cdecl]<void*, size_t, void*>)GetMethod("mem_realloc", p_get_proc_address);
         GDExtensionInterfaceMemFree = (delegate* unmanaged[Cdecl]<void*, void>)GetMethod("mem_free", p_get_proc_address);
-        GDExtensionInterfacePrintError = (delegate* unmanaged[Cdecl]<char*, char*, char*, int32_t, GDExtensionBool, void>)GetMethod("print_error", p_get_proc_address);
-        GDExtensionInterfacePrintErrorWithMessage = (delegate* unmanaged[Cdecl]<char*, char*, char*, char*, int32_t, GDExtensionBool, void>)GetMethod("print_error_with_message", p_get_proc_address);
-        GDExtensionInterfacePrintWarning = (delegate* unmanaged[Cdecl]<char*, char*, char*, int32_t, GDExtensionBool, void>)GetMethod("print_warning", p_get_proc_address);
-        GDExtensionInterfacePrintWarningWithMessage = (delegate* unmanaged[Cdecl]<char*, char*, char*, char*, int32_t, GDExtensionBool, void>)GetMethod("print_warning_with_message", p_get_proc_address);
-        GDExtensionInterfacePrintScriptError = (delegate* unmanaged[Cdecl]<char*, char*, char*, int32_t, GDExtensionBool, void>)GetMethod("print_script_error", p_get_proc_address);
-        GDExtensionInterfacePrintScriptErrorWithMessage = (delegate* unmanaged[Cdecl]<char*, char*, char*, char*, int32_t, GDExtensionBool, void>)GetMethod("print_script_error_with_message", p_get_proc_address);
+        GDExtensionInterfacePrintError = (delegate* unmanaged[Cdecl]<byte*, byte*, byte*, int32_t, GDExtensionBool, void>)GetMethod("print_error", p_get_proc_address);
+        GDExtensionInterfacePrintErrorWithMessage = (delegate* unmanaged[Cdecl]<byte*, byte*, byte*, byte*, int32_t, GDExtensionBool, void>)GetMethod("print_error_with_message", p_get_proc_address);
+        GDExtensionInterfacePrintWarning = (delegate* unmanaged[Cdecl]<byte*, byte*, byte*, int32_t, GDExtensionBool, void>)GetMethod("print_warning", p_get_proc_address);
+        GDExtensionInterfacePrintWarningWithMessage = (delegate* unmanaged[Cdecl]<byte*, byte*, byte*, byte*, int32_t, GDExtensionBool, void>)GetMethod("print_warning_with_message", p_get_proc_address);
+        GDExtensionInterfacePrintScriptError = (delegate* unmanaged[Cdecl]<byte*, byte*, byte*, int32_t, GDExtensionBool, void>)GetMethod("print_script_error", p_get_proc_address);
+        GDExtensionInterfacePrintScriptErrorWithMessage = (delegate* unmanaged[Cdecl]<byte*, byte*, byte*, byte*, int32_t, GDExtensionBool, void>)GetMethod("print_script_error_with_message", p_get_proc_address);
         GDExtensionInterfaceGetNativeStructSize = (delegate* unmanaged[Cdecl]<delegate* unmanaged[Cdecl]<void>, uint64_t>)GetMethod("get_native_struct_size", p_get_proc_address);
         GDExtensionInterfaceVariantNewCopy = (delegate* unmanaged[Cdecl]<delegate* unmanaged[Cdecl]<void>, delegate* unmanaged[Cdecl]<void>, void>)GetMethod("variant_new_copy", p_get_proc_address);
         GDExtensionInterfaceVariantNewNil = (delegate* unmanaged[Cdecl]<delegate* unmanaged[Cdecl]<void>, void>)GetMethod("variant_new_nil", p_get_proc_address);
@@ -247,18 +258,18 @@ internal unsafe struct MethodTable
         GDExtensionInterfaceVariantGetPtrKeyedChecker = (delegate* unmanaged[Cdecl]<GDExtensionVariantType, delegate* unmanaged[Cdecl]<delegate* unmanaged[Cdecl]<void>, delegate* unmanaged[Cdecl]<void>, uint32_t>>)GetMethod("variant_get_ptr_keyed_checker", p_get_proc_address);
         GDExtensionInterfaceVariantGetConstantValue = (delegate* unmanaged[Cdecl]<GDExtensionVariantType, delegate* unmanaged[Cdecl]<void>, delegate* unmanaged[Cdecl]<void>, void>)GetMethod("variant_get_constant_value", p_get_proc_address);
         GDExtensionInterfaceVariantGetPtrUtilityFunction = (delegate* unmanaged[Cdecl]<delegate* unmanaged[Cdecl]<void>, GDExtensionInt, delegate* unmanaged[Cdecl]<delegate* unmanaged[Cdecl]<void>, delegate* unmanaged[Cdecl]<void>*, int, void>>)GetMethod("variant_get_ptr_utility_function", p_get_proc_address);
-        GDExtensionInterfaceStringNewWithLatin1Chars = (delegate* unmanaged[Cdecl]<delegate* unmanaged[Cdecl]<void>, char*, void>)GetMethod("string_new_with_latin1_chars", p_get_proc_address);
-        GDExtensionInterfaceStringNewWithUtf8Chars = (delegate* unmanaged[Cdecl]<delegate* unmanaged[Cdecl]<void>, char*, void>)GetMethod("string_new_with_utf8_chars", p_get_proc_address);
+        GDExtensionInterfaceStringNewWithLatin1Chars = (delegate* unmanaged[Cdecl]<delegate* unmanaged[Cdecl]<void>, byte*, void>)GetMethod("string_new_with_latin1_chars", p_get_proc_address);
+        GDExtensionInterfaceStringNewWithUtf8Chars = (delegate* unmanaged[Cdecl]<delegate* unmanaged[Cdecl]<void>, byte*, void>)GetMethod("string_new_with_utf8_chars", p_get_proc_address);
         GDExtensionInterfaceStringNewWithUtf16Chars = (delegate* unmanaged[Cdecl]<delegate* unmanaged[Cdecl]<void>, char16_t*, void>)GetMethod("string_new_with_utf16_chars", p_get_proc_address);
         GDExtensionInterfaceStringNewWithUtf32Chars = (delegate* unmanaged[Cdecl]<delegate* unmanaged[Cdecl]<void>, char32_t*, void>)GetMethod("string_new_with_utf32_chars", p_get_proc_address);
         GDExtensionInterfaceStringNewWithWideChars = (delegate* unmanaged[Cdecl]<delegate* unmanaged[Cdecl]<void>, wchar_t*, void>)GetMethod("string_new_with_wide_chars", p_get_proc_address);
-        GDExtensionInterfaceStringNewWithLatin1CharsAndLen = (delegate* unmanaged[Cdecl]<delegate* unmanaged[Cdecl]<void>, char*, GDExtensionInt, void>)GetMethod("string_new_with_latin1_chars_and_len", p_get_proc_address);
-        GDExtensionInterfaceStringNewWithUtf8CharsAndLen = (delegate* unmanaged[Cdecl]<delegate* unmanaged[Cdecl]<void>, char*, GDExtensionInt, void>)GetMethod("string_new_with_utf8_chars_and_len", p_get_proc_address);
+        GDExtensionInterfaceStringNewWithLatin1CharsAndLen = (delegate* unmanaged[Cdecl]<delegate* unmanaged[Cdecl]<void>, byte*, GDExtensionInt, void>)GetMethod("string_new_with_latin1_chars_and_len", p_get_proc_address);
+        GDExtensionInterfaceStringNewWithUtf8CharsAndLen = (delegate* unmanaged[Cdecl]<delegate* unmanaged[Cdecl]<void>, byte*, GDExtensionInt, void>)GetMethod("string_new_with_utf8_chars_and_len", p_get_proc_address);
         GDExtensionInterfaceStringNewWithUtf16CharsAndLen = (delegate* unmanaged[Cdecl]<delegate* unmanaged[Cdecl]<void>, char16_t*, GDExtensionInt, void>)GetMethod("string_new_with_utf16_chars_and_len", p_get_proc_address);
         GDExtensionInterfaceStringNewWithUtf32CharsAndLen = (delegate* unmanaged[Cdecl]<delegate* unmanaged[Cdecl]<void>, char32_t*, GDExtensionInt, void>)GetMethod("string_new_with_utf32_chars_and_len", p_get_proc_address);
         GDExtensionInterfaceStringNewWithWideCharsAndLen = (delegate* unmanaged[Cdecl]<delegate* unmanaged[Cdecl]<void>, wchar_t*, GDExtensionInt, void>)GetMethod("string_new_with_wide_chars_and_len", p_get_proc_address);
-        GDExtensionInterfaceStringToLatin1Chars = (delegate* unmanaged[Cdecl]<delegate* unmanaged[Cdecl]<void>, char*, GDExtensionInt, GDExtensionInt>)GetMethod("string_to_latin1_chars", p_get_proc_address);
-        GDExtensionInterfaceStringToUtf8Chars = (delegate* unmanaged[Cdecl]<delegate* unmanaged[Cdecl]<void>, char*, GDExtensionInt, GDExtensionInt>)GetMethod("string_to_utf8_chars", p_get_proc_address);
+        GDExtensionInterfaceStringToLatin1Chars = (delegate* unmanaged[Cdecl]<delegate* unmanaged[Cdecl]<void>, byte*, GDExtensionInt, GDExtensionInt>)GetMethod("string_to_latin1_chars", p_get_proc_address);
+        GDExtensionInterfaceStringToUtf8Chars = (delegate* unmanaged[Cdecl]<delegate* unmanaged[Cdecl]<void>, byte*, GDExtensionInt, GDExtensionInt>)GetMethod("string_to_utf8_chars", p_get_proc_address);
         GDExtensionInterfaceStringToUtf16Chars = (delegate* unmanaged[Cdecl]<delegate* unmanaged[Cdecl]<void>, char16_t*, GDExtensionInt, GDExtensionInt>)GetMethod("string_to_utf16_chars", p_get_proc_address);
         GDExtensionInterfaceStringToUtf32Chars = (delegate* unmanaged[Cdecl]<delegate* unmanaged[Cdecl]<void>, char32_t*, GDExtensionInt, GDExtensionInt>)GetMethod("string_to_utf32_chars", p_get_proc_address);
         GDExtensionInterfaceStringToWideChars = (delegate* unmanaged[Cdecl]<delegate* unmanaged[Cdecl]<void>, wchar_t*, GDExtensionInt, GDExtensionInt>)GetMethod("string_to_wide_chars", p_get_proc_address);
@@ -266,7 +277,7 @@ internal unsafe struct MethodTable
         GDExtensionInterfaceStringOperatorIndexConst = (delegate* unmanaged[Cdecl]<delegate* unmanaged[Cdecl]<void>, GDExtensionInt, char32_t*>)GetMethod("string_operator_index_const", p_get_proc_address);
         GDExtensionInterfaceStringOperatorPlusEqString = (delegate* unmanaged[Cdecl]<delegate* unmanaged[Cdecl]<void>, delegate* unmanaged[Cdecl]<void>, void>)GetMethod("string_operator_plus_eq_string", p_get_proc_address);
         GDExtensionInterfaceStringOperatorPlusEqChar = (delegate* unmanaged[Cdecl]<delegate* unmanaged[Cdecl]<void>, char32_t, void>)GetMethod("string_operator_plus_eq_char", p_get_proc_address);
-        GDExtensionInterfaceStringOperatorPlusEqCstr = (delegate* unmanaged[Cdecl]<delegate* unmanaged[Cdecl]<void>, char*, void>)GetMethod("string_operator_plus_eq_cstr", p_get_proc_address);
+        GDExtensionInterfaceStringOperatorPlusEqCstr = (delegate* unmanaged[Cdecl]<delegate* unmanaged[Cdecl]<void>, byte*, void>)GetMethod("string_operator_plus_eq_cstr", p_get_proc_address);
         GDExtensionInterfaceStringOperatorPlusEqWcstr = (delegate* unmanaged[Cdecl]<delegate* unmanaged[Cdecl]<void>, wchar_t*, void>)GetMethod("string_operator_plus_eq_wcstr", p_get_proc_address);
         GDExtensionInterfaceStringOperatorPlusEqC32str = (delegate* unmanaged[Cdecl]<delegate* unmanaged[Cdecl]<void>, char32_t*, void>)GetMethod("string_operator_plus_eq_c32str", p_get_proc_address);
         GDExtensionInterfaceXmlParserOpenBuffer = (delegate* unmanaged[Cdecl]<delegate* unmanaged[Cdecl]<void>, uint8_t*, size_t, GDExtensionInt>)GetMethod("xml_parser_open_buffer", p_get_proc_address);
@@ -335,17 +346,17 @@ internal unsafe struct MethodTable
 
     internal delegate* unmanaged[Cdecl]<void*, void> GDExtensionInterfaceMemFree;
 
-    internal delegate* unmanaged[Cdecl]<char*, char*, char*, int32_t, GDExtensionBool, void> GDExtensionInterfacePrintError;
+    internal delegate* unmanaged[Cdecl]<byte*, byte*, byte*, int32_t, GDExtensionBool, void> GDExtensionInterfacePrintError;
 
-    internal delegate* unmanaged[Cdecl]<char*, char*, char*, char*, int32_t, GDExtensionBool, void> GDExtensionInterfacePrintErrorWithMessage;
+    internal delegate* unmanaged[Cdecl]<byte*, byte*, byte*, byte*, int32_t, GDExtensionBool, void> GDExtensionInterfacePrintErrorWithMessage;
 
-    internal delegate* unmanaged[Cdecl]<char*, char*, char*, int32_t, GDExtensionBool, void> GDExtensionInterfacePrintWarning;
+    internal delegate* unmanaged[Cdecl]<byte*, byte*, byte*, int32_t, GDExtensionBool, void> GDExtensionInterfacePrintWarning;
 
-    internal delegate* unmanaged[Cdecl]<char*, char*, char*, char*, int32_t, GDExtensionBool, void> GDExtensionInterfacePrintWarningWithMessage;
+    internal delegate* unmanaged[Cdecl]<byte*, byte*, byte*, byte*, int32_t, GDExtensionBool, void> GDExtensionInterfacePrintWarningWithMessage;
 
-    internal delegate* unmanaged[Cdecl]<char*, char*, char*, int32_t, GDExtensionBool, void> GDExtensionInterfacePrintScriptError;
+    internal delegate* unmanaged[Cdecl]<byte*, byte*, byte*, int32_t, GDExtensionBool, void> GDExtensionInterfacePrintScriptError;
 
-    internal delegate* unmanaged[Cdecl]<char*, char*, char*, char*, int32_t, GDExtensionBool, void> GDExtensionInterfacePrintScriptErrorWithMessage;
+    internal delegate* unmanaged[Cdecl]<byte*, byte*, byte*, byte*, int32_t, GDExtensionBool, void> GDExtensionInterfacePrintScriptErrorWithMessage;
 
     internal delegate* unmanaged[Cdecl]<delegate* unmanaged[Cdecl]<void>, uint64_t> GDExtensionInterfaceGetNativeStructSize;
 
@@ -441,9 +452,9 @@ internal unsafe struct MethodTable
 
     internal delegate* unmanaged[Cdecl]<delegate* unmanaged[Cdecl]<void>, GDExtensionInt, delegate* unmanaged[Cdecl]<delegate* unmanaged[Cdecl]<void>, delegate* unmanaged[Cdecl]<void>*, int, void>> GDExtensionInterfaceVariantGetPtrUtilityFunction;
 
-    internal delegate* unmanaged[Cdecl]<delegate* unmanaged[Cdecl]<void>, char*, void> GDExtensionInterfaceStringNewWithLatin1Chars;
+    internal delegate* unmanaged[Cdecl]<delegate* unmanaged[Cdecl]<void>, byte*, void> GDExtensionInterfaceStringNewWithLatin1Chars;
 
-    internal delegate* unmanaged[Cdecl]<delegate* unmanaged[Cdecl]<void>, char*, void> GDExtensionInterfaceStringNewWithUtf8Chars;
+    internal delegate* unmanaged[Cdecl]<delegate* unmanaged[Cdecl]<void>, byte*, void> GDExtensionInterfaceStringNewWithUtf8Chars;
 
     internal delegate* unmanaged[Cdecl]<delegate* unmanaged[Cdecl]<void>, char16_t*, void> GDExtensionInterfaceStringNewWithUtf16Chars;
 
@@ -451,9 +462,9 @@ internal unsafe struct MethodTable
 
     internal delegate* unmanaged[Cdecl]<delegate* unmanaged[Cdecl]<void>, wchar_t*, void> GDExtensionInterfaceStringNewWithWideChars;
 
-    internal delegate* unmanaged[Cdecl]<delegate* unmanaged[Cdecl]<void>, char*, GDExtensionInt, void> GDExtensionInterfaceStringNewWithLatin1CharsAndLen;
+    internal delegate* unmanaged[Cdecl]<delegate* unmanaged[Cdecl]<void>, byte*, GDExtensionInt, void> GDExtensionInterfaceStringNewWithLatin1CharsAndLen;
 
-    internal delegate* unmanaged[Cdecl]<delegate* unmanaged[Cdecl]<void>, char*, GDExtensionInt, void> GDExtensionInterfaceStringNewWithUtf8CharsAndLen;
+    internal delegate* unmanaged[Cdecl]<delegate* unmanaged[Cdecl]<void>, byte*, GDExtensionInt, void> GDExtensionInterfaceStringNewWithUtf8CharsAndLen;
 
     internal delegate* unmanaged[Cdecl]<delegate* unmanaged[Cdecl]<void>, char16_t*, GDExtensionInt, void> GDExtensionInterfaceStringNewWithUtf16CharsAndLen;
 
@@ -461,9 +472,9 @@ internal unsafe struct MethodTable
 
     internal delegate* unmanaged[Cdecl]<delegate* unmanaged[Cdecl]<void>, wchar_t*, GDExtensionInt, void> GDExtensionInterfaceStringNewWithWideCharsAndLen;
 
-    internal delegate* unmanaged[Cdecl]<delegate* unmanaged[Cdecl]<void>, char*, GDExtensionInt, GDExtensionInt> GDExtensionInterfaceStringToLatin1Chars;
+    internal delegate* unmanaged[Cdecl]<delegate* unmanaged[Cdecl]<void>, byte*, GDExtensionInt, GDExtensionInt> GDExtensionInterfaceStringToLatin1Chars;
 
-    internal delegate* unmanaged[Cdecl]<delegate* unmanaged[Cdecl]<void>, char*, GDExtensionInt, GDExtensionInt> GDExtensionInterfaceStringToUtf8Chars;
+    internal delegate* unmanaged[Cdecl]<delegate* unmanaged[Cdecl]<void>, byte*, GDExtensionInt, GDExtensionInt> GDExtensionInterfaceStringToUtf8Chars;
 
     internal delegate* unmanaged[Cdecl]<delegate* unmanaged[Cdecl]<void>, char16_t*, GDExtensionInt, GDExtensionInt> GDExtensionInterfaceStringToUtf16Chars;
 
@@ -479,7 +490,7 @@ internal unsafe struct MethodTable
 
     internal delegate* unmanaged[Cdecl]<delegate* unmanaged[Cdecl]<void>, char32_t, void> GDExtensionInterfaceStringOperatorPlusEqChar;
 
-    internal delegate* unmanaged[Cdecl]<delegate* unmanaged[Cdecl]<void>, char*, void> GDExtensionInterfaceStringOperatorPlusEqCstr;
+    internal delegate* unmanaged[Cdecl]<delegate* unmanaged[Cdecl]<void>, byte*, void> GDExtensionInterfaceStringOperatorPlusEqCstr;
 
     internal delegate* unmanaged[Cdecl]<delegate* unmanaged[Cdecl]<void>, wchar_t*, void> GDExtensionInterfaceStringOperatorPlusEqWcstr;
 
@@ -831,7 +842,7 @@ internal unsafe struct GDExtensionGodotVersion
 
     internal uint32_t patch;
 
-    internal char* @string;
+    internal byte* @string;
 
 }
 

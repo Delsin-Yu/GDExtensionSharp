@@ -130,6 +130,7 @@ public static partial class BindingGenerator
                .AppendLine()
                .AppendIndentation()
                .AppendFormat(MethodTableStructConstructorHeader, MethodTableStructName, GetDelegateCallbackName)
+               .AppendLine()
                .AppendIndentation()
                .AppendLine("{");
 

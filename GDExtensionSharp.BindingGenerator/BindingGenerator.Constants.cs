@@ -53,15 +53,19 @@ public static partial class BindingGenerator
 
     private const string UtilityFunctionBody =
         $$"""
-          private static void* {{UtilityFunctionName}}(string methodName, delegate* unmanaged <char*, delegate* unmanaged <void>> {{GetDelegateCallbackName}})
+          private static void* {{UtilityFunctionName}}(string methodName, delegate* unmanaged <byte*, delegate* unmanaged <void>> {{GetDelegateCallbackName}})
           {
-              var bstrString = Marshal.StringToBSTR(methodName);
-              var methodPointer = p_get_proc_address((char*)bstrString);
-              Marshal.FreeBSTR(bstrString);
+              var array = stackalloc byte[methodName.Length + 1];
+              for (var i = 0; i < methodName.Length; i++)
+              {
+                  array[i] = (byte)methodName[i];
+              }
+              array[methodName.Length] = 0;
+              var methodPointer = p_get_proc_address(array);
               return methodPointer;
           }
           """;
 
     private const string MethodTableStructConstructorHeader =
-        "internal {0}(delegate* unmanaged <char*, delegate* unmanaged <void>> {1})";
+        "internal {0}(delegate* unmanaged <byte*, delegate* unmanaged <void>> {1})";
 }

@@ -39,7 +39,7 @@ public static partial class BindingGenerator
 
             PrintHeaderContent(fieldHeaderComment);
 
-            tempStringBuilder.Append(fieldType);
+            tempStringBuilder.Append(fieldType.EscapeType());
 
             ReplaceSubstitutedType(tempStringBuilder, delegateBodyDictionary);
 

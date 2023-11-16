@@ -4,6 +4,10 @@ namespace GDExtensionCSharp.BindingGenerator;
 
 internal class Program
 {
+    /// <summary>
+    /// TODO: Turn into source generator?
+    /// </summary>
+    /// <param name="args"></param>
     public static async Task Main(string[] args)
     {
         // ReSharper disable once StringLiteralTypo

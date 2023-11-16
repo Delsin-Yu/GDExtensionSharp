@@ -171,4 +171,7 @@ public static partial class BindingGenerator
 
         return stringBuilder;
     }
+
+    private static string EscapeType(this string type) => 
+        type == "char" ? "byte" : type;
 }
