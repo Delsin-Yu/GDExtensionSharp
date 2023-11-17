@@ -1,4 +1,4 @@
-namespace GDExtensionSharp.BindingGenerator;
+namespace GDExtensionSharp.SourceGenerator.Header;
 
 partial class BindingGenerator
 {
@@ -35,6 +35,8 @@ partial class BindingGenerator
 
         using System.Runtime.InteropServices;
 
+        namespace GDExtensionSharp.Bindings.Header;
+        
 
         """;
 

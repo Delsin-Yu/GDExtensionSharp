@@ -1,9 +1,9 @@
 ﻿using System.Text;
 using System.Text.RegularExpressions;
 
-namespace GDExtensionCSharp.BindingGenerator;
+namespace GDExtensionSharp.BindingGenerator;
 
-public static partial class BindingGenerator
+partial class BindingGenerator
 {
     private static int _indentationLevel;
 

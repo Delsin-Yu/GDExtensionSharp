@@ -1,7 +1,7 @@
 ﻿using System.Text;
 using System.Text.RegularExpressions;
 
-namespace GDExtensionSharp.BindingGenerator;
+namespace GDExtensionSharp.SourceGenerator.Header;
 
 internal static partial class BindingGenerator
 {
@@ -58,9 +58,9 @@ internal static partial class BindingGenerator
                 foreach (var delegateName in delegateBodyDictionary.Keys)
                 {
                     tempStringBuilder.Append(delegateBodyDictionary[delegateName]);
-                    foreach (var (substituteParameterName, substituteParameterBody) in delegateBodyDictionary)
+                    foreach (var delegateInfo in delegateBodyDictionary)
                     {
-                        tempStringBuilder.Replace(substituteParameterName, substituteParameterBody);
+                        tempStringBuilder.Replace(delegateInfo.Key, delegateInfo.Value);
                     }
 
                     delegateBodyDictionary[delegateName] = tempStringBuilder.ToString();

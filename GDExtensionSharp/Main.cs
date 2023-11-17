@@ -1,4 +1,5 @@
 ﻿using System.Runtime.InteropServices;
+using GDExtensionSharp.Bindings.Header;
 
 namespace GDExtensionSharp;
 

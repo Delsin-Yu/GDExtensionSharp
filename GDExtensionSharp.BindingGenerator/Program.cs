@@ -1,6 +1,6 @@
 ﻿// See https://aka.ms/new-console-template for more information
 
-namespace GDExtensionCSharp.BindingGenerator;
+namespace GDExtensionSharp.BindingGenerator;
 
 internal class Program
 {
