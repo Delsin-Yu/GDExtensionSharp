@@ -133,7 +133,7 @@ partial class BindingGenerator
     private static readonly Regex _structFieldRegex = new(@"(?:\/\* ?(?<FieldHeaderComment>.*?) ?\*\/\n?\t?)?(?:const )?(?<FieldType>[a-zA-Z_0-9]+) ?(?<PointerInfo>\*?)(?<FieldName>[a-zA-Z_0-9]+); ?\/?\/? ?(?<FieldComment>[\w `.();,-]+)?", RegexOptions.Singleline | RegexOptions.Compiled);
     private static Regex GetStructFieldRegex() => _structFieldRegex;
 
-    private static readonly Regex _structDelegateRegex = new(@"(?:\/\*\*?\n? ?(?<DelegateHeaderComment>[a-zA-Z .]+?) ?\*\/)?\n?\t?(?<ReturnType>[a-zA-z0-9\\_]*?) ?\(?(?<PointerInfo>\*)?(?<DelegateName>[a-zA-Z0-9_]+?)\) ?\((?<DelegateBody>.+?)\)", RegexOptions.Singleline | RegexOptions.Compiled);
+    private static readonly Regex _structDelegateRegex = new(@"(?:\/\*\*?\n? ?(?<DelegateHeaderComment>[a-zA-Z .]+?) ?\*\/)?\n?\t?(?<ReturnType>[a-zA-z0-9\\_]*?) ?(?<PointerInfo>\*)?\(?\*?(?<DelegateName>[a-zA-Z0-9_]+?)\) ?\((?<DelegateBody>.+?)\)", RegexOptions.Singleline | RegexOptions.Compiled);
     private static Regex GetStructDelegateRegex() => _structDelegateRegex;
 
     private static readonly Regex _pascalToSnakeRegex = new("(?<=[a-z0-9])([A-Z])|([A-Z][a-z])", RegexOptions.Compiled);

@@ -48,7 +48,7 @@ partial class BindingGenerator
            .Append(" <DELEGATE_METHOD_NAME>(");
 
 
-        delegateBodyBuilder.Append("delegate* unmanaged[Cdecl]<");
+        delegateBodyBuilder.Append("delegate* unmanaged<");
 
         var matchCollection = GetDelegateBodyRegex().Matches(delegateParameters);
         foreach (Match bodyMatch in matchCollection)
