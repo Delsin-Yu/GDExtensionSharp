@@ -5,10 +5,10 @@ namespace GDExtensionSharp.SourceGenerator.Header;
 
 partial class BindingGenerator
 {
-    private static void ProcessEnum(Match match, StringBuilder stringBuilder)
+    private static void ProcessEnum(Match match, StringBuilder stringBuilder, out string enumName)
     {
         var enumBody = match.Groups["EnumBody"].Value;
-        var enumName = match.Groups["EnumName"].Value;
+        enumName = match.Groups["EnumName"].Value;
 
 
         stringBuilder.AppendIndentation();

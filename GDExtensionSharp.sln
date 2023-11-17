@@ -1,7 +1,5 @@
 ﻿
 Microsoft Visual Studio Solution File, Format Version 12.00
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "GDExtensionSharp.BindingGenerator", "GDExtensionSharp.BindingGenerator\GDExtensionSharp.BindingGenerator.csproj", "{4DF3C385-B179-458B-9CB4-F93FB385355F}"
-EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "GDExtensionSharp", "GDExtensionSharp\GDExtensionSharp.csproj", "{723A22BA-C784-4AB0-83FA-EAB25DD3E29B}"
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "GDExtensionSharp.SourceGenerator.Header", "GDExtensionSharp.SourceGenerator.Header\GDExtensionSharp.SourceGenerator.Header.csproj", "{00AA18F8-4721-4930-9BBA-CCD5E4C91CE1}"
@@ -12,10 +10,6 @@ Global
 		Release|Any CPU = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(ProjectConfigurationPlatforms) = postSolution
-		{4DF3C385-B179-458B-9CB4-F93FB385355F}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
-		{4DF3C385-B179-458B-9CB4-F93FB385355F}.Debug|Any CPU.Build.0 = Debug|Any CPU
-		{4DF3C385-B179-458B-9CB4-F93FB385355F}.Release|Any CPU.ActiveCfg = Release|Any CPU
-		{4DF3C385-B179-458B-9CB4-F93FB385355F}.Release|Any CPU.Build.0 = Release|Any CPU
 		{723A22BA-C784-4AB0-83FA-EAB25DD3E29B}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
 		{723A22BA-C784-4AB0-83FA-EAB25DD3E29B}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{723A22BA-C784-4AB0-83FA-EAB25DD3E29B}.Release|Any CPU.ActiveCfg = Release|Any CPU

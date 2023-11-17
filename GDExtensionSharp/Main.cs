@@ -16,6 +16,10 @@ public static class Main
         )
     {
         _methodTable = new(p_get_proc_address);
+        
+        GDExtensionGodotVersion version;
+        _methodTable.get_godot_version(&version);
+        
         return 1;
     }
 }

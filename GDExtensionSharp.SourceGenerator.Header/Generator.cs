@@ -27,8 +27,10 @@ public class Generator : IIncrementalGenerator
     {
         foreach (var headerContent in headerContentArray)
         {
-            var source = BindingGenerator.Generate(headerContent);
-            context.AddSource("gdextension_interface.g.cs", source);
+            foreach (var (sourceName, sourceContent) in BindingGenerator.Generate(headerContent))
+            {
+                context.AddSource($"{sourceName}.g.cs", sourceContent);
+            }
             break;
         }
     }

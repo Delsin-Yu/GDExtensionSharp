@@ -5,20 +5,29 @@ namespace GDExtensionSharp.SourceGenerator.Header;
 
 internal static partial class BindingGenerator
 {
-    internal static string Generate(string source)
+    internal static IEnumerable<(string sourceName, string sourceContent)> Generate(string source)
     {
+        yield return ("GlobalUsing", GlobalUsing);
+        
         var builder = new StringBuilder();
-
-        builder.AppendLine(FileHeader);
 
         _indentationLevel = 0;
 
-        foreach (Match match in GetEnumGlobalRegex().Matches(source)) ProcessEnum(match, builder);
-
+        foreach (Match match in GetEnumGlobalRegex().Matches(source))
         {
-            var delegateBodyDictionary = new Dictionary<string, string>();
-            var tempStringBuilder = new StringBuilder();
-            var tempStringBuilder2 = new StringBuilder();
+            builder.AppendLine(FileHeader);
+            ProcessEnum(match, builder, out var enumName);
+            yield return ($"Enum.{enumName}", builder.ToString());
+            builder.Clear();
+        }
+
+        var delegateBodyDictionary = new Dictionary<string, string>();
+        var tempStringBuilder = new StringBuilder();
+        var tempStringBuilder2 = new StringBuilder();
+        
+        {
+            builder.AppendLine(FileHeader);
+
             var delegateDefinitions = new List<(string delegateName, string delegateBody, string delegateComment, string delegateMethod, string delegateCallBody)>();
 
             var delegateBodyBuilder = new StringBuilder();
@@ -39,8 +48,8 @@ internal static partial class BindingGenerator
                 var delegateBody = delegateBodyBuilder.ToString();
                 var delegateMethod = delegateMethodStringBuilder.ToString();
                 var delegateComment = delegateCommentStringBuilder.ToString().TrimStart().TrimStart('\n').TrimEnd().TrimEnd('\n');
-                var delegateCallBody = tempStringBuilder.ToString(); 
-                
+                var delegateCallBody = tempStringBuilder.ToString();
+
                 delegateDefinitions.Add((delegateName, delegateBody, delegateComment, delegateMethod, delegateCallBody));
                 delegateBodyDictionary.Add(delegateName, delegateBody);
 
@@ -100,11 +109,10 @@ internal static partial class BindingGenerator
             {
                 builder
                    .AppendIndentation()
-                   .Append(utilityFunctionLine);
+                   .AppendLine(utilityFunctionLine);
             }
 
             builder
-               .AppendLine()
                .AppendLine()
                .AppendIndentation()
                .AppendFormat(MethodTableStructConstructorHeader, MethodTableStructName, GetDelegateCallbackName)
@@ -192,13 +200,17 @@ internal static partial class BindingGenerator
                .AppendLine("}")
                .AppendLine();
 
-            foreach (Match match in GetStructGlobalRegex().Matches(source))
-            {
-                ProcessStruct(match, builder, tempStringBuilder, tempStringBuilder2, delegateBodyDictionary);
-                tempStringBuilder.Clear();
-            }
+            yield return ("MethodTable", builder.ToString());
+            builder.Clear();
         }
 
-        return builder.ToString();
+        foreach (Match match in GetStructGlobalRegex().Matches(source))
+        {
+            builder.AppendLine(FileHeader);
+            ProcessStruct(match, builder, tempStringBuilder, tempStringBuilder2, delegateBodyDictionary, out var structName);
+            tempStringBuilder.Clear();
+            yield return ($"Struct.{structName}", builder.ToString());
+            builder.Clear();
+        }
     }
 }

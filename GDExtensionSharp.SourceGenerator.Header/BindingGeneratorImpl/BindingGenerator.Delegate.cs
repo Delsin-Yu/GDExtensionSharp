@@ -106,6 +106,7 @@ partial class BindingGenerator
 
         stringBuilder
            .AppendIndentation()
+           .Append('_')
            .Append(godotMethodName)
            .Append(" = (")
            .Append(tempStringBuilder)
@@ -130,37 +131,31 @@ partial class BindingGenerator
             IDictionary<string, string> delegateBodyDictionary
         )
     {
-        if (!string.IsNullOrWhiteSpace(delegateMethodGeneratedDocumentationComment))
-        {
-            foreach (var delegateCommentLine in delegateMethodGeneratedDocumentationComment.TrimEnd('\n').TrimEnd('\r').Split('\n'))
-            {
-                stringBuilder
-                   .AppendIndentation()
-                   .Append(delegateCommentLine);
-            }
-
-            stringBuilder.AppendLine();
-        }
-
+        // if (!string.IsNullOrWhiteSpace(delegateMethodGeneratedDocumentationComment))
+        // {
+        //     foreach (var delegateCommentLine in delegateMethodGeneratedDocumentationComment.TrimEnd('\n').TrimEnd('\r').Split('\n'))
+        //     {
+        //         stringBuilder
+        //            .AppendIndentation()
+        //            .AppendLine(delegateCommentLine);
+        //     }
+        // }
+        //
 
         tempStringBuilder.Append(delegateMethodBody);
 
         ReplaceSubstitutedType(tempStringBuilder, delegateBodyDictionary);
 
-        tempStringBuilder.Replace("<DELEGATE_METHOD_NAME>", delegateMethodName);
+        tempStringBuilder.Replace("<DELEGATE_METHOD_NAME>", delegateGodotName);
 
         stringBuilder
            .AppendIndentation()
            .Append(tempStringBuilder)
-           .Append(" => ")
-           .AppendLine()
-           .AppendIndentation()
-           .AppendIndentation()
+           .Append(" => _")
            .Append(delegateGodotName)
            .Append('(')
            .Append(delegateDelegateCallBody)
-           .AppendLine(");")
-           .AppendLine();
+           .AppendLine(");");
     }
 
 
@@ -181,10 +176,9 @@ partial class BindingGenerator
            .AppendIndentation()
            .Append("private readonly ")
            .Append(tempStringBuilder)
-           .Append(' ')
+           .Append(" _")
            .Append(delegateGodotName.EscapeContextualKeyWord())
-           .AppendLine(";")
-           .AppendLine();
+           .AppendLine(";");
     }
 
     private static bool ProcessGodotInterfaceDelegate

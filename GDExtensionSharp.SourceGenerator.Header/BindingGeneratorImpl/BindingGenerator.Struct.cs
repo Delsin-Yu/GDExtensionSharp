@@ -11,11 +11,12 @@ partial class BindingGenerator
             StringBuilder stringBuilder,
             StringBuilder tempStringBuilder,
             StringBuilder tempStringBuilder2,
-            IDictionary<string, string> delegateBodyDictionary
+            IDictionary<string, string> delegateBodyDictionary,
+            out string structName
         )
     {
         var structBody = match.Groups["StructBody"].Value;
-        var structName = match.Groups["StructName"].Value;
+        structName = match.Groups["StructName"].Value;
 
         stringBuilder
            .AppendIndentation()

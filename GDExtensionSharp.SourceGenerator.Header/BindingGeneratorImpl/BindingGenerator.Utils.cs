@@ -100,7 +100,7 @@ partial class BindingGenerator
     private static readonly Regex _enumGlobalRegex = new(@"typedef enum {\n?(?<EnumBody>.+?)\n?} (?<EnumName>.+?);", RegexOptions.Singleline | RegexOptions.Compiled);
     private static Regex GetEnumGlobalRegex() => _enumGlobalRegex;
 
-    private static readonly Regex _enumBodyRegex = new(@"(?:(?:\/\*)? ?(?<TitleComment>[\w ]*) ?(?:\*\/))?\n?\t?(?<EnumName>[a-zA-Z_0-9]+)(?: = (?<EnumValue>[0-9a-zA-Z_]+))?,?(?: \/\/(?<EnumComment>[\w .]*)\n)?", RegexOptions.Singleline | RegexOptions.Compiled);
+    private static readonly Regex _enumBodyRegex = new(@"(?:(?:\/\*)? ?(?<TitleComment>[\w ]*) ?(?:\*\/))?\n?\t?(?<EnumName>[a-zA-Z_0-9]+)(?: = (?<EnumValue>[0-9a-zA-Z_]+))?,?(?: \/\/ ?(?<EnumComment>[\w .]*))?", RegexOptions.Singleline | RegexOptions.Compiled);
     private static Regex GetEnumBodyRegex() => _enumBodyRegex;
 
     private static readonly Regex _delegateGlobalRegex = new(@"(?<DelegateComment>\/\*\*?\n.+?\*\/)?\n?\t?(?:typedef (?:const)? ?(?<ReturnType>[a-zA-z0-9\\_]*?) (?<PointerInfo>\*)?\(?\*(?<DelegateName>[a-zA-Z0-9]+)\)?\(?(?<DelegateParamters>[a-zA-Z *0-9_,]*)\)?;)(?<DelegateTrailingComment> ?\/\/ ?[\w .]+)?", RegexOptions.Singleline | RegexOptions.Compiled);
