@@ -1,7 +1,7 @@
 using System.Text;
 using System.Text.RegularExpressions;
 
-namespace GDExtensionSharp.SourceGenerator.Header.BindingGeneratorImpl;
+namespace GDExtensionSharp.SourceGenerator.Header.RegexParser;
 
 partial class HeaderGenerator
 {

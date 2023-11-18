@@ -1,4 +1,4 @@
-namespace GDExtensionSharp.SourceGenerator.Header.BindingGeneratorImpl;
+namespace GDExtensionSharp.SourceGenerator.Header.RegexParser;
 
 partial class HeaderGenerator
 {
@@ -38,7 +38,7 @@ partial class HeaderGenerator
 
         using System.Runtime.InteropServices;
 
-        namespace GDExtensionSharp.Bindings.Header;
+        namespace Godot;
 
         """;
 

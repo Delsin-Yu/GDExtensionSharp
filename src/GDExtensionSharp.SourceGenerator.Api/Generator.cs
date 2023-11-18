@@ -1,36 +1,48 @@
 ﻿using System.Collections.Immutable;
 using Microsoft.CodeAnalysis;
+using Microsoft.CodeAnalysis.Diagnostics;
 
 namespace GDExtensionSharp.SourceGenerator.Api;
 
 [Generator(LanguageNames.CSharp)]
 public class Generator : IIncrementalGenerator
 {
-    public void Initialize(IncrementalGeneratorInitializationContext context)
+    public void Initialize(IncrementalGeneratorInitializationContext initializationContext)
     {
-        var files =
-            context
+        var source =
+            initializationContext
                .AdditionalTextsProvider
-               .Where(
-                    provider => provider.Path.EndsWith(
-                        "extension_api.json",
-                        StringComparison.InvariantCultureIgnoreCase
-                    )
-                )
-               .Select((text, token) => text.GetText(token)!.ToString())
+               .Combine(initializationContext.AnalyzerConfigOptionsProvider)
+               .Where(MatchExtensionApiJson)
+               .Select((t, _) => t.Left)
                .Collect();
 
-        context.RegisterSourceOutput(files, GenerateCSharpApiFromJson);
+        initializationContext.RegisterSourceOutput(
+            source,
+            GenerateCSharpApi
+        );
     }
 
-    private static void GenerateCSharpApiFromJson(SourceProductionContext context, ImmutableArray<string> jsonContentArray)
+    private static bool MatchExtensionApiJson((AdditionalText Left, AnalyzerConfigOptionsProvider Right) provider)
+    {
+        var analyzerConfigOptions = provider.Right.GetOptions(provider.Left);
+        if (analyzerConfigOptions.TryGetValue("build_metadata.AdditionalFiles.SourceItemGroup", out var sourceItemGroup))
+        {
+            return sourceItemGroup == "ExtensionApi" && provider.Left.Path.EndsWith(".json");
+        }
+        return false;
+    }
+    
+    private static void GenerateCSharpApi(SourceProductionContext sourceProductionContext, ImmutableArray<AdditionalText> jsonContentArray)
     {
         foreach (var jsonContent in jsonContentArray)
         {
-            foreach (var (sourceName, sourceContent) in ApiGenerator.Generate(jsonContent))
+            var generated = ApiGenerator.Generate(jsonContent.GetText(sourceProductionContext.CancellationToken)!.ToString());
+            foreach (var (sourceName, sourceContent) in generated)
             {
-                context.AddSource($"{sourceName}.g.cs", sourceContent);
+                sourceProductionContext.AddSource($"{sourceName}.g.cs", sourceContent);
             }
+
             break;
         }
     }

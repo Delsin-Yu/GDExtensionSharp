@@ -544,6 +544,7 @@ resharper_csharp_align_multiline_for_stmt = false
 resharper_csharp_empty_block_style = together_same_line
 resharper_csharp_indent_method_decl_pars = outside_and_inside
 resharper_csharp_indent_statement_pars = outside_and_inside
+resharper_csharp_max_line_length = 999999
 resharper_csharp_naming_rule.enum_member = AaBb_AaBb
 resharper_csharp_naming_rule.method_property_event = AaBb
 resharper_csharp_naming_rule.other = AaBb_AaBb

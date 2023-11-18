@@ -1,4 +1,5 @@
 using System.Text;
+// using GDExtensionSharp.SourceGenerator.Header.RegexParser;
 using GDExtensionSharp.SourceGenerator.Header.Parser;
 using Microsoft.CodeAnalysis;
 using Microsoft.CodeAnalysis.CSharp.Syntax;
@@ -20,6 +21,12 @@ public class ExtensionInterfaceGenerator : IIncrementalGenerator
         {
             foreach (var additionalText in input)
             {
+                // foreach (var (sourceName, sourceContent) in HeaderGenerator.Generate(additionalText.GetText()!.ToString()))
+                // {
+                //     spc.AddSource($"{sourceName}.g.cs", sourceContent);
+                // }
+                // return;
+                
                 var parser = new CParser();
                 var translationUnit = parser.Parse(additionalText.GetText()!.ToString());
                 var enumTranspiler = new EnumTranspiler();

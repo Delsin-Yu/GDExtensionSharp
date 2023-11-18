@@ -5,8 +5,6 @@ VisualStudioVersion = 17.9.34310.174
 MinimumVisualStudioVersion = 10.0.40219.1
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "GDExtensionSharp", "src\GDExtensionSharp\GDExtensionSharp.csproj", "{2A25AC3F-7CFD-4334-82A1-8E16804DCF6D}"
 EndProject
-Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "GDExtensionSharp.BindingGenerator", "src\GDExtensionSharp.BindingGenerator\GDExtensionSharp.BindingGenerator.csproj", "{416AFCDB-BC09-4A00-858F-FDF8A810E40B}"
-EndProject
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "GDExtensionSharp.SourceGenerator.Api", "src\GDExtensionSharp.SourceGenerator.Api\GDExtensionSharp.SourceGenerator.Api.csproj", "{71315BD6-3C8F-44F9-846B-B8CEE95263FC}"
 EndProject
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "GDExtensionSharp.SourceGenerator.Header", "src\GDExtensionSharp.SourceGenerator.Header\GDExtensionSharp.SourceGenerator.Header.csproj", "{F326704B-8610-40E8-A851-DBEFA0B7AD76}"
@@ -23,10 +21,6 @@ Global
 		{2A25AC3F-7CFD-4334-82A1-8E16804DCF6D}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{2A25AC3F-7CFD-4334-82A1-8E16804DCF6D}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{2A25AC3F-7CFD-4334-82A1-8E16804DCF6D}.Release|Any CPU.Build.0 = Release|Any CPU
-		{416AFCDB-BC09-4A00-858F-FDF8A810E40B}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
-		{416AFCDB-BC09-4A00-858F-FDF8A810E40B}.Debug|Any CPU.Build.0 = Debug|Any CPU
-		{416AFCDB-BC09-4A00-858F-FDF8A810E40B}.Release|Any CPU.ActiveCfg = Release|Any CPU
-		{416AFCDB-BC09-4A00-858F-FDF8A810E40B}.Release|Any CPU.Build.0 = Release|Any CPU
 		{71315BD6-3C8F-44F9-846B-B8CEE95263FC}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
 		{71315BD6-3C8F-44F9-846B-B8CEE95263FC}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{71315BD6-3C8F-44F9-846B-B8CEE95263FC}.Release|Any CPU.ActiveCfg = Release|Any CPU

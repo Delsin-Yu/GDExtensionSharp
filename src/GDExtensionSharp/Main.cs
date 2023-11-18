@@ -1,8 +1,6 @@
 ﻿using System.Runtime.InteropServices;
-using GDExtensionSharp.Bindings.Header;
-using GDExtensionSharp.Core;
 
-namespace GDExtensionSharp;
+namespace Godot;
 
 public static unsafe class Main
 {
@@ -46,22 +44,13 @@ public static unsafe class Main
     [UnmanagedCallersOnly]
     private static void InitializeLevel(void* userdata, GDExtensionInitializationLevel p_level)
     {
-        // ClassDB.CurrentLevel = p_level;
-        //
-        // OnInit(p_level);
-        //
-        // ClassDB.Initialize(p_level);
+
     }
 
     [UnmanagedCallersOnly]
     private static void DeInitializeLevel(void* userdata, GDExtensionInitializationLevel p_level)
     {
-        // ClassDB.CurrentLevel = p_level;
-        //
-        // OnTerminate(p_level);
-        //
-        // EditorPlugins::deinitialize(p_level);
-        // ClassDB::deinitialize(p_level);
+
     }
 
     private static void OnInit(GDExtensionInitializationLevel p_level)
