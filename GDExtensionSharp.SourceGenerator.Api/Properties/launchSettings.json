@@ -1,8 +1,0 @@
-{
-  "profiles": {
-    "run": {
-      "commandName": "DebugRoslynComponent",
-      "targetProject": "../GDExtensionSharp/GDExtensionSharp.csproj"
-    }
-  }
-}
