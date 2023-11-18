@@ -4,7 +4,7 @@ using Microsoft.CodeAnalysis;
 namespace GDExtensionSharp.SourceGenerator.Header;
 
 [Generator(LanguageNames.CSharp)]
-public class Generator : IIncrementalGenerator
+public class ExtensionInterfaceGenerator : IIncrementalGenerator
 {
     public void Initialize(IncrementalGeneratorInitializationContext context)
     {

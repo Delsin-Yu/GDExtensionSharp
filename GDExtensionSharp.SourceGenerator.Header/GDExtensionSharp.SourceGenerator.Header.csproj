@@ -1,17 +1,31 @@
 ﻿<Project Sdk="Microsoft.NET.Sdk">
 
-    <PropertyGroup>
-        <TargetFramework>netstandard2.0</TargetFramework>
-        <ImplicitUsings>enable</ImplicitUsings>
-        <RootNamespace>GDExtensionSharp.SourceGenerator.Header</RootNamespace>
-        <LangVersion>latest</LangVersion>
-        <EnforceExtendedAnalyzerRules>true</EnforceExtendedAnalyzerRules>
-        <IsRoslynComponent>true</IsRoslynComponent>
-    </PropertyGroup>
+	<PropertyGroup>
+		<TargetFramework>netstandard2.0</TargetFramework>
+		<ImplicitUsings>enable</ImplicitUsings>
+		<RootNamespace>GDExtensionSharp.SourceGenerator.Header</RootNamespace>
+		<LangVersion>preview</LangVersion>
+		<Nullable>enable</Nullable>
+		<EnforceExtendedAnalyzerRules>true</EnforceExtendedAnalyzerRules>
+		<CopyLocalLockFileAssemblies>true</CopyLocalLockFileAssemblies>
+		<IsRoslynComponent>true</IsRoslynComponent>
+	</PropertyGroup>
 
-    <ItemGroup>
-        <PackageReference Include="Microsoft.CodeAnalysis.CSharp" Version="4.8.0-3.final" />
-        <PackageReference Include="Microsoft.CodeAnalysis" Version="4.8.0-3.final" />
-    </ItemGroup>
-    
+	<ItemGroup>
+		<PackageReference Include="LanguageExt.Parsec" Version="4.4.7" />
+		<PackageReference Include="Costura.Fody" Version="5.7.0">
+			<PrivateAssets>all</PrivateAssets>
+		</PackageReference>
+		<PackageReference Include="Fody" Version="6.8.0">
+			<PrivateAssets>all</PrivateAssets>
+			<IncludeAssets>runtime; build; native; contentfiles; analyzers; buildtransitive</IncludeAssets>
+		</PackageReference>
+		<PackageReference Include="Microsoft.CodeAnalysis.CSharp" Version="4.8.0-3.final" />
+		<PackageReference Include="Microsoft.CodeAnalysis.CSharp.Workspaces" Version="4.8.0-3.final" />
+		<PackageReference Include="PolySharp" Version="1.13.2">
+			<PrivateAssets>all</PrivateAssets>
+			<IncludeAssets>runtime; build; native; contentfiles; analyzers; buildtransitive</IncludeAssets>
+		</PackageReference>
+	</ItemGroup>
+
 </Project>
