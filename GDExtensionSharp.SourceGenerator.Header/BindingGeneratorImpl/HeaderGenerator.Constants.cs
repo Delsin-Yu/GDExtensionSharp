@@ -38,13 +38,13 @@ partial class HeaderGenerator
 
         using System.Runtime.InteropServices;
 
-        namespace GDExtensionSharp.Bindings.Header;
+        namespace Godot;
 
         """;
 
     private const string MethodTableStructHeader =
         $$"""
-          internal unsafe struct {{MethodTableStructName}}
+          internal static unsafe class {{MethodTableStructName}}
           {
 
           """;
@@ -71,5 +71,5 @@ partial class HeaderGenerator
           """;
 
     private const string MethodTableStructConstructorHeader =
-        "internal {0}(delegate* unmanaged <byte*, delegate* unmanaged <void>> {1})";
+        "internal static void Initialize(delegate* unmanaged <byte*, delegate* unmanaged <void>> {0})";
 }

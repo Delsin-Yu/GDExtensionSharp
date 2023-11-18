@@ -42,7 +42,7 @@ partial class HeaderGenerator
         )
     {
         delegateMethodStringBuilder
-           .Append("internal ")
+           .Append("internal static ")
            .Append(returnType.EscapeType())
            .Append(delegatePointerInfo)
            .Append(" <DELEGATE_METHOD_NAME>(");
@@ -174,7 +174,7 @@ partial class HeaderGenerator
 
         stringBuilder
            .AppendIndentation()
-           .Append("private readonly ")
+           .Append("private static ")
            .Append(tempStringBuilder)
            .Append(" _")
            .Append(delegateGodotName.EscapeContextualKeyWord())

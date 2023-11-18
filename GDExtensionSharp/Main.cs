@@ -1,12 +1,9 @@
 ﻿using System.Runtime.InteropServices;
-using GDExtensionSharp.Bindings.Header;
-using GDExtensionSharp.Core;
 
-namespace GDExtensionSharp;
+namespace Godot;
 
 public static unsafe class Main
 {
-    private static MethodTable _methodTable;
 
     private const uint GODOT_VERSION_MAJOR = 4;
     private const uint GODOT_VERSION_MINOR = 1;
@@ -20,10 +17,10 @@ public static unsafe class Main
             GDExtensionInitialization* r_initialization
         )
     {
-        _methodTable = new(p_get_proc_address);
+        MethodTable.Initialize(p_get_proc_address);
 
         GDExtensionGodotVersion version;
-        _methodTable.get_godot_version(&version);
+        MethodTable.get_godot_version(&version);
 
         // ReSharper disable ConditionIsAlwaysTrueOrFalse
         bool isCompatible;

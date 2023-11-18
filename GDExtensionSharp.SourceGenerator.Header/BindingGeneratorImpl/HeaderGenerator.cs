@@ -117,7 +117,7 @@ internal static partial class HeaderGenerator
             builder
                .AppendLine()
                .AppendIndentation()
-               .AppendFormat(MethodTableStructConstructorHeader, MethodTableStructName, GetDelegateCallbackName)
+               .AppendFormat(MethodTableStructConstructorHeader, GetDelegateCallbackName)
                .AppendLine()
                .AppendIndentation()
                .AppendLine("{");

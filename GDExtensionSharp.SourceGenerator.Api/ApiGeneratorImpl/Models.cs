@@ -1,4 +1,5 @@
-﻿namespace GDExtensionSharp.SourceGenerator.Api;
+﻿
+namespace GDExtensionSharp.SourceGenerator.Api;
 
 using System;
 using System.Collections.Generic;
@@ -14,7 +15,7 @@ public class GDExtensionApi
 
     [JsonPropertyName("builtin_class_member_offsets")] public BuiltinClassMemberOffset[] BuiltinClassMemberOffsets { get; set; }
 
-    [JsonPropertyName("global_constants")] public object[] GlobalConstants { get; set; }
+    [JsonPropertyName("global_constants")] public GlobalConstantElement[] GlobalConstants { get; set; }
 
     [JsonPropertyName("global_enums")] public GlobalEnumElement[] GlobalEnums { get; set; }
 
@@ -22,7 +23,7 @@ public class GDExtensionApi
 
     [JsonPropertyName("builtin_classes")] public BuiltinClass[] BuiltinClasses { get; set; }
 
-    [JsonPropertyName("classes")] public WelcomeClass[] Classes { get; set; }
+    [JsonPropertyName("classes")] public Class[] Classes { get; set; }
 
     [JsonPropertyName("singletons")] public Singleton[] Singletons { get; set; }
 
@@ -116,6 +117,10 @@ public class Singleton
     [JsonPropertyName("name")] public string Name { get; set; }
 
     [JsonPropertyName("type")] public string Type { get; set; }
+    
+    [JsonPropertyName("meta")] public string Meta { get; set; }
+    
+    [JsonIgnore(Condition = JsonIgnoreCondition.WhenWritingNull), JsonPropertyName("default_value")] public string DefaultValue { get; set; }
 }
 
 public class BuiltinClassEnum
@@ -166,7 +171,7 @@ public class Argument
 
 public class Operator
 {
-    [JsonPropertyName("name")] public OperatorName Name { get; set; }
+    [JsonPropertyName("name")] public string Name { get; set; }
 
     [JsonIgnore(Condition = JsonIgnoreCondition.WhenWritingNull), JsonPropertyName("right_type")]
     public string RightType { get; set; }
@@ -174,7 +179,7 @@ public class Operator
     [JsonPropertyName("return_type")] public string ReturnType { get; set; }
 }
 
-public class WelcomeClass
+public class Class
 {
     [JsonPropertyName("name")] public string Name { get; set; }
 
@@ -201,6 +206,13 @@ public class WelcomeClass
 
     [JsonIgnore(Condition = JsonIgnoreCondition.WhenWritingNull), JsonPropertyName("constants")]
     public ValueElement[] Constants { get; set; }
+}
+
+public class GlobalConstantElement
+{
+    [JsonPropertyName("name")] public string Name { get; set; }
+    
+    [JsonPropertyName("value")] public long Value { get; set; }
 }
 
 public class GlobalEnumElement
@@ -351,35 +363,6 @@ public enum ArgumentMeta
     Uint8
 };
 
-public enum OperatorName
-{
-    Ambitious,
-    And,
-    Braggadocious,
-    Cunning,
-    Empty,
-    Fluffy,
-    Frisky,
-    Hilarious,
-    In,
-    Indecent,
-    Indigo,
-    Magenta,
-    Mischievous,
-    Name,
-    NameUnary,
-    Not,
-    Or,
-    Purple,
-    Sticky,
-    Tentacled,
-    The1,
-    The2,
-    The3,
-    Unary,
-    Xor
-};
-
 public enum ApiType { Core, Editor };
 
 public enum Category { General, Math, Random };
@@ -407,7 +390,6 @@ internal static class Converter
                 MemberMetaConverter.Singleton,
                 TypeEnumConverter.Singleton,
                 ArgumentMetaConverter.Singleton,
-                OperatorNameConverter.Singleton,
                 ApiTypeConverter.Singleton,
                 CategoryConverter.Singleton,
                 ReturnTypeConverter.Singleton,
@@ -671,157 +653,6 @@ internal class ArgumentMetaConverter : JsonConverter<ArgumentMeta>
     public static readonly ArgumentMetaConverter Singleton = new ArgumentMetaConverter();
 }
 
-internal class OperatorNameConverter : JsonConverter<OperatorName>
-{
-    public override bool CanConvert(Type t) => t == typeof(OperatorName);
-
-    public override OperatorName Read(ref Utf8JsonReader reader, Type typeToConvert, JsonSerializerOptions options)
-    {
-        var value = reader.GetString();
-        switch (value)
-        {
-            case "!=":
-                return OperatorName.Name;
-            case "%":
-                return OperatorName.Magenta;
-            case "&":
-                return OperatorName.The1;
-            case "*":
-                return OperatorName.Ambitious;
-            case "**":
-                return OperatorName.Frisky;
-            case "+":
-                return OperatorName.Indecent;
-            case "-":
-                return OperatorName.Hilarious;
-            case "/":
-                return OperatorName.Cunning;
-            case "<":
-                return OperatorName.Purple;
-            case "<<":
-                return OperatorName.Mischievous;
-            case "<=":
-                return OperatorName.Sticky;
-            case "==":
-                return OperatorName.Empty;
-            case ">":
-                return OperatorName.Fluffy;
-            case ">=":
-                return OperatorName.Indigo;
-            case ">>":
-                return OperatorName.Braggadocious;
-            case "^":
-                return OperatorName.The3;
-            case "and":
-                return OperatorName.And;
-            case "in":
-                return OperatorName.In;
-            case "not":
-                return OperatorName.Not;
-            case "or":
-                return OperatorName.Or;
-            case "unary+":
-                return OperatorName.NameUnary;
-            case "unary-":
-                return OperatorName.Unary;
-            case "xor":
-                return OperatorName.Xor;
-            case "|":
-                return OperatorName.The2;
-            case "~":
-                return OperatorName.Tentacled;
-        }
-
-        throw new Exception("Cannot unmarshal type OperatorName");
-    }
-
-    public override void Write(Utf8JsonWriter writer, OperatorName value, JsonSerializerOptions options)
-    {
-        switch (value)
-        {
-            case OperatorName.Name:
-                JsonSerializer.Serialize(writer, "!=", options);
-                return;
-            case OperatorName.Magenta:
-                JsonSerializer.Serialize(writer, "%", options);
-                return;
-            case OperatorName.The1:
-                JsonSerializer.Serialize(writer, "&", options);
-                return;
-            case OperatorName.Ambitious:
-                JsonSerializer.Serialize(writer, "*", options);
-                return;
-            case OperatorName.Frisky:
-                JsonSerializer.Serialize(writer, "**", options);
-                return;
-            case OperatorName.Indecent:
-                JsonSerializer.Serialize(writer, "+", options);
-                return;
-            case OperatorName.Hilarious:
-                JsonSerializer.Serialize(writer, "-", options);
-                return;
-            case OperatorName.Cunning:
-                JsonSerializer.Serialize(writer, "/", options);
-                return;
-            case OperatorName.Purple:
-                JsonSerializer.Serialize(writer, "<", options);
-                return;
-            case OperatorName.Mischievous:
-                JsonSerializer.Serialize(writer, "<<", options);
-                return;
-            case OperatorName.Sticky:
-                JsonSerializer.Serialize(writer, "<=", options);
-                return;
-            case OperatorName.Empty:
-                JsonSerializer.Serialize(writer, "==", options);
-                return;
-            case OperatorName.Fluffy:
-                JsonSerializer.Serialize(writer, ">", options);
-                return;
-            case OperatorName.Indigo:
-                JsonSerializer.Serialize(writer, ">=", options);
-                return;
-            case OperatorName.Braggadocious:
-                JsonSerializer.Serialize(writer, ">>", options);
-                return;
-            case OperatorName.The3:
-                JsonSerializer.Serialize(writer, "^", options);
-                return;
-            case OperatorName.And:
-                JsonSerializer.Serialize(writer, "and", options);
-                return;
-            case OperatorName.In:
-                JsonSerializer.Serialize(writer, "in", options);
-                return;
-            case OperatorName.Not:
-                JsonSerializer.Serialize(writer, "not", options);
-                return;
-            case OperatorName.Or:
-                JsonSerializer.Serialize(writer, "or", options);
-                return;
-            case OperatorName.NameUnary:
-                JsonSerializer.Serialize(writer, "unary+", options);
-                return;
-            case OperatorName.Unary:
-                JsonSerializer.Serialize(writer, "unary-", options);
-                return;
-            case OperatorName.Xor:
-                JsonSerializer.Serialize(writer, "xor", options);
-                return;
-            case OperatorName.The2:
-                JsonSerializer.Serialize(writer, "|", options);
-                return;
-            case OperatorName.Tentacled:
-                JsonSerializer.Serialize(writer, "~", options);
-                return;
-        }
-
-        throw new Exception("Cannot marshal type OperatorName");
-    }
-
-    public static readonly OperatorNameConverter Singleton = new OperatorNameConverter();
-}
-
 internal class ApiTypeConverter : JsonConverter<ApiType>
 {
     public override bool CanConvert(Type t) => t == typeof(ApiType);
@@ -975,7 +806,7 @@ public class DateOnlyConverter : JsonConverter<DateOnly>
     private readonly string serializationFormat;
     public DateOnlyConverter() : this(null) { }
 
-    public DateOnlyConverter(string? serializationFormat) { this.serializationFormat = serializationFormat ?? "yyyy-MM-dd"; }
+    public DateOnlyConverter(string serializationFormat) => this.serializationFormat = serializationFormat ?? "yyyy-MM-dd";
 
     public override DateOnly Read(ref Utf8JsonReader reader, Type typeToConvert, JsonSerializerOptions options)
     {
@@ -993,7 +824,7 @@ public class TimeOnlyConverter : JsonConverter<TimeOnly>
 
     public TimeOnlyConverter() : this(null) { }
 
-    public TimeOnlyConverter(string? serializationFormat) { this.serializationFormat = serializationFormat ?? "HH:mm:ss.fff"; }
+    public TimeOnlyConverter(string serializationFormat) => this.serializationFormat = serializationFormat ?? "HH:mm:ss.fff";
 
     public override TimeOnly Read(ref Utf8JsonReader reader, Type typeToConvert, JsonSerializerOptions options)
     {
@@ -1012,12 +843,12 @@ internal class IsoDateTimeOffsetConverter : JsonConverter<DateTimeOffset>
     private const string DefaultDateTimeFormat = "yyyy'-'MM'-'dd'T'HH':'mm':'ss.FFFFFFFK";
 
     private DateTimeStyles _dateTimeStyles = DateTimeStyles.RoundtripKind;
-    private string? _dateTimeFormat;
-    private CultureInfo? _culture;
+    private string _dateTimeFormat;
+    private CultureInfo _culture;
 
     public DateTimeStyles DateTimeStyles { get => _dateTimeStyles; set => _dateTimeStyles = value; }
 
-    public string? DateTimeFormat { get => _dateTimeFormat ?? string.Empty; set => _dateTimeFormat = (string.IsNullOrEmpty(value)) ? null : value; }
+    public string DateTimeFormat { get => _dateTimeFormat ?? string.Empty; set => _dateTimeFormat = (string.IsNullOrEmpty(value)) ? null : value; }
 
     public CultureInfo Culture { get => _culture ?? CultureInfo.InvariantCulture; set => _culture = value; }
 
@@ -1038,7 +869,7 @@ internal class IsoDateTimeOffsetConverter : JsonConverter<DateTimeOffset>
 
     public override DateTimeOffset Read(ref Utf8JsonReader reader, Type typeToConvert, JsonSerializerOptions options)
     {
-        string? dateText = reader.GetString();
+        string dateText = reader.GetString();
 
         if (string.IsNullOrEmpty(dateText) == false)
         {
