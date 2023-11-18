@@ -20,14 +20,14 @@ public class Generator : IIncrementalGenerator
                .Select((text, token) => text.GetText(token)!.ToString())
                .Collect();
 
-        context.RegisterSourceOutput(files, GenerateCSharpBindingForHeaderFile);
+        context.RegisterSourceOutput(files, GenerateCSharpCodeFromCHeader);
     }
 
-    private static void GenerateCSharpBindingForHeaderFile(SourceProductionContext context, ImmutableArray<string> headerContentArray)
+    private static void GenerateCSharpCodeFromCHeader(SourceProductionContext context, ImmutableArray<string> headerContentArray)
     {
         foreach (var headerContent in headerContentArray)
         {
-            foreach (var (sourceName, sourceContent) in BindingGenerator.Generate(headerContent))
+            foreach (var (sourceName, sourceContent) in HeaderGenerator.Generate(headerContent))
             {
                 context.AddSource($"{sourceName}.g.cs", sourceContent);
             }
