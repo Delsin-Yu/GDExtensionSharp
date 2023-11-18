@@ -1,10 +1,11 @@
 ﻿using System.Collections.Immutable;
+using GDExtensionSharp.SourceGenerator.Header.BindingGeneratorImpl;
 using Microsoft.CodeAnalysis;
 
 namespace GDExtensionSharp.SourceGenerator.Header;
 
 [Generator(LanguageNames.CSharp)]
-public class Generator : IIncrementalGenerator
+public class ExtensionInterfaceGenerator : IIncrementalGenerator
 {
     public void Initialize(IncrementalGeneratorInitializationContext context)
     {
@@ -25,9 +26,9 @@ public class Generator : IIncrementalGenerator
 
     private static void GenerateCSharpCodeFromCHeader(SourceProductionContext context, ImmutableArray<string> headerContentArray)
     {
-        foreach (var headerContent in headerContentArray)
+        foreach (string? headerContent in headerContentArray)
         {
-            foreach (var (sourceName, sourceContent) in HeaderGenerator.Generate(headerContent))
+            foreach ((string sourceName, string sourceContent) in HeaderGenerator.Generate(headerContent))
             {
                 context.AddSource($"{sourceName}.g.cs", sourceContent);
             }

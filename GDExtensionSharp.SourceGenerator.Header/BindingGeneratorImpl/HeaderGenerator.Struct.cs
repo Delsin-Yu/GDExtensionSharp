@@ -1,7 +1,7 @@
 ﻿using System.Text;
 using System.Text.RegularExpressions;
 
-namespace GDExtensionSharp.SourceGenerator.Header;
+namespace GDExtensionSharp.SourceGenerator.Header.BindingGeneratorImpl;
 
 partial class HeaderGenerator
 {
@@ -15,7 +15,7 @@ partial class HeaderGenerator
             out string structName
         )
     {
-        var structBody = match.Groups["StructBody"].Value;
+        string? structBody = match.Groups["StructBody"].Value;
         structName = match.Groups["StructName"].Value;
 
         stringBuilder
@@ -32,11 +32,11 @@ partial class HeaderGenerator
 
         foreach (Match bodyMatch in GetStructFieldRegex().Matches(structBody))
         {
-            var fieldHeaderComment = bodyMatch.Groups["FieldHeaderComment"].Value;
-            var fieldType = bodyMatch.Groups["FieldType"].Value;
-            var pointerInfo = bodyMatch.Groups["PointerInfo"].Value;
-            var fieldName = bodyMatch.Groups["FieldName"].Value;
-            var fieldComment = bodyMatch.Groups["FieldComment"].Value;
+            string? fieldHeaderComment = bodyMatch.Groups["FieldHeaderComment"].Value;
+            string? fieldType = bodyMatch.Groups["FieldType"].Value;
+            string? pointerInfo = bodyMatch.Groups["PointerInfo"].Value;
+            string? fieldName = bodyMatch.Groups["FieldName"].Value;
+            string? fieldComment = bodyMatch.Groups["FieldComment"].Value;
 
             PrintHeaderContent(fieldHeaderComment);
 
@@ -68,11 +68,11 @@ partial class HeaderGenerator
 
         foreach (Match bodyMatch in GetStructDelegateRegex().Matches(structBody))
         {
-            var delegateHeaderComment = bodyMatch.Groups["DelegateHeaderComment"].Value;
-            var returnType = bodyMatch.Groups["ReturnType"].Value;
-            var pointerInfo = bodyMatch.Groups["PointerInfo"].Value;
-            var delegateName = bodyMatch.Groups["DelegateName"].Value;
-            var delegateBody = bodyMatch.Groups["DelegateBody"].Value;
+            string? delegateHeaderComment = bodyMatch.Groups["DelegateHeaderComment"].Value;
+            string? returnType = bodyMatch.Groups["ReturnType"].Value;
+            string? pointerInfo = bodyMatch.Groups["PointerInfo"].Value;
+            string? delegateName = bodyMatch.Groups["DelegateName"].Value;
+            string? delegateBody = bodyMatch.Groups["DelegateBody"].Value;
 
             BuildDelegate(tempStringBuilder, tempStringBuilder2, null, returnType, pointerInfo, delegateBody);
 
@@ -107,7 +107,7 @@ partial class HeaderGenerator
                .AppendLine("/// <summary>");
 
             if (!string.IsNullOrWhiteSpace(fieldHeaderComment))
-                foreach (var commentSegment in fieldHeaderComment.TrimEnd('\n').TrimEnd().Split('\n'))
+                foreach (string commentSegment in fieldHeaderComment.TrimEnd('\n').TrimEnd().Split('\n'))
                 {
                     stringBuilder
                        .AppendIndentation()

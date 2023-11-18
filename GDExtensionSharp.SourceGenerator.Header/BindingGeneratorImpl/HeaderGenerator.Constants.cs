@@ -1,4 +1,4 @@
-namespace GDExtensionSharp.SourceGenerator.Header;
+namespace GDExtensionSharp.SourceGenerator.Header.BindingGeneratorImpl;
 
 partial class HeaderGenerator
 {

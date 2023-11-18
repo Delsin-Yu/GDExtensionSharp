@@ -1,7 +1,7 @@
 ﻿using System.Text;
 using System.Text.RegularExpressions;
 
-namespace GDExtensionSharp.SourceGenerator.Header;
+namespace GDExtensionSharp.SourceGenerator.Header.BindingGeneratorImpl;
 
 internal static partial class HeaderGenerator
 {
@@ -18,7 +18,7 @@ internal static partial class HeaderGenerator
         foreach (Match match in GetEnumGlobalRegex().Matches(source))
         {
             builder.AppendLine(FileHeader);
-            ProcessEnum(match, builder, out var enumName);
+            ProcessEnum(match, builder, out string enumName);
             yield return ($"Enum.{enumName}", builder.ToString());
             builder.Clear();
         }
@@ -44,13 +44,13 @@ internal static partial class HeaderGenerator
                     delegateMethodStringBuilder,
                     delegateCommentStringBuilder,
                     tempStringBuilder,
-                    out var delegateName
+                    out string delegateName
                 );
 
-                var delegateBody = delegateBodyBuilder.ToString();
-                var delegateMethod = delegateMethodStringBuilder.ToString();
-                var delegateComment = delegateCommentStringBuilder.ToString().TrimStart().TrimStart('\n').TrimEnd().TrimEnd('\n');
-                var delegateCallBody = tempStringBuilder.ToString();
+                string delegateBody = delegateBodyBuilder.ToString();
+                string delegateMethod = delegateMethodStringBuilder.ToString();
+                string delegateComment = delegateCommentStringBuilder.ToString().TrimStart().TrimStart('\n').TrimEnd().TrimEnd('\n');
+                string delegateCallBody = tempStringBuilder.ToString();
 
                 delegateDefinitions.Add((delegateName, delegateBody, delegateComment, delegateMethod, delegateCallBody));
                 delegateBodyDictionary.Add(delegateName, delegateBody);
@@ -64,9 +64,9 @@ internal static partial class HeaderGenerator
                 tempStringBuilder.Clear();
             }
 
-            for (var i = 0; i < 20; i++)
+            for (int i = 0; i < 20; i++)
             {
-                foreach (var delegateName in delegateBodyDictionary.Keys)
+                foreach (string? delegateName in delegateBodyDictionary.Keys)
                 {
                     tempStringBuilder.Append(delegateBodyDictionary[delegateName]);
                     foreach (var delegateInfo in delegateBodyDictionary)
@@ -81,12 +81,12 @@ internal static partial class HeaderGenerator
 
             var godotInterfaceDelegates = new List<(string delegateName, string delegateGodotName, string generatedDocumentationComment, string delegateBody, string delegateCallBody, string delegatePseudoCode)>();
 
-            foreach (var (delegateName, delegateBody, delegateComment, delegatePseudoCode, delegateCallBody) in delegateDefinitions)
+            foreach ((string delegateName, string delegateBody, string delegateComment, string delegatePseudoCode, string delegateCallBody) in delegateDefinitions)
             {
                 if (ProcessGodotInterfaceDelegate(
                         delegateComment,
                         tempStringBuilder,
-                        out var godotMethodName
+                        out string godotMethodName
                     )) continue;
 
                 godotInterfaceDelegates.Add(
@@ -107,7 +107,7 @@ internal static partial class HeaderGenerator
 
             _indentationLevel++;
 
-            foreach (var utilityFunctionLine in UtilityFunctionBody.Split('\n'))
+            foreach (string utilityFunctionLine in UtilityFunctionBody.Split('\n'))
             {
                 builder
                    .AppendIndentation()
@@ -129,7 +129,7 @@ internal static partial class HeaderGenerator
                .AppendIndentation()
                .AppendLine("// ReSharper disable StringLiteralTypo");
 
-            foreach (var (delegateName, delegateGodotName, generatedDocumentationComment, delegateBody, delegateCallBody, delegateMethod) in godotInterfaceDelegates)
+            foreach ((string delegateName, string delegateGodotName, string generatedDocumentationComment, string delegateBody, string delegateCallBody, string delegateMethod) in godotInterfaceDelegates)
             {
                 ProcessDelegateInitialization(
                     builder,
@@ -158,7 +158,7 @@ internal static partial class HeaderGenerator
                .AppendLine("#region Delegate Methods")
                .AppendLine();
 
-            foreach (var (delegateName, delegateGodotName, generatedDocumentationComment, delegateBody, delegateCallBody, delegateMethod) in godotInterfaceDelegates)
+            foreach ((string delegateName, string delegateGodotName, string generatedDocumentationComment, string delegateBody, string delegateCallBody, string delegateMethod) in godotInterfaceDelegates)
             {
                 ProcessDelegateMethodDeclaration(
                     builder,
@@ -181,7 +181,7 @@ internal static partial class HeaderGenerator
                .AppendLine("#region Delegates")
                .AppendLine();
 
-            foreach (var (delegateName, delegateGodotName, generatedDocumentationComment, delegateBody, delegateCallBody, delegateMethod) in godotInterfaceDelegates)
+            foreach ((string delegateName, string delegateGodotName, string generatedDocumentationComment, string delegateBody, string delegateCallBody, string delegateMethod) in godotInterfaceDelegates)
             {
                 ProcessDelegateDeclaration(
                     builder,
@@ -209,7 +209,7 @@ internal static partial class HeaderGenerator
         foreach (Match match in GetStructGlobalRegex().Matches(source))
         {
             builder.AppendLine(FileHeader);
-            ProcessStruct(match, builder, tempStringBuilder, tempStringBuilder2, delegateBodyDictionary, out var structName);
+            ProcessStruct(match, builder, tempStringBuilder, tempStringBuilder2, delegateBodyDictionary, out string structName);
             tempStringBuilder.Clear();
             yield return ($"Struct.{structName}", builder.ToString());
             builder.Clear();

@@ -29,7 +29,7 @@ internal abstract class MethodBind
 
         Array.Resize(ref _argument_types, p_count + 1);
 
-        for (var i = -1; i < p_count; i++)
+        for (int i = -1; i < p_count; i++)
         {
             _argument_types[i + 1] = gen_argument_type(i);
         }
