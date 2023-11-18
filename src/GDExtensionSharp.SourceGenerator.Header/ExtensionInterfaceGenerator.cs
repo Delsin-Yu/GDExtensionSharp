@@ -1,8 +1,8 @@
-﻿using System.Collections.Immutable;
-using GDExtensionSharp.SourceGenerator.Header.BindingGeneratorImpl;
+using System.Text;
 using GDExtensionSharp.SourceGenerator.Header.Parser;
 using Microsoft.CodeAnalysis;
-
+using Microsoft.CodeAnalysis.CSharp.Syntax;
+using static Microsoft.CodeAnalysis.CSharp.SyntaxFactory;
 namespace GDExtensionSharp.SourceGenerator.Header;
 
 [Generator(LanguageNames.CSharp)]
@@ -12,31 +12,23 @@ public class ExtensionInterfaceGenerator : IIncrementalGenerator
     {
         var source = context.AdditionalTextsProvider.Combine(context.AnalyzerConfigOptionsProvider).Where(t =>
                                  t.Right.GetOptions(t.Left).TryGetValue("build_metadata.AdditionalFiles.SourceItemGroup",
-                                     out string? sourceItemGroup) && sourceItemGroup == "ExtensionInterface" &&
+                                     out var sourceItemGroup) && sourceItemGroup == "ExtensionInterface" &&
                                  t.Left.Path.EndsWith(".h"))
                             .Select((t, _) => t.Left).Collect();
 
         context.RegisterSourceOutput(source, (spc, input) =>
         {
-            foreach (AdditionalText additionalText in input)
+            foreach (var additionalText in input)
             {
                 var parser = new CParser();
                 var translationUnit = parser.Parse(additionalText.GetText()!.ToString());
-                VisitEnumSpecifier(translationUnit);
+                var enumTranspiler = new EnumTranspiler();
+                var enumDeclarations = enumTranspiler.Transpile(translationUnit);
+                var enumCompilationUnit = CompilationUnit().AddMembers(enumDeclarations.OfType<MemberDeclarationSyntax>().ToArray());
+                spc.AddSource("ExtensionInterface.Enum.g.cs", enumCompilationUnit.NormalizeWhitespace().GetText(Encoding.UTF8));
             }
         });
     }
 
-    private void VisitEnumSpecifier(CSyntaxNode node)
-    {
-        if (node is EnumSpecifier enumSpecifier)
-        {
 
-        }
-
-        foreach (CSyntaxNode cSyntaxNode in node.Children)
-        {
-            VisitEnumSpecifier(cSyntaxNode);
-        }
-    }
 }

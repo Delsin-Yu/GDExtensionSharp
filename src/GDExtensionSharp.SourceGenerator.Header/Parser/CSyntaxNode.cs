@@ -1,9 +1,9 @@
-﻿using System.Collections.Immutable;
+using System.Collections.Immutable;
 
 namespace GDExtensionSharp.SourceGenerator.Header.Parser
 {
-    internal class CSyntaxNode
+    internal abstract class CSyntaxNode
     {
-        public virtual ImmutableArray<CSyntaxNode> Children { get; }
+        public abstract ImmutableArray<CSyntaxNode> Children { get; }
     }
 }

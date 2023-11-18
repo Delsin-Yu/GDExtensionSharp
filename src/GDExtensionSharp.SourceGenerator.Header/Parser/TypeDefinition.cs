@@ -1,4 +1,4 @@
-﻿using System.Collections.Immutable;
+using System.Collections.Immutable;
 
 namespace GDExtensionSharp.SourceGenerator.Header.Parser;
 
@@ -12,5 +12,5 @@ class TypeDefinition : CSyntaxNode
     public TypeSpecifier TypeSpecifier { get; }
     public ImmutableArray<Declarator> Declarators { get; }
 
-    public override ImmutableArray<CSyntaxNode> Children => Declarators.CastArray<CSyntaxNode>();
+    public override ImmutableArray<CSyntaxNode> Children => ImmutableArray.Create(TypeSpecifier as CSyntaxNode);
 }

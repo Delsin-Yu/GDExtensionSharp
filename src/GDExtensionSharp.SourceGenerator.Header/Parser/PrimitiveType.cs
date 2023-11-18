@@ -1,4 +1,6 @@
-﻿namespace GDExtensionSharp.SourceGenerator.Header.Parser
+using System.Collections.Immutable;
+
+namespace GDExtensionSharp.SourceGenerator.Header.Parser
 {
     internal partial class PrimitiveType : CSyntaxNode, ITypeIdentifier
     {
@@ -8,5 +10,6 @@
         }
 
         public string Type { get; }
+        public override ImmutableArray<CSyntaxNode> Children => ImmutableArray<CSyntaxNode>.Empty;
     }
 }

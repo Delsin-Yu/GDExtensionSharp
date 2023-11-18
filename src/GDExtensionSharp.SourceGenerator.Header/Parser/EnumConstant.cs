@@ -1,4 +1,6 @@
-﻿namespace GDExtensionSharp.SourceGenerator.Header.Parser;
+using System.Collections.Immutable;
+
+namespace GDExtensionSharp.SourceGenerator.Header.Parser;
 
 class EnumConstant : CSyntaxNode
 {
@@ -10,4 +12,5 @@ class EnumConstant : CSyntaxNode
 
     public Identifier Name { get; }
     public CSyntaxNode? Value { get; }
+    public override ImmutableArray<CSyntaxNode> Children => ImmutableArray<CSyntaxNode>.Empty;
 }

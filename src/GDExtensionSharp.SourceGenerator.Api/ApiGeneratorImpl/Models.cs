@@ -1,4 +1,4 @@
-﻿namespace GDExtensionSharp.SourceGenerator.Api;
+namespace GDExtensionSharp.SourceGenerator.Api;
 
 using System;
 using System.Collections.Generic;
@@ -1038,7 +1038,7 @@ internal class IsoDateTimeOffsetConverter : JsonConverter<DateTimeOffset>
 
     public override DateTimeOffset Read(ref Utf8JsonReader reader, Type typeToConvert, JsonSerializerOptions options)
     {
-        string? dateText = reader.GetString();
+        var dateText = reader.GetString();
 
         if (string.IsNullOrEmpty(dateText) == false)
         {

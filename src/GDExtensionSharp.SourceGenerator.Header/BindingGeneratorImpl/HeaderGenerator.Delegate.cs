@@ -1,4 +1,4 @@
-﻿using System.Text;
+using System.Text;
 using System.Text.RegularExpressions;
 
 namespace GDExtensionSharp.SourceGenerator.Header.BindingGeneratorImpl;
@@ -15,7 +15,7 @@ partial class HeaderGenerator
             out string delegateName
         )
     {
-        string? delegateComment = match.Groups["DelegateComment"].Value;
+        var delegateComment = match.Groups["DelegateComment"].Value;
         if (!string.IsNullOrWhiteSpace(delegateComment)) delegateCommentStringBuilder.AppendLine(delegateComment);
 
         delegateCommentStringBuilder.Append(match.Groups["DelegateTrailingComment"].Value);
@@ -24,9 +24,9 @@ partial class HeaderGenerator
 
         delegateName = match.Groups["DelegateName"].Value;
 
-        string? returnType = match.Groups["ReturnType"].Value;
-        string? delegateParameters = match.Groups["DelegateParamters"].Value;
-        string? delegatePointerInfo = match.Groups["PointerInfo"].Value;
+        var returnType = match.Groups["ReturnType"].Value;
+        var delegateParameters = match.Groups["DelegateParamters"].Value;
+        var delegatePointerInfo = match.Groups["PointerInfo"].Value;
 
         BuildDelegate(delegateBodyBuilder, delegateMethodStringBuilder, godotDelegateCallBodyBuilder, returnType, delegatePointerInfo, delegateParameters);
     }
@@ -53,9 +53,9 @@ partial class HeaderGenerator
         var matchCollection = GetDelegateBodyRegex().Matches(delegateParameters);
         foreach (Match bodyMatch in matchCollection)
         {
-            string? parameterType = bodyMatch.Groups["ParameterType"].Value;
-            string? parameterPointerInfo = bodyMatch.Groups["PointerInfo"].Value;
-            string? parameterName = bodyMatch.Groups["ParameterName"].Value;
+            var parameterType = bodyMatch.Groups["ParameterType"].Value;
+            var parameterPointerInfo = bodyMatch.Groups["PointerInfo"].Value;
+            var parameterName = bodyMatch.Groups["ParameterName"].Value;
 
             delegateBodyBuilder
                .Append(parameterType.EscapeType())
@@ -191,11 +191,11 @@ partial class HeaderGenerator
         godotMethodName = GetDelegateNameDocumentationCommentRegex().Match(delegateComment).Groups["MethodName"].Value;
         if (string.IsNullOrWhiteSpace(godotMethodName)) return true;
 
-        string? sinceDocumentationComment = GetDelegateSinceDocumentationCommentRegex().Match(delegateComment).Groups["SinceComment"].Value;
+        var sinceDocumentationComment = GetDelegateSinceDocumentationCommentRegex().Match(delegateComment).Groups["SinceComment"].Value;
         var paramDocumentationComment = GetDelegateParamDocumentationCommentRegex().Matches(delegateComment);
-        string? returnDocumentationComment = GetDelegateReturnDocumentationCommentRegex().Match(delegateComment).Groups["ReturnComment"].Value;
-        string? seeDocumentationComment = GetDelegateSeeDocumentationCommentRegex().Match(delegateComment).Groups["SeeComment"].Value;
-        string? methodCommentDocumentationComment = GetDelegateMethodCommentDocumentationCommentRegex().Match(delegateComment).Groups["MethodComment"].Value;
+        var returnDocumentationComment = GetDelegateReturnDocumentationCommentRegex().Match(delegateComment).Groups["ReturnComment"].Value;
+        var seeDocumentationComment = GetDelegateSeeDocumentationCommentRegex().Match(delegateComment).Groups["SeeComment"].Value;
+        var methodCommentDocumentationComment = GetDelegateMethodCommentDocumentationCommentRegex().Match(delegateComment).Groups["MethodComment"].Value;
 
         godotDocumentationCommentBuilder
            .AppendLine("/// <summary>");
@@ -220,8 +220,8 @@ partial class HeaderGenerator
 
         foreach (Match paramMatch in paramDocumentationComment)
         {
-            string? paramName = paramMatch.Groups["ParamName"].Value;
-            string? paramComment = paramMatch.Groups["ParamComment"].Value;
+            var paramName = paramMatch.Groups["ParamName"].Value;
+            var paramComment = paramMatch.Groups["ParamComment"].Value;
 
             godotDocumentationCommentBuilder
                .Append("/// <param name=\"")

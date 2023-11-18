@@ -16,13 +16,13 @@ namespace GDExtensionSharp.SourceGenerator.Header.Parser
             lazyp(() => choice(LinkageSpecification, TypeDefinition, PreprocessorCall));
 
         private static Parser<CSyntaxNode> _declarator =
-            lazyp(() => choice(PointerDeclarator, FunctionDeclarator, ParenthesizedDeclarator, _identifier));
+            lazyp(() => choice(PointerDeclarator, FunctionDeclarator, ParenthesizedDeclarator, Declarator));
 
         private static Parser<CSyntaxNode> _typeDeclarator =
-            lazyp(() => choice(PointerDeclarator, FunctionDeclarator, ParenthesizedDeclarator, _identifier));
+            lazyp(() => choice(PointerDeclarator, FunctionDeclarator, ParenthesizedDeclarator, Declarator));
 
         private static Parser<CSyntaxNode> _fieldDeclarator =
-            lazyp(() => choice(PointerDeclarator, FunctionDeclarator, ParenthesizedDeclarator, _identifier));
+            lazyp(() => choice(PointerDeclarator, FunctionDeclarator, ParenthesizedDeclarator, Declarator));
 
 
         private static Parser<CSyntaxNode> _declarationModifier = lazyp(() => choice(TypeQualifier));

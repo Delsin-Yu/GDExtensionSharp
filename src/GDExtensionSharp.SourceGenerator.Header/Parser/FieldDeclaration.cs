@@ -1,4 +1,6 @@
-﻿namespace GDExtensionSharp.SourceGenerator.Header.Parser
+using System.Collections.Immutable;
+
+namespace GDExtensionSharp.SourceGenerator.Header.Parser
 {
     internal class FieldDeclaration : CSyntaxNode
     {
@@ -10,7 +12,7 @@
 
         public IFieldDeclarator Declarator { get; }
         public ITypeIdentifier Type { get; }
-
+        public override ImmutableArray<CSyntaxNode> Children => ImmutableArray<CSyntaxNode>.Empty;
 
     }
 }

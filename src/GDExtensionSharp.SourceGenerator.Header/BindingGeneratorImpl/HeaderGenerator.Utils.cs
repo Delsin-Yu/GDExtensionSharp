@@ -1,4 +1,4 @@
-﻿using System.Text;
+using System.Text;
 using System.Text.RegularExpressions;
 
 namespace GDExtensionSharp.SourceGenerator.Header.BindingGeneratorImpl;
@@ -154,8 +154,8 @@ partial class HeaderGenerator
 
     private static void ReplaceSubstitutedType(StringBuilder tempStringBuilder, IDictionary<string, string> delegateBodyDictionary)
     {
-        string matchKey = tempStringBuilder.ToString();
-        if (delegateBodyDictionary.TryGetValue(matchKey, out string? matchedSubstitute))
+        var matchKey = tempStringBuilder.ToString();
+        if (delegateBodyDictionary.TryGetValue(matchKey, out var matchedSubstitute))
         {
             tempStringBuilder.Replace(matchKey, matchedSubstitute);
             return;
@@ -169,7 +169,7 @@ partial class HeaderGenerator
 
     private static StringBuilder AppendIndentation(this StringBuilder stringBuilder)
     {
-        for (int i = 0; i < _indentationLevel; i++)
+        for (var i = 0; i < _indentationLevel; i++)
         {
             stringBuilder.Append(' ', 4);
         }

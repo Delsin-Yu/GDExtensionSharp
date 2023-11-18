@@ -1,4 +1,4 @@
-﻿using GDExtensionSharp.Bindings.Header;
+using GDExtensionSharp.Bindings.Header;
 using GDExtensionSharp.Variants;
 
 namespace GDExtensionSharp.Core;
@@ -29,7 +29,7 @@ internal abstract class MethodBind
 
         Array.Resize(ref _argument_types, p_count + 1);
 
-        for (int i = -1; i < p_count; i++)
+        for (var i = -1; i < p_count; i++)
         {
             _argument_types[i + 1] = gen_argument_type(i);
         }

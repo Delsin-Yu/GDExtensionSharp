@@ -1,4 +1,6 @@
-﻿namespace GDExtensionSharp.SourceGenerator.Header.Parser
+using System.Collections.Immutable;
+
+namespace GDExtensionSharp.SourceGenerator.Header.Parser
 {
     internal class IntegerLiteral : CSyntaxNode
     {
@@ -8,5 +10,6 @@
         }
 
         public int Value { get; }
+        public override ImmutableArray<CSyntaxNode> Children => ImmutableArray<CSyntaxNode>.Empty;
     }
 }
