@@ -22,6 +22,7 @@
                 OutputItemType="Analyzer" 
                 ReferenceOutputAssembly="false" />
         <AdditionalFiles Include="GDExtensionSources\gdextension_interface.h" />
+        <AdditionalFiles Include="GDExtensionSources\extension_api.json" />
     </ItemGroup>
 
 </Project>

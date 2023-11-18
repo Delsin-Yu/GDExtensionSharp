@@ -139,6 +139,9 @@ partial class BindingGenerator
     private static readonly Regex _pascalToSnakeRegex = new("(?<=[a-z0-9])([A-Z])|([A-Z][a-z])", RegexOptions.Compiled);
     private static Regex GetPascalToSnakeRegex() => _pascalToSnakeRegex;
 
+    private static readonly Regex _standardizeLineEndingsRegex = new(@"\r\n|\n\r|\n|\r", RegexOptions.Compiled);
+    private static Regex GetStandardizeLineEndingsRegex() => _standardizeLineEndingsRegex;
+    
     private static string PascalCaseToSnakeCase(this string input) =>
         string.IsNullOrEmpty(input) ?
             input :

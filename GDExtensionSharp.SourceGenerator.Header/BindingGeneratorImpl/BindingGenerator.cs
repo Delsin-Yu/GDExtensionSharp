@@ -7,6 +7,8 @@ internal static partial class BindingGenerator
 {
     internal static IEnumerable<(string sourceName, string sourceContent)> Generate(string source)
     {
+        source = GetStandardizeLineEndingsRegex().Replace(source, "\n");
+        
         yield return ("GlobalUsing", GlobalUsing);
         
         var builder = new StringBuilder();
