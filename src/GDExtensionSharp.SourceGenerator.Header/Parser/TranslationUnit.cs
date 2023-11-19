@@ -1,14 +1,13 @@
-﻿using System.Collections.Immutable;
+using System.Collections.Immutable;
 
-namespace GDExtensionSharp.SourceGenerator.Header.Parser
+namespace GDExtensionSharp.SourceGenerator.Header.Parser;
+
+internal class TranslationUnit : CSyntaxNode
 {
-    internal class TranslationUnit : CSyntaxNode
+    public TranslationUnit(IEnumerable<CSyntaxNode> children)
     {
-        public TranslationUnit(IEnumerable<CSyntaxNode> children)
-        {
-            Children = children.ToImmutableArray();
-        }
-
-        public override ImmutableArray<CSyntaxNode> Children { get; }
+        Children = children.ToImmutableArray();
     }
+
+    public override ImmutableArray<CSyntaxNode> Children { get; }
 }

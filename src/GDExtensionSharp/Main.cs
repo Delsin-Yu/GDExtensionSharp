@@ -1,13 +1,13 @@
-﻿using System.Runtime.InteropServices;
+using System.Runtime.InteropServices;
 
-namespace Godot;
+namespace GDExtensionSharp;
 
 public static unsafe class Main
 {
     private static MethodTable _methodTable;
 
     private const uint GODOT_VERSION_MAJOR = 4;
-    private const uint GODOT_VERSION_MINOR = 1;
+    private const uint GODOT_VERSION_MINOR = 1; 
     private const uint GODOT_VERSION_PATCH = 3;
 
     [UnmanagedCallersOnly(EntryPoint = "gdextension_csharp_init")]

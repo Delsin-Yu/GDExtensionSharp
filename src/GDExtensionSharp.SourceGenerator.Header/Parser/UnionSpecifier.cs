@@ -1,16 +1,15 @@
-﻿using System.Collections.Immutable;
+using System.Collections.Immutable;
 
-namespace GDExtensionSharp.SourceGenerator.Header.Parser
+namespace GDExtensionSharp.SourceGenerator.Header.Parser;
+
+internal class UnionSpecifier : TypeSpecifier
 {
-    internal class UnionSpecifier : TypeSpecifier
+    public UnionSpecifier(ITypeIdentifier? name, IEnumerable<FieldDeclaration> fields) : base(name)
     {
-        public UnionSpecifier(ITypeIdentifier? name, IEnumerable<FieldDeclaration> fields) : base(name)
-        {
-            Name = name;
-            Fields = fields.ToImmutableArray();
-        }
-
-        public ITypeIdentifier? Name { get; }
-        public ImmutableArray<FieldDeclaration> Fields { get; }
+        Name = name;
+        Fields = fields.ToImmutableArray();
     }
+
+    public ITypeIdentifier? Name { get; }
+    public ImmutableArray<FieldDeclaration> Fields { get; }
 }

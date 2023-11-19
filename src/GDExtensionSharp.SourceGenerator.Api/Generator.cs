@@ -1,4 +1,5 @@
 ﻿using System.Collections.Immutable;
+using GDExtensionSharp.SourceGenerator.Api.ApiGeneratorImpl;
 using Microsoft.CodeAnalysis;
 using Microsoft.CodeAnalysis.Diagnostics;
 

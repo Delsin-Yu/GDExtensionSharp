@@ -1,29 +1,28 @@
-﻿using System.Collections.Immutable;
+using System.Collections.Immutable;
 
-namespace GDExtensionSharp.SourceGenerator.Header.Parser
+namespace GDExtensionSharp.SourceGenerator.Header.Parser;
+
+internal class LinkageSpecification : CSyntaxNode
 {
-    internal class LinkageSpecification : CSyntaxNode
+    public LinkageSpecification(string value, CSyntaxNode body)
     {
-        public LinkageSpecification(string value, CSyntaxNode body)
+        Value = value;
+        Body = body;
+    }
+
+    public string Value { get; }
+
+    public CSyntaxNode Body { get; }
+
+    public override ImmutableArray<CSyntaxNode> Children
+    {
+        get
         {
-            Value = value;
-            Body = body;
-        }
-
-        public string Value { get; }
-
-        public CSyntaxNode Body { get; }
-
-        public override ImmutableArray<CSyntaxNode> Children
-        {
-            get
+            if (Body is DeclarationList list)
             {
-                if (Body is DeclarationList list)
-                {
-                    return list.Children;
-                }
-                return ImmutableArray<CSyntaxNode>.Empty;
+                return list.Children;
             }
+            return ImmutableArray<CSyntaxNode>.Empty;
         }
     }
 }

@@ -1,14 +1,13 @@
-﻿using System.Collections.Immutable;
+using System.Collections.Immutable;
 
-namespace GDExtensionSharp.SourceGenerator.Header.Parser
+namespace GDExtensionSharp.SourceGenerator.Header.Parser;
+
+internal class ParameterListDeclaration
 {
-    internal class ParameterListDeclaration
+    public ParameterListDeclaration(IEnumerable<ParameterDeclaration> parameters)
     {
-        public ParameterListDeclaration(IEnumerable<ParameterDeclaration> parameters)
-        {
-            Parameters = parameters.ToImmutableArray();
-        }
-
-        public ImmutableArray<ParameterDeclaration> Parameters { get; }
+        Parameters = parameters.ToImmutableArray();
     }
+
+    public ImmutableArray<ParameterDeclaration> Parameters { get; }
 }

@@ -1,15 +1,14 @@
 using System.Collections.Immutable;
 
-namespace GDExtensionSharp.SourceGenerator.Header.Parser
-{
-    internal class Identifier : CSyntaxNode, ITypeIdentifier
-    {
-        public Identifier(string name)
-        {
-            Name = name;
-        }
+namespace GDExtensionSharp.SourceGenerator.Header.Parser;
 
-        public string Name { get; }
-        public override ImmutableArray<CSyntaxNode> Children => ImmutableArray<CSyntaxNode>.Empty;
+internal class Identifier : CSyntaxNode, ITypeIdentifier
+{
+    public Identifier(string name)
+    {
+        Name = name;
     }
+
+    public string Name { get; }
+    public override ImmutableArray<CSyntaxNode> Children => ImmutableArray<CSyntaxNode>.Empty;
 }

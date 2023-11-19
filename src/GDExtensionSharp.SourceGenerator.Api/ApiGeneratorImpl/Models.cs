@@ -1,11 +1,8 @@
-﻿
-namespace GDExtensionSharp.SourceGenerator.Api;
-
-using System;
-using System.Collections.Generic;
+﻿using System.Globalization;
 using System.Text.Json;
 using System.Text.Json.Serialization;
-using System.Globalization;
+
+namespace GDExtensionSharp.SourceGenerator.Api.ApiGeneratorImpl;
 
 public class GDExtensionApi
 {
