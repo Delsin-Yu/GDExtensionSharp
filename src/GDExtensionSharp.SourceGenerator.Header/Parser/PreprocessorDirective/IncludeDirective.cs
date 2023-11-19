@@ -1,12 +1,11 @@
-﻿namespace GDExtensionSharp.SourceGenerator.Header.Parser.PreprocessorDirective
-{
-    internal class IncludeDirective : PreprocessorDirective
-    {
-        public IncludeDirective(string path)
-        {
-            Path = path;
-        }
+namespace GDExtensionSharp.SourceGenerator.Header.Parser.PreprocessorDirective;
 
-        public string Path { get; }
+internal class IncludeDirective : PreprocessorDirective
+{
+    public IncludeDirective(string path)
+    {
+        Path = path;
     }
+
+    public string Path { get; }
 }

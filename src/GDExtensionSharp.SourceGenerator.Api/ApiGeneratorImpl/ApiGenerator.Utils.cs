@@ -2,7 +2,7 @@ using System.Globalization;
 using System.Text;
 using System.Text.RegularExpressions;
 
-namespace GDExtensionSharp.SourceGenerator.Api;
+namespace GDExtensionSharp.SourceGenerator.Api.ApiGeneratorImpl;
 
 internal static partial class ApiGenerator
 {

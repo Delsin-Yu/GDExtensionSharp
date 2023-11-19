@@ -1,9 +1,7 @@
-﻿using System.Collections;
-using System.Globalization;
-using System.Text;
+﻿using System.Text;
 using System.Text.Json;
 
-namespace GDExtensionSharp.SourceGenerator.Api;
+namespace GDExtensionSharp.SourceGenerator.Api.ApiGeneratorImpl;
 
 internal static partial class ApiGenerator
 {

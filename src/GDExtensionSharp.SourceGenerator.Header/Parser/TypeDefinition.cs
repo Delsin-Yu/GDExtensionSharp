@@ -2,7 +2,7 @@ using System.Collections.Immutable;
 
 namespace GDExtensionSharp.SourceGenerator.Header.Parser;
 
-class TypeDefinition : CSyntaxNode
+internal class TypeDefinition : CSyntaxNode
 {
     public TypeDefinition(IEnumerable<Declarator> declarators, TypeSpecifier typeSpecifier)
     {

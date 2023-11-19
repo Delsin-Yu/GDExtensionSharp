@@ -1,4 +1,4 @@
-﻿namespace GDExtensionSharp.SourceGenerator.Api;
+﻿namespace GDExtensionSharp.SourceGenerator.Api.ApiGeneratorImpl;
 
 internal static partial class ApiGenerator
 {

@@ -1,34 +1,35 @@
 <Project Sdk="Microsoft.NET.Sdk">
 
-  <PropertyGroup>
-    <OutputType>library</OutputType>
-    <TargetFramework>net7.0</TargetFramework>
-    <ImplicitUsings>enable</ImplicitUsings>
-    <PublishAot>true</PublishAot>
-    <AllowUnsafeBlocks>true</AllowUnsafeBlocks>
-    <RootNamespace>GDExtensionSharp</RootNamespace>
-    <IlcDisableReflection>true</IlcDisableReflection>
-  </PropertyGroup>
+    <PropertyGroup>
+        <OutputType>library</OutputType>
+        <TargetFramework>net8.0</TargetFramework>
+        <ImplicitUsings>enable</ImplicitUsings>
+        <PublishAot>true</PublishAot>
+        <AllowUnsafeBlocks>true</AllowUnsafeBlocks>
+        <RootNamespace>GDExtensionSharp</RootNamespace>
+        <IlcDisableReflection>true</IlcDisableReflection>
+        <LanguageVersion>preview</LanguageVersion>
+    </PropertyGroup>
 
-  <ItemGroup>
-    <ProjectReference Include="..\GDExtensionSharp.SourceGenerator.Header\GDExtensionSharp.SourceGenerator.Header.csproj" OutputItemType="Analyzer" ReferenceOutputAssembly="false"/>
-    <ProjectReference Include="..\GDExtensionSharp.SourceGenerator.Api\GDExtensionSharp.SourceGenerator.Api.csproj" OutputItemType="Analyzer" ReferenceOutputAssembly="false"/>
-  </ItemGroup>
+    <ItemGroup>
+        <ProjectReference Include="..\GDExtensionSharp.SourceGenerator.Header\GDExtensionSharp.SourceGenerator.Header.csproj" OutputItemType="Analyzer" ReferenceOutputAssembly="false"/>
+        <ProjectReference Include="..\GDExtensionSharp.SourceGenerator.Api\GDExtensionSharp.SourceGenerator.Api.csproj" OutputItemType="Analyzer" ReferenceOutputAssembly="false"/>
+    </ItemGroup>
 
-  <ItemGroup>
-    <CompilerVisibleItemMetadata Include="AdditionalFiles" MetadataName="SourceItemGroup" />
-    <CompilerVisibleItemMetadata Include="ExtensionInterface" MetadataName="FileName" />
-    <CompilerVisibleItemMetadata Include="ExtensionApi" MetadataName="FileName" />
-    <CompilerVisibleItemMetadata Include="ExtensionInterface" MetadataName="Extension" />
-    <CompilerVisibleItemMetadata Include="ExtensionApi" MetadataName="Extension" />
-    <ExtensionInterface Include="..\..\gdextension_interface.h">
-      <Visible>false</Visible>
-    </ExtensionInterface>
-    <ExtensionApi Include="..\..\extension_api.json">
-      <Visible>false</Visible>
-    </ExtensionApi>
-    <AdditionalFiles Include="@(ExtensionInterface)" SourceItemGroup="ExtensionInterface" />
-    <AdditionalFiles Include="@(ExtensionApi)" SourceItemGroup="ExtensionApi" />
-  </ItemGroup>
+    <ItemGroup>
+        <CompilerVisibleItemMetadata Include="AdditionalFiles" MetadataName="SourceItemGroup" />
+        <CompilerVisibleItemMetadata Include="ExtensionInterface" MetadataName="FileName" />
+        <CompilerVisibleItemMetadata Include="ExtensionApi" MetadataName="FileName" />
+        <CompilerVisibleItemMetadata Include="ExtensionInterface" MetadataName="Extension" />
+        <CompilerVisibleItemMetadata Include="ExtensionApi" MetadataName="Extension" />
+        <ExtensionInterface Include="..\..\gdextension_interface.h">
+            <Visible>false</Visible>
+        </ExtensionInterface>
+        <ExtensionApi Include="..\..\extension_api.json">
+            <Visible>false</Visible>
+        </ExtensionApi>
+        <AdditionalFiles Include="@(ExtensionInterface)" SourceItemGroup="ExtensionInterface" />
+        <AdditionalFiles Include="@(ExtensionApi)" SourceItemGroup="ExtensionApi" />
+    </ItemGroup>
 
 </Project>
