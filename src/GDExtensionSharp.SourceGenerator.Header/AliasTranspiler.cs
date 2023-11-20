@@ -44,26 +44,14 @@ internal partial class AliasTranspiler
                 {
                     if (parameter.Declarator is { Identifier: not null })
                     {
-                        var resolvedType = _typeForwardResolver.Resolve(parameter.Type.Name);
-                        if (resolvedType is IdentifierNameSyntax identifierName)
-                        {
-                            resolvedType = IdentifierName($"global::GDExtensionSharp.{identifierName.Identifier.Text}");
-                        }
-
                         functionPointerType = functionPointerType
-                           .AddParameterListParameters(FunctionPointerParameter(resolvedType));
+                           .AddParameterListParameters(FunctionPointerParameter(_typeForwardResolver.Resolve(parameter.Type.Name)));
                     }
 
                     if (parameter.Declarator is PointerDeclarator { Declarator.Identifier: not null })
                     {
-                        var resolvedType = _typeForwardResolver.Resolve(parameter.Type.Name);
-                        if (resolvedType is IdentifierNameSyntax identifierName)
-                        {
-                            resolvedType = IdentifierName($"global::GDExtensionSharp.{identifierName.Identifier.Text}");
-                        }
-
                         functionPointerType = functionPointerType
-                           .AddParameterListParameters(FunctionPointerParameter(PointerType(resolvedType)));
+                           .AddParameterListParameters(FunctionPointerParameter(PointerType(_typeForwardResolver.Resolve(parameter.Type.Name))));
                     }
                 }
                 functionPointerType = functionPointerType.AddParameterListParameters(FunctionPointerParameter(_typeForwardResolver.Resolve(right3.Name)));
@@ -85,26 +73,14 @@ internal partial class AliasTranspiler
                 {
                     if (parameter.Declarator is { Identifier: not null })
                     {
-                        var resolvedType = _typeForwardResolver.Resolve(parameter.Type.Name);
-                        if (resolvedType is IdentifierNameSyntax identifierName)
-                        {
-                            resolvedType = IdentifierName($"global::GDExtensionSharp.{identifierName.Identifier.Text}");
-                        }
-
                         functionPointerType = functionPointerType
-                           .AddParameterListParameters(FunctionPointerParameter(resolvedType));
+                           .AddParameterListParameters(FunctionPointerParameter(_typeForwardResolver.Resolve(parameter.Type.Name)));
                     }
 
                     if (parameter.Declarator is PointerDeclarator { Declarator.Identifier: not null })
                     {
-                        var resolvedType = _typeForwardResolver.Resolve(parameter.Type.Name);
-                        if (resolvedType is IdentifierNameSyntax identifierName)
-                        {
-                            resolvedType = IdentifierName($"global::GDExtensionSharp.{identifierName.Identifier.Text}");
-                        }
-
                         functionPointerType = functionPointerType
-                           .AddParameterListParameters(FunctionPointerParameter(PointerType(resolvedType)));
+                           .AddParameterListParameters(FunctionPointerParameter(PointerType(_typeForwardResolver.Resolve(parameter.Type.Name))));
                     }
                 }
 
