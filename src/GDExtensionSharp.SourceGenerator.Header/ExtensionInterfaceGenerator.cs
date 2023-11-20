@@ -625,7 +625,7 @@ public class ExtensionInterfaceGenerator : IIncrementalGenerator
         foreach (KeyValuePair<string, (string longName, string shortName)> kvp in table)
         {
             constructor = constructor.AddBodyStatements(ExpressionStatement(AssignmentExpression(
-                SyntaxKind.SimpleAssignmentExpression, IdentifierName(kvp.Value.longName),
+                SyntaxKind.SimpleAssignmentExpression, IdentifierName(kvp.Value.shortName),
                 CastExpression(IdentifierName(kvp.Key), InvocationExpression(IdentifierName("GetProcAddress"))
                     .AddArgumentListArguments(
                         Argument(IdentifierName("p_get_proc_address")),
@@ -637,7 +637,7 @@ public class ExtensionInterfaceGenerator : IIncrementalGenerator
         {
             var fieldDeclaration = FieldDeclaration(VariableDeclaration(IdentifierName(kvp.Key)))
                 .AddModifiers(Token(SyntaxKind.PublicKeyword))
-                .AddDeclarationVariables(VariableDeclarator(Identifier(kvp.Value.longName)));
+                .AddDeclarationVariables(VariableDeclarator(Identifier(kvp.Value.shortName)));
             methodTable = methodTable.AddMembers(fieldDeclaration);
         }
         compilationUnit = compilationUnit.AddMembers(@namespace, methodTable);
