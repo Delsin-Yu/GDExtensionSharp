@@ -4,10 +4,7 @@
         <OutputType>library</OutputType>
         <TargetFramework>net8.0</TargetFramework>
         <ImplicitUsings>enable</ImplicitUsings>
-        <PublishAot>true</PublishAot>
         <AllowUnsafeBlocks>true</AllowUnsafeBlocks>
-        <RootNamespace>GDExtensionSharp</RootNamespace>
-        <IlcDisableReflection>true</IlcDisableReflection>
         <LanguageVersion>preview</LanguageVersion>
     </PropertyGroup>
 

@@ -1,10 +1,9 @@
-﻿<Project Sdk="Microsoft.NET.Sdk">
+<Project Sdk="Microsoft.NET.Sdk">
 
     <PropertyGroup>
         <TargetFramework>netstandard2.0</TargetFramework>
         <ImplicitUsings>enable</ImplicitUsings>
         <IsRoslynComponent>true</IsRoslynComponent>
-        <RootNamespace>GDExtensionSharp.SourceGenerator.Api</RootNamespace>
         <LangVersion>latest</LangVersion>
         <EnforceExtendedAnalyzerRules>true</EnforceExtendedAnalyzerRules>
         <CopyLocalLockFileAssemblies>true</CopyLocalLockFileAssemblies>

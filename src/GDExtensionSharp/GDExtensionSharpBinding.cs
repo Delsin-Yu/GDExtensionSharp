@@ -1,6 +1,5 @@
 using System.Runtime.CompilerServices;
 using System.Runtime.InteropServices;
-using System.Text;
 
 namespace GDExtensionSharp;
 
@@ -13,12 +12,7 @@ internal static unsafe class GDExtensionSharpBinding
     private const uint GODOT_VERSION_PATCH = 3;
 
     [UnmanagedCallersOnly(EntryPoint = "gdextension_csharp_init")]
-    private static GDExtensionBool Initialize
-    (
-        GDExtensionInterfaceGetProcAddress p_get_proc_address,
-        delegate* unmanaged<void> p_library,
-        GDExtensionInitialization* r_initialization
-    )
+    private static GDExtensionBool Initialize(GDExtensionInterfaceGetProcAddress p_get_proc_address, GDExtensionClassLibraryPtr p_library, GDExtensionInitialization* r_initialization)
     {
         MethodTable = new(p_get_proc_address);
 
