@@ -1,4 +1,5 @@
-﻿using System.Text;
+﻿using System.Globalization;
+using System.Text;
 using System.Text.Json;
 
 namespace GDExtensionSharp.SourceGenerator.Api.ApiGeneratorImpl;
@@ -25,10 +26,12 @@ internal static partial class ApiGenerator
 
         var size =
             gdExtensionApi
-               .BuiltinClassSizes
-               .First(size => size.BuildConfiguration == "double_64")
-               .Sizes
-               .ToDictionary(x => x.Name, x => x.SizeSize);
+                .BuiltinClassSizes
+                .First(size => size.BuildConfiguration == "double_64")
+                .Sizes
+                .ToDictionary(x => x.Name, x => x.SizeSize);
+
+        yield return GenerateFixedSizeBuffer(stringBuilder, size);
 
         foreach (var generatedBuiltinClass in GenerateBuiltinClasses(stringBuilder, gdExtensionApi.BuiltinClasses, size))
         {
@@ -37,6 +40,7 @@ internal static partial class ApiGenerator
 
         stringBuilder.Clear();
     }
+
 
     private static (string sourceName, string sourceContent) GenerateGlobalUsing()
     {

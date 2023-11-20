@@ -33,7 +33,7 @@ internal static partial class ApiGenerator
 
                   {{GenerateBuiltinClassOpaqueData(classSize).InsertIndentation()}}
 
-                  {{GenerateBuiltinClassCtor(stringBuilder, builtinClass).InsertIndentation()}}
+                  {{GenerateBuiltinClassCtor(stringBuilder, builtinClass, classSize).InsertIndentation()}}
                   {{GenerateBuiltinClassDtor(builtinClass).InsertIndentation()}}
                   {{GenerateBuiltinClassEnums(stringBuilder, builtinClass.Enums).InsertIndentation()}}
 

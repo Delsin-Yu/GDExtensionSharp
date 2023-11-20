@@ -7,7 +7,7 @@ internal static partial class ApiGenerator
 {
     private static readonly StringBuilder _methodCallerBuilder = new();
 
-    private static string GenerateBuiltinClassCtor(StringBuilder stringBuilder, BuiltinClass builtinClass)
+    private static string GenerateBuiltinClassCtor(StringBuilder stringBuilder, BuiltinClass builtinClass, long builtinClassSize)
     {
         if (builtinClass.Constructors == null) return string.Empty;
 
@@ -24,13 +24,15 @@ internal static partial class ApiGenerator
                 .AppendLine(")")
                 .AppendLine("{");
 
+            stringBuilder.AppendLine(GenerateBufferToPointerCommand(builtinClassSize).InsertIndentation());
+
             _methodCallerBuilder
                 .Append(MethodHelper)
                 .Append('.')
                 .Append(CallBuiltinConstructor)
                 .Append("(_method_bindings.constructor_")
                 .Append(constructor.Index)
-                .Append($", &{OpaqueFieldName}");
+                .Append($", {OpaqueDataPointerName}");
 
             if (constructor.Arguments != null)
             {
@@ -58,12 +60,13 @@ internal static partial class ApiGenerator
             stringBuilder
                 .Append(Indents)
                 .Append(_methodCallerBuilder)
-                .Append(");")
-                .AppendLine()
+                .AppendLine(");")
+                .AppendLine(GeneratePointerToBufferCommand(builtinClassSize).InsertIndentation())
                 .AppendLine("}");
 
             _methodCallerBuilder.Clear();
         }
+
 
         return stringBuilder.ToStringAndClear();
     }
