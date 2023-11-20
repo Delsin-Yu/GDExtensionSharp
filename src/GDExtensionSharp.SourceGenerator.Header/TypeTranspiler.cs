@@ -4,6 +4,7 @@ using Microsoft.CodeAnalysis.CSharp.Syntax;
 using static Microsoft.CodeAnalysis.CSharp.SyntaxFactory;
 
 namespace GDExtensionSharp.SourceGenerator.Header;
+
 internal class TypeTranspiler
 {
     public IEnumerable<MemberDeclarationSyntax> Transpile(CSyntaxNode node)
@@ -25,6 +26,7 @@ internal class TypeTranspiler
                     {
                         enumDeclaration = enumDeclaration.AddMembers(EnumMemberDeclaration(value.Name.Name));
                     }
+
                     if (value.Value is Identifier i)
                     {
                         enumDeclaration = enumDeclaration.AddMembers(
@@ -41,6 +43,7 @@ internal class TypeTranspiler
                         );
                     }
                 }
+
                 yield return enumDeclaration;
             }
 
@@ -53,22 +56,31 @@ internal class TypeTranspiler
                     if (field.Declarator.Identifier is { } fieldIdentifier1)
                     {
                         structDeclaration = structDeclaration
-                           .AddMembers(FieldDeclaration(VariableDeclaration(IdentifierName(field.Type.Name)))
-                                      .AddModifiers(Token(SyntaxKind.PublicKeyword))
-                                      .AddDeclarationVariables(VariableDeclarator(Identifier(fieldIdentifier1.Name))));
+                           .AddMembers(
+                                FieldDeclaration(VariableDeclaration(IdentifierName(field.Type.Name)))
+                                   .AddModifiers(Token(SyntaxKind.PublicKeyword))
+                                   .AddDeclarationVariables(VariableDeclarator(Identifier(fieldIdentifier1.Name)))
+                            );
                     }
 
                     if (field.Declarator is PointerDeclarator { Declarator: { Identifier: { } fieldIdentifier2 } })
                     {
                         structDeclaration = structDeclaration
-                           .AddMembers(FieldDeclaration(VariableDeclaration(PointerType(IdentifierName(field.Type.Name))))
-                                      .AddModifiers(Token(SyntaxKind.PublicKeyword))
-                                      .AddDeclarationVariables(VariableDeclarator(Identifier(fieldIdentifier2.Name))));
+                           .AddMembers(
+                                FieldDeclaration(VariableDeclaration(PointerType(IdentifierName(field.Type.Name))))
+                                   .AddModifiers(Token(SyntaxKind.PublicKeyword))
+                                   .AddDeclarationVariables(VariableDeclarator(Identifier(fieldIdentifier2.Name)))
+                            );
                     }
 
                     if (field.Declarator is FunctionDeclarator { ParameterList: { } parameterList1, Declarator: ParenthesizedDeclarator { Declarator: PointerDeclarator { Declarator.Identifier: { } fieldIdentifier3 } } })
                     {
                         var functionPointerType = FunctionPointerType();
+                        functionPointerType = functionPointerType
+                           .WithCallingConvention(
+                                FunctionPointerCallingConvention(Token(SyntaxKind.UnmanagedKeyword))
+                                   .AddUnmanagedCallingConventionListCallingConventions(FunctionPointerUnmanagedCallingConvention(Identifier("Cdecl")))
+                            );
                         foreach (var parameter in parameterList1.Parameters)
                         {
                             if (parameter.Declarator is { Identifier: not null })
@@ -76,22 +88,31 @@ internal class TypeTranspiler
                                 functionPointerType = functionPointerType
                                    .AddParameterListParameters(FunctionPointerParameter(IdentifierName(parameter.Type.Name)));
                             }
+
                             if (parameter.Declarator is PointerDeclarator { Declarator.Identifier: not null })
                             {
                                 functionPointerType = functionPointerType
                                    .AddParameterListParameters(FunctionPointerParameter(PointerType(IdentifierName(parameter.Type.Name))));
                             }
                         }
+
                         functionPointerType = functionPointerType.AddParameterListParameters(FunctionPointerParameter(IdentifierName(field.Type.Name))); //Add return type.
                         structDeclaration = structDeclaration
-                           .AddMembers(FieldDeclaration(VariableDeclaration(functionPointerType))
-                                      .AddModifiers(Token(SyntaxKind.PublicKeyword))
-                                      .AddDeclarationVariables(VariableDeclarator(Identifier(fieldIdentifier3.Name))));
+                           .AddMembers(
+                                FieldDeclaration(VariableDeclaration(functionPointerType))
+                                   .AddModifiers(Token(SyntaxKind.PublicKeyword))
+                                   .AddDeclarationVariables(VariableDeclarator(Identifier(fieldIdentifier3.Name)))
+                            );
                     }
 
                     if (field.Declarator is PointerDeclarator { Declarator: FunctionDeclarator { ParameterList: { } parameterList2, Declarator: ParenthesizedDeclarator { Declarator: PointerDeclarator { Declarator.Identifier: { } fieldIdentifier4 } } } })
                     {
                         var functionPointerType = FunctionPointerType();
+                        functionPointerType = functionPointerType
+                           .WithCallingConvention(
+                                FunctionPointerCallingConvention(Token(SyntaxKind.UnmanagedKeyword))
+                                   .AddUnmanagedCallingConventionListCallingConventions(FunctionPointerUnmanagedCallingConvention(Identifier("Cdecl")))
+                            );
                         foreach (var parameter in parameterList2.Parameters)
                         {
                             if (parameter.Declarator is { Identifier: not null })
@@ -99,19 +120,24 @@ internal class TypeTranspiler
                                 functionPointerType = functionPointerType
                                    .AddParameterListParameters(FunctionPointerParameter(IdentifierName(parameter.Type.Name)));
                             }
+
                             if (parameter.Declarator is PointerDeclarator { Declarator.Identifier: not null })
                             {
                                 functionPointerType = functionPointerType
                                    .AddParameterListParameters(FunctionPointerParameter(PointerType(IdentifierName(parameter.Type.Name))));
                             }
                         }
+
                         functionPointerType = functionPointerType.AddParameterListParameters(FunctionPointerParameter(PointerType(IdentifierName(field.Type.Name)))); //Add return type.
                         structDeclaration = structDeclaration
-                           .AddMembers(FieldDeclaration(VariableDeclaration(functionPointerType))
-                                      .AddModifiers(Token(SyntaxKind.PublicKeyword))
-                                      .AddDeclarationVariables(VariableDeclarator(Identifier(fieldIdentifier4.Name))));
+                           .AddMembers(
+                                FieldDeclaration(VariableDeclaration(functionPointerType))
+                                   .AddModifiers(Token(SyntaxKind.PublicKeyword))
+                                   .AddDeclarationVariables(VariableDeclarator(Identifier(fieldIdentifier4.Name)))
+                            );
                     }
                 }
+
                 yield return structDeclaration;
             }
         }

@@ -1,27 +1,29 @@
+using System.Runtime.CompilerServices;
 using System.Runtime.InteropServices;
+using System.Text;
 
 namespace GDExtensionSharp;
 
-public static unsafe class Main
+internal static unsafe class GDExtensionSharpBinding
 {
-    private static MethodTable _methodTable;
+    public static MethodTable MethodTable;
 
     private const uint GODOT_VERSION_MAJOR = 4;
-    private const uint GODOT_VERSION_MINOR = 1; 
+    private const uint GODOT_VERSION_MINOR = 1;
     private const uint GODOT_VERSION_PATCH = 3;
 
     [UnmanagedCallersOnly(EntryPoint = "gdextension_csharp_init")]
     private static GDExtensionBool Initialize
         (
-            delegate* unmanaged <byte*, delegate* unmanaged <void>> p_get_proc_address,
-            delegate* unmanaged <void> p_library,
+            GDExtensionInterfaceGetProcAddress p_get_proc_address,
+            delegate* unmanaged<void> p_library,
             GDExtensionInitialization* r_initialization
         )
     {
-        _methodTable = new(p_get_proc_address);
+        MethodTable = new(p_get_proc_address);
 
         GDExtensionGodotVersion version;
-        _methodTable.get_godot_version(&version);
+        MethodTable.gdextension_interface_get_godot_version(&version);
 
         // ReSharper disable ConditionIsAlwaysTrueOrFalse
         bool isCompatible;
@@ -35,19 +37,19 @@ public static unsafe class Main
             throw new NotSupportedException($"Unable to load the GDExtensionSharp built for Godot {GODOT_VERSION_MAJOR}.{GODOT_VERSION_MINOR}.{GODOT_VERSION_PATCH}, current version is ({version.major}.{version.minor}.{version.patch})");
         }
 
-        r_initialization->initialize = &InitializeLevel; 
-        r_initialization->deinitialize = &DeInitializeLevel; 
-        
+        r_initialization->initialize = &InitializeLevel;
+        r_initialization->deinitialize = &DeInitializeLevel;
+
         return 1;
     }
-    
-    [UnmanagedCallersOnly]
+
+    [UnmanagedCallersOnly(CallConvs = [typeof(CallConvCdecl)])]
     private static void InitializeLevel(void* userdata, GDExtensionInitializationLevel p_level)
     {
 
     }
 
-    [UnmanagedCallersOnly]
+    [UnmanagedCallersOnly(CallConvs = [typeof(CallConvCdecl)])]
     private static void DeInitializeLevel(void* userdata, GDExtensionInitializationLevel p_level)
     {
 
@@ -58,8 +60,7 @@ public static unsafe class Main
         // Source Generate all classes?
     }
 
-    private static void OnTerminate(GDExtensionInitializationLevel p_level)
-    {
-        
-    }
+    private static void OnTerminate(GDExtensionInitializationLevel p_level) { }
+
+
 }
