@@ -1,4 +1,5 @@
 using GDExtensionSharp.SourceGenerator.Header.Parser;
+using Microsoft.CodeAnalysis;
 using Microsoft.CodeAnalysis.CSharp;
 using Microsoft.CodeAnalysis.CSharp.Syntax;
 using static Microsoft.CodeAnalysis.CSharp.SyntaxFactory;
@@ -55,21 +56,33 @@ internal class TypeTranspiler
                 {
                     if (field.Declarator.Identifier is { } fieldIdentifier1)
                     {
+                        string fieldType = field.Type.Name;
+                        string fieldIdentifier = fieldIdentifier1.Name;
                         structDeclaration = structDeclaration
                            .AddMembers(
-                                FieldDeclaration(VariableDeclaration(IdentifierName(field.Type.Name)))
+                                FieldDeclaration(VariableDeclaration(IdentifierName(fieldType)))
                                    .AddModifiers(Token(SyntaxKind.PublicKeyword))
-                                   .AddDeclarationVariables(VariableDeclarator(Identifier(fieldIdentifier1.Name)))
+                                   .AddDeclarationVariables(VariableDeclarator(Identifier(fieldIdentifier)))
                             );
                     }
 
                     if (field.Declarator is PointerDeclarator { Declarator: { Identifier: { } fieldIdentifier2 } })
                     {
+                        string fieldType = field.Type.Name;
+                        if (fieldType == "char")
+                        {
+                            fieldType = "byte";
+                        }
+                        string fieldIdentifier = fieldIdentifier2.Name;
+                        if (SyntaxFacts.IsKeywordKind(SyntaxFacts.GetKeywordKind(fieldIdentifier)))
+                        {
+                            fieldIdentifier = $"@{fieldIdentifier}";
+                        }
                         structDeclaration = structDeclaration
                            .AddMembers(
-                                FieldDeclaration(VariableDeclaration(PointerType(IdentifierName(field.Type.Name))))
+                                FieldDeclaration(VariableDeclaration(PointerType(IdentifierName(fieldType))))
                                    .AddModifiers(Token(SyntaxKind.PublicKeyword))
-                                   .AddDeclarationVariables(VariableDeclarator(Identifier(fieldIdentifier2.Name)))
+                                   .AddDeclarationVariables(VariableDeclarator(Identifier(fieldIdentifier)))
                             );
                     }
 

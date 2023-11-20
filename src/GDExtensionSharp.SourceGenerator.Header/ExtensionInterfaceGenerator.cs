@@ -20,16 +20,35 @@ public class ExtensionInterfaceGenerator : IIncrementalGenerator
             .Select((t, _) => t.Left)
             .Collect();
 
+        var typeForwardResolver = new TypeForwardResolver(
+            new Dictionary<string, TypeSyntax>()
+            {
+                { "char", PredefinedType(Token(SyntaxKind.ByteKeyword)) },
+                { "int", PredefinedType(Token(SyntaxKind.IntKeyword)) },
+                { "void", PredefinedType(Token(SyntaxKind.VoidKeyword)) },
+                { "size_t", PredefinedType(Token(SyntaxKind.ULongKeyword)) },
+                { "int32_t", PredefinedType(Token(SyntaxKind.IntKeyword)) },
+                { "uint32_t", PredefinedType(Token(SyntaxKind.UIntKeyword)) },
+                { "uint16_t", PredefinedType(Token(SyntaxKind.UShortKeyword)) },
+                { "int64_t", PredefinedType(Token(SyntaxKind.LongKeyword)) },
+                { "uint8_t", PredefinedType(Token(SyntaxKind.ByteKeyword)) },
+                { "uint64_t", PredefinedType(Token(SyntaxKind.ULongKeyword)) },
+                { "wchar_t", PredefinedType(Token(SyntaxKind.UShortKeyword)) },
+                { "float", PredefinedType(Token(SyntaxKind.FloatKeyword)) },
+                { "double", PredefinedType(Token(SyntaxKind.DoubleKeyword)) }
+            }
+        );
+
         context.RegisterSourceOutput(source, (spc, input) =>
         {
             foreach (var additionalText in input)
             {
                 var parser = new CParser();
                 var translationUnit = parser.Parse(additionalText.GetText()!.ToString());
-                spc.AddSource("ExtensionInterface.Types.g.cs",
-                    GenerateTypes(translationUnit).GetText(Encoding.UTF8, SourceHashAlgorithm.Sha256));
                 spc.AddSource("ExtensionInterface.Aliases.g.cs",
-                    GenerateAliases(translationUnit).GetText(Encoding.UTF8, SourceHashAlgorithm.Sha256));
+                    GenerateAliases(translationUnit, typeForwardResolver).GetText(Encoding.UTF8, SourceHashAlgorithm.Sha256));
+                spc.AddSource("ExtensionInterface.Types.g.cs",
+                    GenerateTypes(translationUnit, typeForwardResolver).GetText(Encoding.UTF8, SourceHashAlgorithm.Sha256));
             }
         });
         context.RegisterPostInitializationOutput(initializationContext =>
@@ -39,22 +58,22 @@ public class ExtensionInterfaceGenerator : IIncrementalGenerator
         });
     }
 
-    private static CompilationUnitSyntax GenerateTypes(TranslationUnit translationUnit)
+    private static CompilationUnitSyntax GenerateAliases(TranslationUnit translationUnit, TypeForwardResolver typeForwardResolver)
+    {
+        var aliasTranspiler = new AliasTranspiler(typeForwardResolver);
+        var globalUsingDirectives = aliasTranspiler.Transpile(translationUnit);
+        var aliasesCompilationUnit = CompilationUnit().AddUsings(globalUsingDirectives.ToArray());
+        return aliasesCompilationUnit.NormalizeWhitespace();
+    }
+
+    private static CompilationUnitSyntax GenerateTypes(TranslationUnit translationUnit, TypeForwardResolver typeForwardResolver)
     {
         var typeTranspiler = new TypeTranspiler();
         var typeDeclarations = typeTranspiler.Transpile(translationUnit);
         var typesCompilationUnit = CompilationUnit()
-            .AddMembers(FileScopedNamespaceDeclaration(IdentifierName("GDExtensionSharp")))
-            .AddMembers(typeDeclarations.ToArray());
+                                  .AddMembers(FileScopedNamespaceDeclaration(IdentifierName("GDExtensionSharp")))
+                                  .AddMembers(typeDeclarations.ToArray());
         return typesCompilationUnit.NormalizeWhitespace();
-    }
-
-    private static CompilationUnitSyntax GenerateAliases(TranslationUnit translationUnit)
-    {
-        var aliasTranspiler = new AliasTranspiler();
-        var globalUsingDirectives = aliasTranspiler.Transpile(translationUnit);
-        var aliasesCompilationUnit = CompilationUnit().AddUsings(globalUsingDirectives.ToArray());
-        return aliasesCompilationUnit.NormalizeWhitespace();
     }
 
     private static CompilationUnitSyntax GenerateMethodTable()
