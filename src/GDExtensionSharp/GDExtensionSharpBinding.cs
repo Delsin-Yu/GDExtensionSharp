@@ -14,16 +14,16 @@ internal static unsafe class GDExtensionSharpBinding
 
     [UnmanagedCallersOnly(EntryPoint = "gdextension_csharp_init")]
     private static GDExtensionBool Initialize
-        (
-            GDExtensionInterfaceGetProcAddress p_get_proc_address,
-            delegate* unmanaged<void> p_library,
-            GDExtensionInitialization* r_initialization
-        )
+    (
+        GDExtensionInterfaceGetProcAddress p_get_proc_address,
+        delegate* unmanaged<void> p_library,
+        GDExtensionInitialization* r_initialization
+    )
     {
         MethodTable = new(p_get_proc_address);
 
         GDExtensionGodotVersion version;
-        MethodTable.gdextension_interface_get_godot_version(&version);
+        MethodTable.get_godot_version(&version);
 
         // ReSharper disable ConditionIsAlwaysTrueOrFalse
         bool isCompatible;
@@ -43,16 +43,14 @@ internal static unsafe class GDExtensionSharpBinding
         return 1;
     }
 
-    [UnmanagedCallersOnly(CallConvs = [typeof(CallConvCdecl)])]
+    [UnmanagedCallersOnly(CallConvs = new[] {typeof(CallConvCdecl)})]
     private static void InitializeLevel(void* userdata, GDExtensionInitializationLevel p_level)
     {
-
     }
 
-    [UnmanagedCallersOnly(CallConvs = [typeof(CallConvCdecl)])]
+    [UnmanagedCallersOnly(CallConvs = new[] {typeof(CallConvCdecl)})]
     private static void DeInitializeLevel(void* userdata, GDExtensionInitializationLevel p_level)
     {
-
     }
 
     private static void OnInit(GDExtensionInitializationLevel p_level)
@@ -60,7 +58,7 @@ internal static unsafe class GDExtensionSharpBinding
         // Source Generate all classes?
     }
 
-    private static void OnTerminate(GDExtensionInitializationLevel p_level) { }
-
-
+    private static void OnTerminate(GDExtensionInitializationLevel p_level)
+    {
+    }
 }

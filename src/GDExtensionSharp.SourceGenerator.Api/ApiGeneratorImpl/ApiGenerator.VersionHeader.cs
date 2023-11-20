@@ -8,7 +8,7 @@ internal static partial class ApiGenerator
     {
         var headerContent =
             $$"""
-              namespace Godot;
+              {{NamespaceHeader}}
 
               public static class Header
               {

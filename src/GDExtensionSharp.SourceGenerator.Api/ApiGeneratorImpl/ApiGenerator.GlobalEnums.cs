@@ -12,7 +12,7 @@ internal static partial class ApiGenerator
             if(globalEnumElement.Name.StartsWith("Variant.")) continue;
             
             stringBuilder
-               .AppendLine("namespace Godot;")
+               .AppendLine(NamespaceHeader)
                .AppendLine();
 
             if (globalEnumElement.IsBitfield)

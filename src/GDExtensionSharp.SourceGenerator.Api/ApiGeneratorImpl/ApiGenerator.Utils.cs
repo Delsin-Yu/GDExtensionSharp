@@ -171,6 +171,8 @@ internal static partial class ApiGenerator
 
     private static string ToStringAndClear(this StringBuilder stringBuilder)
     {
+        if (stringBuilder.Length == 0) return string.Empty;
+
         while (stringBuilder[^1] == '\n' || stringBuilder[^1] == '\r')
         {
             stringBuilder.Remove(stringBuilder.Length - 1, 1);
@@ -183,6 +185,8 @@ internal static partial class ApiGenerator
 
     private static string MakeFunctionParameters(IReadOnlyList<Singleton> parameters, bool includeDefault = false, bool forBuiltin = false, bool isVarArg = false)
     {
+        if (parameters == null) return string.Empty;
+
         for (var index = 0; index < parameters.Count; index++)
         {
             var param = parameters[index];
@@ -222,7 +226,45 @@ internal static partial class ApiGenerator
 
         return _stringBuilder.ToStringAndClear();
     }
-    
+
+    private static (string encode, string argName) GetEncodedArgs(string argName, string typeName, string typeMeta)
+    {
+        var name = argName.EscapeContextualKeyWord();
+        var arg_type = CorrectType(typeName);
+        if (arg_type.IsBuiltinType())
+        {
+            _stringBuilder.AppendLine($"{GetGDExtensionType(arg_type)} {name}_encoded = ({CorrectType(typeName)}){name};");
+            name = $"&{name}_encoded";
+        }
+        else if (typeName.IsEngineClass())
+        {
+            // `{name}` is a C++ wrapper, it contains a field which is the object's pointer Godot expects.
+            // We have to check `nullptr` because when the caller sends `nullptr`, the wrapper itself will be null.
+            name = $"({name} != nullptr ? &{name}->_owner : nullptr)";
+        }
+        else
+        {
+            name = $"&{name}";
+        }
+
+        return (_stringBuilder.ToStringAndClear(), name);
+    }
+
+    private static string GetGDExtensionType(string typeName) =>
+        typeName switch
+        {
+            "bool" => "int8_t",
+            "uint8_t" => "int64_t",
+            "int8_t" => "int64_t",
+            "uint16_t" => "int64_t",
+            "int16_t" => "int64_t",
+            "uint32_t" => "int64_t",
+            "int32_t" => "int64_t",
+            "int" => "int64_t",
+            "float" => "double",
+            _ => typeName
+        };
+
     private static readonly Dictionary<string, string> _defaultValueCorrection =
         new()
         {
@@ -234,7 +276,7 @@ internal static partial class ApiGenerator
             { "Transform2D(1, 0, 0, 1, 0, 0)", "Transform2D()" },
             { "Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 0, 0)", "Transform3D()" }
         };
-    
+
     public static string CorrectDefaultValue(string value, string type_name)
     {
         if (_defaultValueCorrection.TryGetValue(value, out var corrected)) return corrected;
@@ -247,11 +289,11 @@ internal static partial class ApiGenerator
     {
         if (type_name == "void") return "Variant ";
 
-        if (type_name.IsBuiltinType() && type_name != "Nil" || type_name.IsEnum()) return $"{CorrectType(type_name, meta)} ";
+        if (type_name.IsBuiltinType() && type_name != "Nil " || type_name.IsEnum()) return $"{CorrectType(type_name, meta)} ";
 
-        if (type_name.IsVariant() || type_name.IsRefCounted()) return $"const {CorrectType(type_name)} &";
+        if (type_name.IsVariant() || type_name.IsRefCounted()) return $"in {CorrectType(type_name)} ";
 
-        return $"{CorrectType(type_name)}";
+        return $"{CorrectType(type_name)} ";
     }
 
     private static readonly Dictionary<string, string> _typeConversion =
@@ -262,7 +304,7 @@ internal static partial class ApiGenerator
             { "Nil", "Variant" }
         };
 
-    public static string CorrectType(string typeName, string meta = null)
+    private static string CorrectType(string typeName, string meta = null)
     {
         if (meta != null)
         {
@@ -271,9 +313,9 @@ internal static partial class ApiGenerator
                 return $"{meta}_t";
             }
 
-            if (_typeConversion.ContainsKey(meta))
+            if (_typeConversion.TryGetValue(meta, out var value))
             {
-                return _typeConversion[typeName];
+                return value;
             }
 
             return meta;
@@ -332,9 +374,9 @@ internal static partial class ApiGenerator
 
     private static bool IsBitField(this string typeName) => typeName.StartsWith("bitfield::");
 
-    private static bool IsVariant(this string typeName) => 
+    private static bool IsVariant(this string typeName) =>
         typeName == "Variant" ||
-        _builtinClass.Contains(typeName) || 
+        _builtinClass.Contains(typeName) ||
         typeName == "Nil" ||
         typeName.StartsWith("typedarray::");
 
