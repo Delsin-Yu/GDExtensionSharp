@@ -1,0 +1,8 @@
+{
+    "profiles": {
+        "DebugGDExtensionSharpGenerator": {
+            "commandName": "DebugRoslynComponent",
+            "targetProject": "../../samples/dodge_the_creeps/cs/DodgeTheCreeps.csproj"
+        }
+    }
+}
