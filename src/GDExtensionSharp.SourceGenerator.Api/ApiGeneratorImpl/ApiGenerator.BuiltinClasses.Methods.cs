@@ -14,7 +14,7 @@ internal static partial class ApiGenerator
         var methodList = new HashSet<string>();
         GenerateBuiltinClassMethods(stringBuilder, builtinClass, size, methodList);
 
-        GenerateBuiltinClassMembers(stringBuilder);
+        GenerateBuiltinClassMembers(stringBuilder, builtinClass, size, methodList);
 
         return stringBuilder.ToStringAndClear();
     }
@@ -200,8 +200,63 @@ internal static partial class ApiGenerator
             .AppendLine();
     }
 
-    private static void GenerateBuiltinClassMembers(StringBuilder stringBuilder)
+    private static void GenerateBuiltinClassMembers(StringBuilder stringBuilder, BuiltinClass builtinClass, long classSize, HashSet<string> methodList)
     {
+        if(builtinClass.Members == null) return;
 
+        foreach (var member in builtinClass.Members)
+        {
+            bool hasGet = !methodList.Contains($"get_{member.Name}");
+            bool hasSet = !methodList.Contains($"set_{member.Name}");
+
+            if(!hasGet && !hasSet) continue;
+
+            string correctedMemberType = CorrectType(member.Type);
+            stringBuilder
+                .AppendLine($"{MethodBindingModifier} unsafe {correctedMemberType} {member.Name.EscapeContextualKeyWord().SnakeCaseToPascalCase()}")
+                .AppendLine("{");
+
+            if (hasGet)
+            {
+                stringBuilder
+                    .Append(Indents)
+                    .AppendLine("get")
+                    .Append(Indents)
+                    .AppendLine("{")
+                    .AppendLine(GenerateBufferToPointerCommand(classSize).InsertIndentation(2))
+                    .Append(Indents)
+                    .Append(Indents)
+                    .AppendLine($"var returnValue = {MethodHelper}.{CallBuiltinPointerGetter}<{correctedMemberType}>({BindingStructFieldName}.member_{member.Name}_getter, {OpaqueDataPointerName})")
+                    .AppendLine(GeneratePointerToBufferCommand(classSize).InsertIndentation(2))
+                    .Append(Indents)
+                    .Append(Indents)
+                    .AppendLine("return returnValue;")
+                    .Append(Indents)
+                    .AppendLine("}");
+            }
+
+            if (hasSet)
+            {
+                var (encode, argName) = GetEncodedArgs("value", member.Type, null);
+                stringBuilder
+                    .Append(Indents)
+                    .AppendLine("set")
+                    .Append(Indents)
+                    .AppendLine("{")
+                    .AppendLine(GenerateBufferToPointerCommand(classSize).InsertIndentation(2))
+                    .Append(Indents)
+                    .Append(Indents)
+                    .AppendLine(encode)
+                    .Append(Indents)
+                    .Append(Indents)
+                    .AppendLine($"_method_bindings.member_{member.Name}_setter({OpaqueDataPointerName}, {argName});")
+                    .AppendLine(GeneratePointerToBufferCommand(classSize).InsertIndentation(2))
+                    .Append(Indents)
+                    .AppendLine("}");
+            }
+
+            stringBuilder
+                .AppendLine("}");
+        }
     }
 }

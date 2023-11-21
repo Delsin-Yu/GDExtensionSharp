@@ -14,13 +14,13 @@ internal static partial class ApiGenerator
             foreach (var constructor in builtinClass.Constructors)
             {
                 string ctorIndex = constructor.Index.ToString(CultureInfo.InvariantCulture);
-                stringBuilder.AppendLine($"_method_bindings.constructor_{ctorIndex} = {MethodTableAccess}.variant_get_ptr_constructor({enumTypeName}, {ctorIndex});");
+                stringBuilder.AppendLine($"{BindingStructFieldName}.constructor_{ctorIndex} = {MethodTableAccess}.variant_get_ptr_constructor({enumTypeName}, {ctorIndex});");
             }
         }
 
         if (builtinClass.HasDestructor)
         {
-            stringBuilder.AppendLine($"_method_bindings.destructor = {MethodTableAccess}.variant_get_ptr_destructor({enumTypeName});");
+            stringBuilder.AppendLine($"{BindingStructFieldName}.destructor = {MethodTableAccess}.variant_get_ptr_destructor({enumTypeName});");
         }
 
         return stringBuilder.ToStringAndClear();
