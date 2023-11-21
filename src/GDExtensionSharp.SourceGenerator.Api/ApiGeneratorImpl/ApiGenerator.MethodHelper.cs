@@ -7,6 +7,7 @@ internal static partial class ApiGenerator
 {
     private const string MethodHelper = "MethodHelper";
 
+    private const string StaticCast = "StaticCast";
     private const string CallBuiltinConstructor = "CallBuiltinConstructor";
     private const string CallBuiltinMethodPointerReturn = "CallBuiltinMethodPointerReturn";
     private const string CallBuiltinMethodPointerNoReturn = "CallBuiltinMethodPointerNoReturn";
@@ -99,6 +100,10 @@ internal static partial class ApiGenerator
 
               internal static unsafe class {{MethodHelper}}
               {
+
+                  internal static int8_t StaticCast(bool self) => Convert.ToSByte(self);
+
+                  internal static T StaticCast<T>(T self) => self;
 
                   internal static void {{CallBuiltinConstructor}}({{GDExtensionPtrConstructor}} constructor, {{GDExtensionTypePtr}} @base)
                   {

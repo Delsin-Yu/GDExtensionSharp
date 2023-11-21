@@ -14,6 +14,8 @@ internal static partial class ApiGenerator
         var methodList = new HashSet<string>();
         GenerateBuiltinClassMethods(stringBuilder, builtinClass, size, methodList);
 
+        GenerateBuiltinClassMembers(stringBuilder);
+
         return stringBuilder.ToStringAndClear();
     }
 
@@ -196,5 +198,10 @@ internal static partial class ApiGenerator
         stringBuilder
             .AppendLine("}")
             .AppendLine();
+    }
+
+    private static void GenerateBuiltinClassMembers(StringBuilder stringBuilder)
+    {
+
     }
 }

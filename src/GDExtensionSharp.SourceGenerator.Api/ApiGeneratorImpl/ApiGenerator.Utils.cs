@@ -230,7 +230,7 @@ internal static partial class ApiGenerator
         var arg_type = CorrectType(typeName);
         if (arg_type.IsBuiltinType())
         {
-            _stringBuilder.AppendLine($"{GetGDExtensionType(arg_type)} {name}_encoded = ({CorrectType(typeName)}){name};");
+            _stringBuilder.AppendLine($"{GetGDExtensionType(arg_type)} {name}_encoded = {MethodHelper}.{StaticCast}({name});");
             name = $"&{name}_encoded";
         }
         else if (typeName.IsEngineClass())
