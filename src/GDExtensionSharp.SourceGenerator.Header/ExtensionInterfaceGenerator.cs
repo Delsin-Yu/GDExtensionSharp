@@ -591,14 +591,20 @@ public class ExtensionInterfaceGenerator : IIncrementalGenerator
                     Parameter(Identifier("methodName")).WithType(PredefinedType(Token(SyntaxKind.StringKeyword))))
                 .AddBodyStatements(
                     LocalDeclarationStatement(
-                        VariableDeclaration(ArrayType(PredefinedType(Token(SyntaxKind.ByteKeyword)))
-                                .AddRankSpecifiers(
-                                    ArrayRankSpecifier().AddSizes(OmittedArraySizeExpression())))
-                            .AddVariables(VariableDeclarator(Identifier("bytes")).WithInitializer(EqualsValueClause(
-                                InvocationExpression(MemberAccessExpression(SyntaxKind.SimpleMemberAccessExpression,
-                                        IdentifierName("global::System.Text.Encoding.ASCII"),
-                                        IdentifierName("GetBytes")))
-                                    .AddArgumentListArguments(Argument(IdentifierName("methodName"))))))),
+                        VariableDeclaration(GenericName("global::System.Span")
+                            .AddTypeArgumentListArguments(PredefinedType(Token(SyntaxKind.ByteKeyword)))).AddVariables(
+                            VariableDeclarator("bytes").WithInitializer(EqualsValueClause(
+                                StackAllocArrayCreationExpression(
+                                    ArrayType(PredefinedType(Token(SyntaxKind.ByteKeyword))).AddRankSpecifiers(
+                                        ArrayRankSpecifier().AddSizes(BinaryExpression(SyntaxKind.AddExpression,
+                                            MemberAccessExpression(SyntaxKind.SimpleMemberAccessExpression,
+                                                IdentifierName("methodName"), IdentifierName("Length")),
+                                            LiteralExpression(SyntaxKind.NumericLiteralExpression, Literal(1)))))))))),
+                    ExpressionStatement(
+                        InvocationExpression(MemberAccessExpression(SyntaxKind.SimpleMemberAccessExpression,
+                                IdentifierName("global::System.Text.Encoding.ASCII"), IdentifierName("GetBytes")))
+                            .AddArgumentListArguments(Argument(IdentifierName("methodName")),
+                                Argument(IdentifierName("bytes")))),
                     LocalDeclarationStatement(VariableDeclaration(FunctionPointerType()
                             .WithCallingConvention(FunctionPointerCallingConvention(Token(SyntaxKind.UnmanagedKeyword))
                                 .AddUnmanagedCallingConventionListCallingConventions(

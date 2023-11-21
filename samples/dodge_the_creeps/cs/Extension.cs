@@ -7,7 +7,7 @@ using GDExtensionSharp;
 
 namespace DodgeTheCreeps
 {
-    [GDExtensionSharpEntryPoint("gdextension_csharp_init")]
+    [GDExtension("gdextension_csharp_init")]
     internal partial class Extension
     {
     }

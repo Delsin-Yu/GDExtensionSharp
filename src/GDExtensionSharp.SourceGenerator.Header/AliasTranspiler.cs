@@ -65,10 +65,10 @@ internal partial class AliasTranspiler
             {
                 var functionPointerType = FunctionPointerType();
                 functionPointerType = functionPointerType
-                   .WithCallingConvention(
+                    .WithCallingConvention(
                         FunctionPointerCallingConvention(Token(SyntaxKind.UnmanagedKeyword))
-                           .AddUnmanagedCallingConventionListCallingConventions(FunctionPointerUnmanagedCallingConvention(Identifier("Cdecl")))
-                    );
+                            .AddUnmanagedCallingConventionListCallingConventions(
+                                FunctionPointerUnmanagedCallingConvention(Identifier("Cdecl"))));
                 foreach (var parameter in parameterList2.Parameters)
                 {
                     if (parameter.Declarator is { Identifier: not null })

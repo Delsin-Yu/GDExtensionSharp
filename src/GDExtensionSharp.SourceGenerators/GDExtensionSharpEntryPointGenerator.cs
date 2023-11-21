@@ -13,13 +13,13 @@ namespace GDExtensionSharp.SourceGenerators
         {
             context.RegisterPostInitializationOutput(initializationContext =>
             {
-                initializationContext.AddSource("GDExtensionSharpEntryPointAttribute.g.cs", """
+                initializationContext.AddSource("GDExtensionAttribute.g.cs", """
                     namespace GDExtensionSharp;
 
                     [System.AttributeUsage(AttributeTargets.Class)]
-                    internal class GDExtensionSharpEntryPointAttribute : System.Attribute
+                    internal class GDExtensionAttribute : System.Attribute
                     {
-                        public GDExtensionSharpEntryPointAttribute(string name) { }
+                        public GDExtensionAttribute(string entryPoint) { }
                     }
                     """);
             });
