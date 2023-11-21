@@ -5,6 +5,9 @@ namespace GDExtensionSharp.SourceGenerator.Api.ApiGeneratorImpl;
 
 internal static partial class ApiGenerator
 {
+    private const string BindingStructFieldName = "_method_bindings";
+
+
     private static string GenerateBuiltinClassBindingStruct(StringBuilder stringBuilder, BuiltinClass builtinClass)
     {
         GenerateBuiltinClassConstructorBindings(stringBuilder, builtinClass.Constructors);

@@ -30,7 +30,7 @@ internal static partial class ApiGenerator
                 .Append(MethodHelper)
                 .Append('.')
                 .Append(CallBuiltinConstructor)
-                .Append("(_method_bindings.constructor_")
+                .Append($"({BindingStructFieldName}.constructor_")
                 .Append(constructor.Index)
                 .Append($", {OpaqueDataPointerName}");
 
@@ -71,10 +71,16 @@ internal static partial class ApiGenerator
         return stringBuilder.ToStringAndClear();
     }
 
-    private static string GenerateBuiltinClassDtor(BuiltinClass builtinClass)
+    private static string GenerateBuiltinClassDtor(BuiltinClass builtinClass, long builtinClassSize)
     {
         if (!builtinClass.HasDestructor) return string.Empty;
 
-        return $"unsafe ~{builtinClass.Name}() => _method_bindings.destructor(&{OpaqueFieldName});";
+        return $$"""
+                unsafe ~{{builtinClass.Name}}()
+                {
+                {{GenerateBufferToPointerCommand(builtinClassSize).InsertIndentation()}}
+                {{Indents}}{{BindingStructFieldName}}.destructor({{OpaqueDataPointerName}});
+                }
+                """;
     }
 }

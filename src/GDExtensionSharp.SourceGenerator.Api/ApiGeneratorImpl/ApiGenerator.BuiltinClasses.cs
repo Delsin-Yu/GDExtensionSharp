@@ -22,7 +22,7 @@ internal static partial class ApiGenerator
 
                   public class {{builtinClass.Name}}
                   {
-                      private static MethodBindings _method_bindings;
+                      private static MethodBindings {{BindingStructFieldName}};
 
                       private unsafe struct MethodBindings
                       {
@@ -34,7 +34,11 @@ internal static partial class ApiGenerator
                   {{GenerateBuiltinClassOpaqueData(classSize).InsertIndentation()}}
 
                   {{GenerateBuiltinClassCtor(stringBuilder, builtinClass, classSize).InsertIndentation()}}
-                  {{GenerateBuiltinClassDtor(builtinClass).InsertIndentation()}}
+
+                  {{GenerateBuiltinClassDtor(builtinClass, classSize).InsertIndentation()}}
+
+                  {{GenerateBuiltinClassMethodsAndMembers(stringBuilder, builtinClass, classSize).InsertIndentation()}}
+
                   {{GenerateBuiltinClassEnums(stringBuilder, builtinClass.Enums).InsertIndentation()}}
 
                       internal static unsafe void {{InitializeBindings}}()

@@ -46,7 +46,7 @@ internal static partial class ApiGenerator
         {
             stringBuilder
                .AppendLine($"{GDE_LOCAL_PARAMETER_NAME} = new StringName(\"{builtinClassMethod.Name}\");")
-               .AppendLine($"_method_bindings.method_{builtinClassMethod.Name} = {MethodTableAccess}.variant_get_ptr_builtin_method({enumTypeName}, {GDE_LOCAL_PARAMETER_NAME}._native_ptr(), {builtinClassMethod.Hash.ToString(CultureInfo.InvariantCulture)});");
+               .AppendLine($"{BindingStructFieldName}.method_{builtinClassMethod.Name} = {MethodTableAccess}.variant_get_ptr_builtin_method({enumTypeName}, {GDE_LOCAL_PARAMETER_NAME}._native_ptr(), {builtinClassMethod.Hash.ToString(CultureInfo.InvariantCulture)});");
         }
 
         stringBuilder.AppendLine();
@@ -60,8 +60,8 @@ internal static partial class ApiGenerator
         {
             stringBuilder
                .AppendLine($"{GDE_LOCAL_PARAMETER_NAME} = new StringName(\"{builtinClassMember.Name}\");")
-               .AppendLine($"_method_bindings.member_{builtinClassMember.Name}_setter = {MethodTableAccess}.variant_get_ptr_setter({enumTypeName}, {GDE_LOCAL_PARAMETER_NAME}._native_ptr());")
-               .AppendLine($"_method_bindings.member_{builtinClassMember.Name}_getter = {MethodTableAccess}.variant_get_ptr_getter({enumTypeName}, {GDE_LOCAL_PARAMETER_NAME}._native_ptr());");
+               .AppendLine($"{BindingStructFieldName}.member_{builtinClassMember.Name}_setter = {MethodTableAccess}.variant_get_ptr_setter({enumTypeName}, {GDE_LOCAL_PARAMETER_NAME}._native_ptr());")
+               .AppendLine($"{BindingStructFieldName}.member_{builtinClassMember.Name}_getter = {MethodTableAccess}.variant_get_ptr_getter({enumTypeName}, {GDE_LOCAL_PARAMETER_NAME}._native_ptr());");
         }
 
         stringBuilder.AppendLine();
@@ -71,8 +71,8 @@ internal static partial class ApiGenerator
     {
         if (!hasIndexer) return;
         stringBuilder
-           .AppendLine($"_method_bindings.indexed_setter = {MethodTableAccess}.variant_get_ptr_indexed_setter({enumTypeName});")
-           .AppendLine($"_method_bindings.indexed_getter = {MethodTableAccess}.variant_get_ptr_indexed_getter({enumTypeName});")
+           .AppendLine($"{BindingStructFieldName}.indexed_setter = {MethodTableAccess}.variant_get_ptr_indexed_setter({enumTypeName});")
+           .AppendLine($"{BindingStructFieldName}.indexed_getter = {MethodTableAccess}.variant_get_ptr_indexed_getter({enumTypeName});")
            .AppendLine();
     }
 
@@ -80,9 +80,9 @@ internal static partial class ApiGenerator
     {
         if (!isKeyed) return;
         stringBuilder
-           .AppendLine($"_method_bindings.keyed_setter = {MethodTableAccess}.variant_get_ptr_keyed_setter({enumTypeName});")
-           .AppendLine($"_method_bindings.keyed_getter = {MethodTableAccess}.variant_get_ptr_keyed_getter({enumTypeName});")
-           .AppendLine($"_method_bindings.keyed_checker = {MethodTableAccess}.variant_get_ptr_keyed_checker({enumTypeName});")
+           .AppendLine($"{BindingStructFieldName}.keyed_setter = {MethodTableAccess}.variant_get_ptr_keyed_setter({enumTypeName});")
+           .AppendLine($"{BindingStructFieldName}.keyed_getter = {MethodTableAccess}.variant_get_ptr_keyed_getter({enumTypeName});")
+           .AppendLine($"{BindingStructFieldName}.keyed_checker = {MethodTableAccess}.variant_get_ptr_keyed_checker({enumTypeName});")
            .AppendLine();
     }
 
@@ -104,11 +104,11 @@ internal static partial class ApiGenerator
                     right_type_variant_type = $"GDExtensionVariantType.GDEXTENSION_VARIANT_TYPE{@operator.RightType.PascalCaseToSnakeCase().ToUpperInvariant()}";
                 }
 
-                stringBuilder.AppendLine($"_method_bindings.operator_{@operator.Name.OperatorIdToName()}_{@operator.RightType} = {MethodTableAccess}.variant_get_ptr_operator_evaluator(GDExtensionVariantOperator.GDEXTENSION_VARIANT_OP_{@operator.Name.OperatorIdToName().ToUpper()}, {enumTypeName}, {right_type_variant_type});");
+                stringBuilder.AppendLine($"{BindingStructFieldName}.operator_{@operator.Name.OperatorIdToName()}_{@operator.RightType} = {MethodTableAccess}.variant_get_ptr_operator_evaluator(GDExtensionVariantOperator.GDEXTENSION_VARIANT_OP_{@operator.Name.OperatorIdToName().ToUpper()}, {enumTypeName}, {right_type_variant_type});");
             }
             else
             {
-                stringBuilder.AppendLine($"_method_bindings.operator_{@operator.Name.OperatorIdToName()} = {MethodTableAccess}.variant_get_ptr_operator_evaluator(GDExtensionVariantOperator.GDEXTENSION_VARIANT_OP_{@operator.Name.OperatorIdToName().ToUpperInvariant()}, {enumTypeName}, GDExtensionVariantType.GDEXTENSION_VARIANT_TYPE_NIL);");
+                stringBuilder.AppendLine($"{BindingStructFieldName}.operator_{@operator.Name.OperatorIdToName()} = {MethodTableAccess}.variant_get_ptr_operator_evaluator(GDExtensionVariantOperator.GDEXTENSION_VARIANT_OP_{@operator.Name.OperatorIdToName().ToUpperInvariant()}, {enumTypeName}, GDExtensionVariantType.GDEXTENSION_VARIANT_TYPE_NIL);");
             }
         }
 

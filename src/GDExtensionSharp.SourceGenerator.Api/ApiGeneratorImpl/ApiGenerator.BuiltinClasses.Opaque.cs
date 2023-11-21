@@ -14,7 +14,7 @@ internal static partial class ApiGenerator
     private static string GenerateBuiltinClassOpaqueData(long classSize)
     {
         var classSizeString = classSize.ToString(CultureInfo.InvariantCulture);
-        return $"private readonly {OpaqueFixedSizeArrayName}{classSizeString} {OpaqueFieldName} = new();";
+        return $"private {OpaqueFixedSizeArrayName}{classSizeString} {OpaqueFieldName} = new();";
     }
 
     private static readonly StringBuilder _opaqueDataCommandStringBuilder = new();

@@ -25,7 +25,7 @@ internal static partial class ApiGenerator
 
     private const string CallBuiltinCtorExpandableTemplate =
         $$"""
-          {{Indents}}internal static void {{CallBuiltinConstructor}}(delegate* unmanaged<void*, void**, void> constructor, void* @base{{ExpandableArgs}})
+          {{Indents}}internal static void {{CallBuiltinConstructor}}({{GDExtensionPtrConstructor}} constructor, {{GDExtensionTypePtr}} @base{{ExpandableArgs}})
           {{Indents}}{
           {{ExpandableArgListTemplate}}
 
@@ -35,19 +35,17 @@ internal static partial class ApiGenerator
 
     private const string CallBuiltinMethodPtrReturnExpandableTemplate =
         $$"""
-          {{Indents}}internal static T {{CallBuiltinMethodPointerReturn}}<T>(delegate* unmanaged<void*, void**, void*, int, void> method, void* @base{{ExpandableArgs}}) where T : struct
+          {{Indents}}internal static void {{CallBuiltinMethodPointerReturn}}<T>(T* returnValue, {{GDExtensionPtrBuiltInMethod}} method, {{GDExtensionTypePtr}} @base{{ExpandableArgs}}) where T : unmanaged
           {{Indents}}{
           {{ExpandableArgListTemplate}}
 
-          {{Indents}}{{Indents}}T ret = default;
-          {{Indents}}{{Indents}}method(@base, argList, &ret, {{ExpandableArgsLength}});
-          {{Indents}}{{Indents}}return ret;
+          {{Indents}}{{Indents}}method(@base, argList, returnValue, {{ExpandableArgsLength}});
           {{Indents}}}
           """;
 
     private const string CallBuiltinMethodPtrNoReturnExpandableTemplate =
         $$"""
-          {{Indents}}internal static void {{CallBuiltinMethodPointerNoReturn}}(delegate* unmanaged<void*, void**, void*, int, void> method, void* @base{{ExpandableArgs}})
+          {{Indents}}internal static void {{CallBuiltinMethodPointerNoReturn}}({{GDExtensionPtrBuiltInMethod}} method, {{GDExtensionTypePtr}} @base{{ExpandableArgs}})
           {{Indents}}{
           {{ExpandableArgListTemplate}}
 
@@ -74,7 +72,7 @@ internal static partial class ApiGenerator
 
                 _expandArgListStringBuilder3
                     .Append($"{Indents}{Indents}argList[")
-                    .Append(argCount)
+                    .Append(argCount + 1)
                     .Append($"] = {argName}")
                     .Append(argCount)
                     .AppendLine(";");
@@ -102,31 +100,29 @@ internal static partial class ApiGenerator
               internal static unsafe class {{MethodHelper}}
               {
 
-                  internal static void {{CallBuiltinConstructor}}(delegate* unmanaged<void*, void**, void> constructor, void* @base)
+                  internal static void {{CallBuiltinConstructor}}({{GDExtensionPtrConstructor}} constructor, {{GDExtensionTypePtr}} @base)
                   {
                       constructor(@base, null);
                   }
 
-                  internal static T {{CallBuiltinMethodPointerReturn}}<T>(delegate* unmanaged<void*, void**, void*, int, void> method, void* @base) where T : struct
+                  internal static void {{CallBuiltinMethodPointerReturn}}<T>(T* returnValue, {{GDExtensionPtrBuiltInMethod}} method, {{GDExtensionTypePtr}} @base) where T : unmanaged
                   {
-                      T ret = default;
-                      method(@base, null, &ret, 0);
-                      return ret;
+                      method(@base, null, returnValue, 0);
                   }
 
-                  internal static void {{CallBuiltinMethodPointerNoReturn}}(delegate* unmanaged<void*, void**, void*, int, void> method, void* @base)
+                  internal static void {{CallBuiltinMethodPointerNoReturn}}({{GDExtensionPtrBuiltInMethod}} method, {{GDExtensionTypePtr}} @base)
                   {
                       method(@base, null, null, 0);
                   }
 
-                  internal static T {{CallBuiltinOperatorPointer}}<T>(delegate* unmanaged<void*, void*, void*, void> op, void* left, void* right) where T : struct
+                  internal static T {{CallBuiltinOperatorPointer}}<T>({{GDExtensionPtrOperatorEvaluator}} op, {{GDExtensionConstTypePtr}} left, {{GDExtensionConstTypePtr}} right) where T : unmanaged
                   {
                       T ret;
                       op(left, right, &ret);
                       return ret;
                   }
 
-                  internal static T {{CallBuiltinPointerGetter}}<T>(delegate* unmanaged<void*, void*, void> getter, void* @base) where T : struct
+                  internal static T {{CallBuiltinPointerGetter}}<T>({{GDExtensionPtrGetter}} getter, {{GDExtensionConstTypePtr}} @base) where T : unmanaged
                   {
                       T ret;
                       getter(@base, &ret);

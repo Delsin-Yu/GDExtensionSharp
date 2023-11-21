@@ -106,7 +106,7 @@ public class Constructor
     [JsonPropertyName("index")] public long Index { get; set; }
 
     [JsonIgnore(Condition = JsonIgnoreCondition.WhenWritingNull), JsonPropertyName("arguments")]
-    public Singleton[] Arguments { get; set; }
+    public Argument[] Arguments { get; set; }
 }
 
 public class Singleton
@@ -114,9 +114,9 @@ public class Singleton
     [JsonPropertyName("name")] public string Name { get; set; }
 
     [JsonPropertyName("type")] public string Type { get; set; }
-    
+
     [JsonPropertyName("meta")] public string Meta { get; set; }
-    
+
     [JsonIgnore(Condition = JsonIgnoreCondition.WhenWritingNull), JsonPropertyName("default_value")] public string DefaultValue { get; set; }
 }
 
@@ -141,16 +141,28 @@ public class BuiltinClassMethod
     [JsonIgnore(Condition = JsonIgnoreCondition.WhenWritingNull), JsonPropertyName("return_type")]
     public string ReturnType { get; set; }
 
+    [JsonIgnore(Condition = JsonIgnoreCondition.WhenWritingNull), JsonPropertyName("return_value")]
+    public BuiltinClassMethodReturnType ReturnValue { get; set; }
+
     [JsonPropertyName("is_vararg")] public bool IsVararg { get; set; }
 
     [JsonPropertyName("is_const")] public bool IsConst { get; set; }
 
     [JsonPropertyName("is_static")] public bool IsStatic { get; set; }
 
+    [JsonPropertyName("is_virtual")] public bool IsVirtual { get; set; }
+
     [JsonPropertyName("hash")] public long Hash { get; set; }
 
     [JsonIgnore(Condition = JsonIgnoreCondition.WhenWritingNull), JsonPropertyName("arguments")]
     public Argument[] Arguments { get; set; }
+}
+
+public class BuiltinClassMethodReturnType
+{
+    [JsonPropertyName("type")] public string Type { get; set; }
+
+    [JsonPropertyName("meta")] public string Meta { get; set; }
 }
 
 public class Argument
@@ -163,7 +175,7 @@ public class Argument
     public string DefaultValue { get; set; }
 
     [JsonIgnore(Condition = JsonIgnoreCondition.WhenWritingNull), JsonPropertyName("meta")]
-    public ArgumentMeta? Meta { get; set; }
+    public string? Meta { get; set; }
 }
 
 public class Operator
@@ -208,7 +220,7 @@ public class Class
 public class GlobalConstantElement
 {
     [JsonPropertyName("name")] public string Name { get; set; }
-    
+
     [JsonPropertyName("value")] public long Value { get; set; }
 }
 
@@ -248,7 +260,7 @@ public class ReturnValue
     [JsonPropertyName("type")] public string Type { get; set; }
 
     [JsonIgnore(Condition = JsonIgnoreCondition.WhenWritingNull), JsonPropertyName("meta")]
-    public ArgumentMeta? Meta { get; set; }
+    public string? Meta { get; set; }
 }
 
 public class Property
@@ -346,20 +358,6 @@ public enum TypeEnum
     Vector4I
 };
 
-public enum ArgumentMeta
-{
-    Double,
-    Float,
-    Int16,
-    Int32,
-    Int64,
-    Int8,
-    Uint16,
-    Uint32,
-    Uint64,
-    Uint8
-};
-
 public enum ApiType { Core, Editor };
 
 public enum Category { General, Math, Random };
@@ -386,7 +384,6 @@ internal static class Converter
             {
                 MemberMetaConverter.Singleton,
                 TypeEnumConverter.Singleton,
-                ArgumentMetaConverter.Singleton,
                 ApiTypeConverter.Singleton,
                 CategoryConverter.Singleton,
                 ReturnTypeConverter.Singleton,
@@ -572,82 +569,6 @@ internal class TypeEnumConverter : JsonConverter<TypeEnum>
     }
 
     public static readonly TypeEnumConverter Singleton = new TypeEnumConverter();
-}
-
-internal class ArgumentMetaConverter : JsonConverter<ArgumentMeta>
-{
-    public override bool CanConvert(Type t) => t == typeof(ArgumentMeta);
-
-    public override ArgumentMeta Read(ref Utf8JsonReader reader, Type typeToConvert, JsonSerializerOptions options)
-    {
-        var value = reader.GetString();
-        switch (value)
-        {
-            case "double":
-                return ArgumentMeta.Double;
-            case "float":
-                return ArgumentMeta.Float;
-            case "int16":
-                return ArgumentMeta.Int16;
-            case "int32":
-                return ArgumentMeta.Int32;
-            case "int64":
-                return ArgumentMeta.Int64;
-            case "int8":
-                return ArgumentMeta.Int8;
-            case "uint16":
-                return ArgumentMeta.Uint16;
-            case "uint32":
-                return ArgumentMeta.Uint32;
-            case "uint64":
-                return ArgumentMeta.Uint64;
-            case "uint8":
-                return ArgumentMeta.Uint8;
-        }
-
-        throw new Exception("Cannot unmarshal type ArgumentMeta");
-    }
-
-    public override void Write(Utf8JsonWriter writer, ArgumentMeta value, JsonSerializerOptions options)
-    {
-        switch (value)
-        {
-            case ArgumentMeta.Double:
-                JsonSerializer.Serialize(writer, "double", options);
-                return;
-            case ArgumentMeta.Float:
-                JsonSerializer.Serialize(writer, "float", options);
-                return;
-            case ArgumentMeta.Int16:
-                JsonSerializer.Serialize(writer, "int16", options);
-                return;
-            case ArgumentMeta.Int32:
-                JsonSerializer.Serialize(writer, "int32", options);
-                return;
-            case ArgumentMeta.Int64:
-                JsonSerializer.Serialize(writer, "int64", options);
-                return;
-            case ArgumentMeta.Int8:
-                JsonSerializer.Serialize(writer, "int8", options);
-                return;
-            case ArgumentMeta.Uint16:
-                JsonSerializer.Serialize(writer, "uint16", options);
-                return;
-            case ArgumentMeta.Uint32:
-                JsonSerializer.Serialize(writer, "uint32", options);
-                return;
-            case ArgumentMeta.Uint64:
-                JsonSerializer.Serialize(writer, "uint64", options);
-                return;
-            case ArgumentMeta.Uint8:
-                JsonSerializer.Serialize(writer, "uint8", options);
-                return;
-        }
-
-        throw new Exception("Cannot marshal type ArgumentMeta");
-    }
-
-    public static readonly ArgumentMetaConverter Singleton = new ArgumentMetaConverter();
 }
 
 internal class ApiTypeConverter : JsonConverter<ApiType>

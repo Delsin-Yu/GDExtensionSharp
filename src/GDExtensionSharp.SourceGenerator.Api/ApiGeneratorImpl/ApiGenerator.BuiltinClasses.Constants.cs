@@ -12,15 +12,15 @@ internal static partial class ApiGenerator
     //
     // private const string VoidReturn = "void";
     private const string UntypedPointer = "void*";
-    
+
     private const string MethodBindingModifier = "public";
     // private const string Header = "delegate* unmanaged";
-    
-    // private const string GDExtensionConstTypePtr = UntypedPointer;
-    // private const string GDExtensionTypePtr = UntypedPointer;
+
+    private const string GDExtensionConstTypePtr = "GDExtensionConstTypePtr";
+    private const string GDExtensionTypePtr = "GDExtensionTypePtr";
     // private const string GDExtensionUninitializedTypePtr = UntypedPointer;
     // private const string GDExtensionConstVariantPtr = UntypedPointer;
-    
+
     private const string GDExtensionPtrConstructor = "GDExtensionPtrConstructor";//$"{Header}<{GDExtensionUninitializedTypePtr}, {GDExtensionConstTypePtr}*, {VoidReturn}>";
     private const string GDExtensionPtrDestructor = "GDExtensionPtrDestructor";//$"{Header}<{GDExtensionTypePtr}, {VoidReturn}>";
     private const string GDExtensionPtrBuiltInMethod = "GDExtensionPtrBuiltInMethod";//$"{Header}<{GDExtensionTypePtr}, {GDExtensionConstTypePtr}*, {GDExtensionTypePtr}, int, {VoidReturn}>";
