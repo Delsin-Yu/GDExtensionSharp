@@ -7,9 +7,27 @@ internal static partial class ApiGenerator
 {
     private const string GDE_LOCAL_PARAMETER_NAME = "gde_name";
 
-    private static string GenerateBuiltinClassInitializeBindingMethod(StringBuilder stringBuilder, BuiltinClass builtinClass)
+    private static string GenerateBuiltinClassInitializeCtorDtorMethod(string enumTypeName, StringBuilder stringBuilder, BuiltinClass builtinClass)
     {
-        var enumTypeName = $"GDExtensionVariantType.GDEXTENSION_VARIANT_TYPE{builtinClass.Name.PascalCaseToSnakeCase().ToUpper()}";
+        if (builtinClass.Constructors != null)
+        {
+            foreach (var constructor in builtinClass.Constructors)
+            {
+                string ctorIndex = constructor.Index.ToString(CultureInfo.InvariantCulture);
+                stringBuilder.AppendLine($"_method_bindings.constructor_{ctorIndex} = {MethodTableAccess}.variant_get_ptr_constructor({enumTypeName}, {ctorIndex});");
+            }
+        }
+
+        if (builtinClass.HasDestructor)
+        {
+            stringBuilder.AppendLine($"_method_bindings.destructor = {MethodTableAccess}.variant_get_ptr_destructor({enumTypeName});");
+        }
+
+        return stringBuilder.ToStringAndClear();
+    }
+
+    private static string GenerateBuiltinClassInitializeBindingMethod(string enumTypeName, StringBuilder stringBuilder, BuiltinClass builtinClass)
+    {
         GenerateBuiltinClassCtorDtorInitialization(stringBuilder, builtinClass);
         GenerateLocalStringNameInitialization(stringBuilder);
         GenerateBuiltinClassMethodsInitialization(stringBuilder, enumTypeName, builtinClass.Methods);
@@ -29,14 +47,13 @@ internal static partial class ApiGenerator
         }
 
         stringBuilder
-           .AppendLine($"{InitializeBindings_CtorDtor}();")
-           .AppendLine();
+            .AppendLine($"{InitializeBindings_CtorDtor}();")
+            .AppendLine();
     }
 
-    private static void GenerateLocalStringNameInitialization(StringBuilder stringBuilder) =>
-        stringBuilder
-           .AppendLine($"StringName {GDE_LOCAL_PARAMETER_NAME};")
-           .AppendLine();
+    private static void GenerateLocalStringNameInitialization(StringBuilder stringBuilder) => stringBuilder
+        .AppendLine($"StringName {GDE_LOCAL_PARAMETER_NAME};")
+        .AppendLine();
 
     private static void GenerateBuiltinClassMethodsInitialization(StringBuilder stringBuilder, string enumTypeName, IReadOnlyList<BuiltinClassMethod> builtinClassMethods)
     {
@@ -45,8 +62,8 @@ internal static partial class ApiGenerator
         foreach (var builtinClassMethod in builtinClassMethods)
         {
             stringBuilder
-               .AppendLine($"{GDE_LOCAL_PARAMETER_NAME} = new StringName(\"{builtinClassMethod.Name}\");")
-               .AppendLine($"{BindingStructFieldName}.method_{builtinClassMethod.Name} = {MethodTableAccess}.variant_get_ptr_builtin_method({enumTypeName}, {GDE_LOCAL_PARAMETER_NAME}._native_ptr(), {builtinClassMethod.Hash.ToString(CultureInfo.InvariantCulture)});");
+                .AppendLine($"{GDE_LOCAL_PARAMETER_NAME} = new StringName(\"{builtinClassMethod.Name}\");")
+                .AppendLine($"{BindingStructFieldName}.method_{builtinClassMethod.Name} = {MethodTableAccess}.variant_get_ptr_builtin_method({enumTypeName}, {GDE_LOCAL_PARAMETER_NAME}._native_ptr(), {builtinClassMethod.Hash.ToString(CultureInfo.InvariantCulture)});");
         }
 
         stringBuilder.AppendLine();
@@ -59,9 +76,9 @@ internal static partial class ApiGenerator
         foreach (var builtinClassMember in builtinClassMembers)
         {
             stringBuilder
-               .AppendLine($"{GDE_LOCAL_PARAMETER_NAME} = new StringName(\"{builtinClassMember.Name}\");")
-               .AppendLine($"{BindingStructFieldName}.member_{builtinClassMember.Name}_setter = {MethodTableAccess}.variant_get_ptr_setter({enumTypeName}, {GDE_LOCAL_PARAMETER_NAME}._native_ptr());")
-               .AppendLine($"{BindingStructFieldName}.member_{builtinClassMember.Name}_getter = {MethodTableAccess}.variant_get_ptr_getter({enumTypeName}, {GDE_LOCAL_PARAMETER_NAME}._native_ptr());");
+                .AppendLine($"{GDE_LOCAL_PARAMETER_NAME} = new StringName(\"{builtinClassMember.Name}\");")
+                .AppendLine($"{BindingStructFieldName}.member_{builtinClassMember.Name}_setter = {MethodTableAccess}.variant_get_ptr_setter({enumTypeName}, {GDE_LOCAL_PARAMETER_NAME}._native_ptr());")
+                .AppendLine($"{BindingStructFieldName}.member_{builtinClassMember.Name}_getter = {MethodTableAccess}.variant_get_ptr_getter({enumTypeName}, {GDE_LOCAL_PARAMETER_NAME}._native_ptr());");
         }
 
         stringBuilder.AppendLine();
@@ -71,19 +88,19 @@ internal static partial class ApiGenerator
     {
         if (!hasIndexer) return;
         stringBuilder
-           .AppendLine($"{BindingStructFieldName}.indexed_setter = {MethodTableAccess}.variant_get_ptr_indexed_setter({enumTypeName});")
-           .AppendLine($"{BindingStructFieldName}.indexed_getter = {MethodTableAccess}.variant_get_ptr_indexed_getter({enumTypeName});")
-           .AppendLine();
+            .AppendLine($"{BindingStructFieldName}.indexed_setter = {MethodTableAccess}.variant_get_ptr_indexed_setter({enumTypeName});")
+            .AppendLine($"{BindingStructFieldName}.indexed_getter = {MethodTableAccess}.variant_get_ptr_indexed_getter({enumTypeName});")
+            .AppendLine();
     }
 
     private static void GenerateBuiltinClassKeyedInitialization(StringBuilder stringBuilder, string enumTypeName, bool isKeyed)
     {
         if (!isKeyed) return;
         stringBuilder
-           .AppendLine($"{BindingStructFieldName}.keyed_setter = {MethodTableAccess}.variant_get_ptr_keyed_setter({enumTypeName});")
-           .AppendLine($"{BindingStructFieldName}.keyed_getter = {MethodTableAccess}.variant_get_ptr_keyed_getter({enumTypeName});")
-           .AppendLine($"{BindingStructFieldName}.keyed_checker = {MethodTableAccess}.variant_get_ptr_keyed_checker({enumTypeName});")
-           .AppendLine();
+            .AppendLine($"{BindingStructFieldName}.keyed_setter = {MethodTableAccess}.variant_get_ptr_keyed_setter({enumTypeName});")
+            .AppendLine($"{BindingStructFieldName}.keyed_getter = {MethodTableAccess}.variant_get_ptr_keyed_getter({enumTypeName});")
+            .AppendLine($"{BindingStructFieldName}.keyed_checker = {MethodTableAccess}.variant_get_ptr_keyed_checker({enumTypeName});")
+            .AppendLine();
     }
 
     private static void GenerateBuiltinClassOperatorsInitialization(StringBuilder stringBuilder, string enumTypeName, IReadOnlyList<Operator> builtinClassOperators)

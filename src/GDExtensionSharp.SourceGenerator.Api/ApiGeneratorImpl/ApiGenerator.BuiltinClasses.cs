@@ -16,7 +16,9 @@ internal static partial class ApiGenerator
                 continue;
             }
 
-            var classBody =
+            string enumTypeName = $"GDExtensionVariantType.GDEXTENSION_VARIANT_TYPE{builtinClass.Name.PascalCaseToSnakeCase().ToUpper()}";
+
+            string classBody =
                 $$"""
                   {{NamespaceHeader}}
 
@@ -43,11 +45,12 @@ internal static partial class ApiGenerator
 
                       internal static unsafe void {{InitializeBindings}}()
                       {
-                  {{GenerateBuiltinClassInitializeBindingMethod(stringBuilder, builtinClass).InsertIndentation(2)}}
+                  {{GenerateBuiltinClassInitializeBindingMethod(enumTypeName, stringBuilder, builtinClass).InsertIndentation(2)}}
                       }
 
                       internal static unsafe void {{InitializeBindings_CtorDtor}}()
                       {
+                  {{GenerateBuiltinClassInitializeCtorDtorMethod(enumTypeName, stringBuilder, builtinClass).InsertIndentation(2)}}
                       }
 
 

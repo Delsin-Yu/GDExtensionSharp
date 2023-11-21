@@ -449,7 +449,7 @@ internal static partial class ApiGenerator
         }
 
         _stringBuilder.Append(functionData.Name.EscapeContextualKeyWord().SnakeCaseToPascalCase());
-        if (isVararg || !forBuiltin && useTemplateGetNode && className == "Node" && functionData.Name == "get_node")
+        if (!forBuiltin && useTemplateGetNode && className == "Node" && functionData.Name == "get_node")
         {
             _stringBuilder.Append("_Internal");
         }
