@@ -226,7 +226,7 @@ internal static partial class ApiGenerator
                     .AppendLine(GenerateBufferToPointerCommand(classSize).InsertIndentation(2))
                     .Append(Indents)
                     .Append(Indents)
-                    .AppendLine($"var returnValue = {MethodHelper}.{CallBuiltinPointerGetter}<{correctedMemberType}>({BindingStructFieldName}.member_{member.Name}_getter, {OpaqueDataPointerName})")
+                    .AppendLine($"var returnValue = {MethodHelper}.{CallBuiltinPointerGetter}<{correctedMemberType}>({BindingStructFieldName}.member_{member.Name}_getter, {OpaqueDataPointerName});")
                     .AppendLine(GeneratePointerToBufferCommand(classSize).InsertIndentation(2))
                     .Append(Indents)
                     .Append(Indents)
