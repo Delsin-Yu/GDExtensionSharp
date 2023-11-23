@@ -18,15 +18,24 @@ internal static partial class ApiGenerator
     }
 
     private static readonly StringBuilder _opaqueDataCommandStringBuilder = new();
-    private static string GenerateBufferToPointerCommand(long classSize)
+    private static string GenerateBufferToPointerCommand(long classSize, string selfName = null)
     {
+        if (!string.IsNullOrWhiteSpace(selfName))
+        {
+            selfName = $"{selfName}.";
+        }
+        else
+        {
+            selfName = string.Empty;
+        }
+
         _opaqueDataCommandStringBuilder
             .Append($"var {OpaqueDataPointerName} = stackalloc {OpaqueDataSize}[")
             .Append(classSize)
             .AppendLine("];")
             .Append(OpaqueFixedSizeArrayName)
             .Append(classSize)
-            .Append($".{OpaqueCopyToMethodName}(in {OpaqueFieldName}, {OpaqueDataPointerName});");
+            .Append($".{OpaqueCopyToMethodName}(in {selfName}{OpaqueFieldName}, {OpaqueDataPointerName});");
 
         return _opaqueDataCommandStringBuilder.ToStringAndClear();
     }

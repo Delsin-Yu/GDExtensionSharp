@@ -6,6 +6,7 @@ namespace GDExtensionSharp.SourceGenerator.Api.ApiGeneratorImpl;
 internal static partial class ApiGenerator
 {
     private const string GDE_LOCAL_PARAMETER_NAME = "gde_name";
+    private const char _trimChars = '_';
 
     private static string GenerateBuiltinClassInitializeCtorDtorMethod(string enumTypeName, StringBuilder stringBuilder, BuiltinClass builtinClass)
     {
@@ -118,14 +119,14 @@ internal static partial class ApiGenerator
                 }
                 else
                 {
-                    right_type_variant_type = $"GDExtensionVariantType.GDEXTENSION_VARIANT_TYPE{@operator.RightType.PascalCaseToSnakeCase().ToUpperInvariant()}";
+                    right_type_variant_type = $"GDExtensionVariantType.GDEXTENSION_VARIANT_TYPE_{@operator.RightType.PascalCaseToSnakeCase().ToUpperInvariant().TrimStart(_trimChars)}";
                 }
 
-                stringBuilder.AppendLine($"{BindingStructFieldName}.operator_{@operator.Name.OperatorIdToName()}_{@operator.RightType} = {MethodTableAccess}.variant_get_ptr_operator_evaluator(GDExtensionVariantOperator.GDEXTENSION_VARIANT_OP_{@operator.Name.OperatorIdToName().ToUpper()}, {enumTypeName}, {right_type_variant_type});");
+                stringBuilder.AppendLine($"{BindingStructFieldName}.operator_{@operator.Name.OperatorIdToName()}_{@operator.RightType} = {MethodTableAccess}.variant_get_ptr_operator_evaluator(GDExtensionVariantOperator.GDEXTENSION_VARIANT_OP_{@operator.Name.OperatorIdToName().ToUpperInvariant().TrimStart(_trimChars)}, {enumTypeName}, {right_type_variant_type});");
             }
             else
             {
-                stringBuilder.AppendLine($"{BindingStructFieldName}.operator_{@operator.Name.OperatorIdToName()} = {MethodTableAccess}.variant_get_ptr_operator_evaluator(GDExtensionVariantOperator.GDEXTENSION_VARIANT_OP_{@operator.Name.OperatorIdToName().ToUpperInvariant()}, {enumTypeName}, GDExtensionVariantType.GDEXTENSION_VARIANT_TYPE_NIL);");
+                stringBuilder.AppendLine($"{BindingStructFieldName}.operator_{@operator.Name.OperatorIdToName()} = {MethodTableAccess}.variant_get_ptr_operator_evaluator(GDExtensionVariantOperator.GDEXTENSION_VARIANT_OP_{@operator.Name.OperatorIdToName().ToUpperInvariant().TrimStart(_trimChars)}, {enumTypeName}, GDExtensionVariantType.GDEXTENSION_VARIANT_TYPE_NIL);");
             }
         }
 

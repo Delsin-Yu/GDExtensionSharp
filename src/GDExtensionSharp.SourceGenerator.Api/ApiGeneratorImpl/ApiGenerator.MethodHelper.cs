@@ -101,9 +101,10 @@ internal static partial class ApiGenerator
               internal static unsafe class {{MethodHelper}}
               {
 
-                  internal static int8_t StaticCast(bool self) => Convert.ToSByte(self);
+                  internal static int8_t {{StaticCast}}(bool self) => Convert.ToSByte(self);
+                  internal static bool {{StaticCast}}(int8_t self) => Convert.ToBoolean(self);
 
-                  internal static T StaticCast<T>(T self) => self;
+                  internal static T {{StaticCast}}<T>(T self) => self;
 
                   internal static void {{CallBuiltinConstructor}}({{GDExtensionPtrConstructor}} constructor, {{GDExtensionTypePtr}} @base)
                   {
