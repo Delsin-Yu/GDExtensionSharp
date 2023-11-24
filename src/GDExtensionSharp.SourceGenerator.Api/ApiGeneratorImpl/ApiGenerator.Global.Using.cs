@@ -18,6 +18,13 @@ internal static partial class ApiGenerator
             global using size_t = System.UInt64;
 
             global using wchar_t = System.UInt16;
+
+            #if REAL_T_IS_DOUBLE
+            global using real_t = System.Double;
+            #else
+            global using real_t = System.Single;
+            #endif
+
             """;
 
         return ("GlobalUsing", content);

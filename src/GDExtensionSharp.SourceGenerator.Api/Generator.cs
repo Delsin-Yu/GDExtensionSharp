@@ -33,7 +33,7 @@ public class Generator : IIncrementalGenerator
         }
         return false;
     }
-    
+
     private static void GenerateCSharpApi(SourceProductionContext sourceProductionContext, ImmutableArray<AdditionalText> jsonContentArray)
     {
         foreach (var jsonContent in jsonContentArray)

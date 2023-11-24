@@ -28,16 +28,15 @@ internal static partial class ApiGenerator
 
         yield return GenerateFixedSizeBuffer(stringBuilder, size);
 
-
         foreach (var generatedGlobalEnum in GenerateGlobalEnums(stringBuilder, gdExtensionApi.GlobalEnums))
         {
             yield return generatedGlobalEnum;
         }
 
-        foreach (var generatedBuiltinClass in GenerateBuiltinClasses(stringBuilder, gdExtensionApi.BuiltinClasses, size))
-        {
-            yield return generatedBuiltinClass;
-        }
+        // foreach (var generatedBuiltinClass in GenerateBuiltinClasses(stringBuilder, gdExtensionApi.BuiltinClasses, size))
+        // {
+        //     yield return generatedBuiltinClass;
+        // }
 
         stringBuilder.Clear();
     }

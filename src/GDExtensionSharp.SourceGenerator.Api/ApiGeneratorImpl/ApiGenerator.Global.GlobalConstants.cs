@@ -9,7 +9,7 @@ internal static partial class ApiGenerator
     {
         stringBuilder.AppendLine(
             """
-            namespace Godot;
+            namespace GDExtensionSharp;
 
             public static class GlobalConstants
             {
@@ -25,7 +25,7 @@ internal static partial class ApiGenerator
 
         var result = stringBuilder.ToString();
         stringBuilder.Clear();
-        
+
         return ("GlobalConstants", result);
     }
 }

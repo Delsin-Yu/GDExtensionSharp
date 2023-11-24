@@ -11,6 +11,8 @@ internal static partial class ApiGenerator
         {
             if (builtinClass.Name.IsBuiltinType()) continue;
 
+            if(builtinClass.Name == "Variant") continue;
+
             if (!builtinClassSizes.TryGetValue(builtinClass.Name, out var classSize))
             {
                 continue;
@@ -22,7 +24,7 @@ internal static partial class ApiGenerator
                 $$"""
                   {{NamespaceHeader}}
 
-                  public class {{builtinClass.Name}}
+                  public class {{builtinClass.Name}}_GEN
                   {
                       private static MethodBindings {{BindingStructFieldName}};
 

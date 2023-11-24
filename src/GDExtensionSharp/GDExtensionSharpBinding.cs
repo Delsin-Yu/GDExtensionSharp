@@ -3,10 +3,6 @@ using System.Runtime.InteropServices;
 
 namespace GDExtensionSharp;
 
-public struct Variant
-{
-// Dummy struct
-}
 internal static unsafe class GDExtensionSharpBinding
 {
     public static MethodTable MethodTable;
