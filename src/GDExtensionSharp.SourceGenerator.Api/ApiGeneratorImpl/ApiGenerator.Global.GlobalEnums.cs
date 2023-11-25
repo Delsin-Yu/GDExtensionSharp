@@ -12,8 +12,6 @@ internal static partial class ApiGenerator
         {
             string name = globalEnumElement.Name;
 
-            if (name.StartsWith("Variant.")) continue;
-
             stringBuilder
                 .AppendLine(NamespaceHeader)
                 .AppendLine();
@@ -50,13 +48,19 @@ internal static partial class ApiGenerator
                 stringBuilder.AppendLine("}");
             }
 
-            yield return ($"Enum.{name}", stringBuilder.ToString());
+            yield return ($"Enum.{mappedName}", stringBuilder.ToString());
             stringBuilder.Clear();
         }
     }
 
     private static Func<string, string> MapEnum(string enumName, out string mappedName, out string container)
     {
+        const string variant = "Variant.";
+        if (enumName.StartsWith(variant))
+        {
+            enumName = enumName[variant.Length..];
+        }
+
         mappedName = enumName;
         container = null;
 
@@ -69,7 +73,7 @@ internal static partial class ApiGenerator
             case "Error":
                 return x => ValueMapper_TrimHeader("ERR", x);
 
-            case "GDExtensionVariantType":
+            case "Type":
                 mappedName = "Type";
                 container = "struct Variant";
                 return x =>
