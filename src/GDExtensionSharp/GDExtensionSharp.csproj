@@ -5,12 +5,13 @@
         <TargetFramework>net8.0</TargetFramework>
         <ImplicitUsings>enable</ImplicitUsings>
         <AllowUnsafeBlocks>true</AllowUnsafeBlocks>
-        <LanguageVersion>preview</LanguageVersion>
+        <LanguageVersion>12.0</LanguageVersion>
     </PropertyGroup>
 
     <ItemGroup>
         <ProjectReference Include="..\GDExtensionSharp.SourceGenerator.Header\GDExtensionSharp.SourceGenerator.Header.csproj" OutputItemType="Analyzer" ReferenceOutputAssembly="false"/>
         <ProjectReference Include="..\GDExtensionSharp.SourceGenerator.Api\GDExtensionSharp.SourceGenerator.Api.csproj" OutputItemType="Analyzer" ReferenceOutputAssembly="false"/>
+        <ProjectReference Include="..\GDExtensionSharp.SourceGenerator.NativeBinding\GDExtensionSharp.SourceGenerator.NativeBinding.csproj" OutputItemType="Analyzer" ReferenceOutputAssembly="false" />
     </ItemGroup>
 
     <ItemGroup>

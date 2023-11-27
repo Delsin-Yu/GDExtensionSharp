@@ -1,7 +1,7 @@
 using System;
 using System.Diagnostics.CodeAnalysis;
 using System.Runtime.CompilerServices;
-using Godot.SourceGenerators.Internal;
+using GDExtensionSharp;
 
 // ReSharper disable InconsistentNaming
 
@@ -39,9 +39,11 @@ namespace Godot.NativeInterop
 
         internal static partial godot_bool godotsharp_dotnet_module_is_initialized();
 
+        [GDExtensionMethod("classdb_get_method_bind")]
         public static partial IntPtr godotsharp_method_bind_get_method(in godot_string_name p_classname,
-            in godot_string_name p_methodname);
+            in godot_string_name p_methodname, in long p_methodHash);
 
+        [GDExtensionMethod("classdb_get_method_bind")]
         public static partial IntPtr godotsharp_method_bind_get_method_with_compatibility(
             in godot_string_name p_classname, in godot_string_name p_methodname, ulong p_hash);
 

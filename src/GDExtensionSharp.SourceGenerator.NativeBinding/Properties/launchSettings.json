@@ -1,0 +1,8 @@
+{
+    "profiles": {
+        "DebugExtensionInterfaceGenerator": {
+            "commandName": "DebugRoslynComponent",
+            "targetProject": "../GDExtensionSharp/GDExtensionSharp.csproj"
+        }
+    }
+}
