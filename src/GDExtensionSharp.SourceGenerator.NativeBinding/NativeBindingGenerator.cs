@@ -12,15 +12,17 @@ namespace GDExtensionSharp.SourceGenerator.NativeBinding
         private const string Indents = "    ";
         private const string MethodTableAccess = "global::GDExtensionSharp.GDExtensionSharpBinding.MethodTable";
 
-        private const string GenerateUnmanagedCallbacksAttributeName = "GDExtensionSharp.GenerateUnmanagedCallbacksAttribute";
+        private const string GenerateUnmanagedBindingAttributeName = "GDExtensionSharp.GenerateUnmanagedBindingAttribute";
         private const string GDExtensionMethodAttributeName = "GDExtensionMethodAttribute";
+        private const string GDExtensionNotSupportedAttributeName = "GDExtensionNotSupportedAttribute";
+        private const string MarshalToBytePtrAttributeName = "MarshalToBytePtrAttribute";
 
         public void Initialize(IncrementalGeneratorInitializationContext initializationContext)
         {
             var source =
                 initializationContext
                     .SyntaxProvider
-                    .ForAttributeWithMetadataName(GenerateUnmanagedCallbacksAttributeName, (node, token) => node is ClassDeclarationSyntax, (context, token) => context);
+                    .ForAttributeWithMetadataName(GenerateUnmanagedBindingAttributeName, (node, token) => node is ClassDeclarationSyntax, (context, token) => context);
 
             initializationContext
                 .RegisterSourceOutput(source,
@@ -52,17 +54,21 @@ namespace GDExtensionSharp.SourceGenerator.NativeBinding
                 if (member is not IMethodSymbol methodSymbol) continue;
 
                 var attribute = methodSymbol.GetAttributes().FirstOrDefault(data => data.AttributeClass?.Name == GDExtensionMethodAttributeName);
+                var notSupportedAttribute = methodSymbol.GetAttributes().FirstOrDefault(data => data.AttributeClass?.Name == GDExtensionNotSupportedAttributeName);
 
-                if (attribute == null) continue;
+                if (notSupportedAttribute == null && attribute == null)
+                {
+                    continue;
+                }
 
                 builder
-                    .Append(Indents)
-                    .Append(methodSymbol.DeclaredAccessibility.ToString().ToLowerInvariant())
-                    .Append(" static partial ")
-                    .Append(methodSymbol.ReturnType.ToDisplayString())
-                    .Append(" ")
-                    .Append(methodSymbol.Name)
-                    .Append('(');
+                        .Append(Indents)
+                        .Append(methodSymbol.DeclaredAccessibility.ToString().ToLowerInvariant())
+                        .Append(" static partial ")
+                        .Append(methodSymbol.ReturnType.ToDisplayString())
+                        .Append(" ")
+                        .Append(methodSymbol.Name)
+                        .Append('(');
 
                 foreach (IParameterSymbol parameter in methodSymbol.Parameters)
                 {
@@ -77,7 +83,22 @@ namespace GDExtensionSharp.SourceGenerator.NativeBinding
                 }
 
                 builder
-                    .AppendLine(")")
+                    .Append(")");
+
+
+                if (notSupportedAttribute != null)
+                {
+                    builder
+                        .AppendLine(" =>")
+                        .Append(Indents)
+                        .Append(Indents)
+                        .AppendLine($"throw new global::System.NotSupportedException(\"{methodSymbol.Name}\");")
+                        .AppendLine();
+                    continue;
+                }
+
+                builder
+                    .AppendLine()
                     .Append(Indents)
                     .AppendLine("{");
 
@@ -89,23 +110,32 @@ namespace GDExtensionSharp.SourceGenerator.NativeBinding
                 {
                     var originalParameter = methodSymbol.Parameters[i];
 
+                    string originalParameterName = originalParameter.Name;
                     if (IsNativeCSharpBaseType(originalParameter.Type))
                     {
-                        methodParameters[i] = originalParameter.Name;
-                        continue;
+                        methodParameters[i] = originalParameterName;
                     }
+                    else if (originalParameter.Type.Name == "godot_bool")
+                    {
+                        methodParameters[i] = $"(byte){originalParameterName}";
+                    }
+                    else if (originalParameter.GetAttributes().Any(x => x.AttributeClass?.Name == MarshalToBytePtrAttributeName))
+                    {
+                        methodParameters[i] = $"AsByte({originalParameterName})";
+                    }
+                    else
+                    {
+                        string methodParameterName = $"pointer_{originalParameterName}";
+                        builder
+                            .Append(Indents)
+                            .Append(Indents)
+                            .Append("var ")
+                            .Append(methodParameterName)
+                            .Append(" = ")
+                            .AppendLine($"CustomUnsafe.ReadOnlyRefAsPointer(in {originalParameterName});");
 
-                    string methodParameterName = $"pointer_{originalParameter.Name}";
-
-                    builder
-                        .Append(Indents)
-                        .Append(Indents)
-                        .Append("var ")
-                        .Append(methodParameterName)
-                        .Append(" = ")
-                        .AppendLine($"CustomUnsafe.ReadOnlyRefAsPointer(in {originalParameter.Name});");
-
-                    methodParameters[i] = methodParameterName;
+                        methodParameters[i] = $"{methodParameterName}";
+                    }
                 }
 
                 builder
@@ -144,16 +174,17 @@ namespace GDExtensionSharp.SourceGenerator.NativeBinding
                     builder
                         .Append(Indents)
                         .Append(Indents)
-                        .AppendLine("return (nint)returnValue;");
+                        .AppendLine($"return ({methodSymbol.ReturnType.ToDisplayString()})returnValue;");
                 }
 
                 builder
-                    .Append(Indents)
-                    .AppendLine("}");
+                        .Append(Indents)
+                        .AppendLine("}");
             }
 
             builder
-                .AppendLine("}");
+                .AppendLine("}")
+                .AppendLine();
 
             context.AddSource("NativeBinding.g.cs", builder.ToString());
         }

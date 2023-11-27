@@ -39,11 +39,9 @@ namespace Godot.NativeInterop
 
         internal static partial godot_bool godotsharp_dotnet_module_is_initialized();
 
-        [GDExtensionMethod("classdb_get_method_bind")]
         public static partial IntPtr godotsharp_method_bind_get_method(in godot_string_name p_classname,
-            in godot_string_name p_methodname, in long p_methodHash);
+            in godot_string_name p_methodname);
 
-        [GDExtensionMethod("classdb_get_method_bind")]
         public static partial IntPtr godotsharp_method_bind_get_method_with_compatibility(
             in godot_string_name p_classname, in godot_string_name p_methodname, ulong p_hash);
 
