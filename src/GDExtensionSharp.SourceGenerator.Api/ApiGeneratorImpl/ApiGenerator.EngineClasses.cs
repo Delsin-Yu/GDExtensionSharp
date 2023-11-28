@@ -40,7 +40,7 @@ internal static partial class ApiGenerator
 
                 GenerateClassHeader(stringBuilder, inherits, engineClassName, engineClass);
 
-                GenerateClassMethod(stringBuilder, engineClass);
+                GenerateClassMethod(stringBuilder, engineClass.Methods);
 
                 GenerateClassMethodName(stringBuilder, inherits, engineClassInherits, engineClass);
             }
