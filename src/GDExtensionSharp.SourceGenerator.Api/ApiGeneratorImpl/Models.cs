@@ -283,7 +283,7 @@ public class Signal
     [JsonPropertyName("name")] public string Name { get; set; }
 
     [JsonIgnore(Condition = JsonIgnoreCondition.WhenWritingNull), JsonPropertyName("arguments")]
-    public Singleton[] Arguments { get; set; }
+    public Argument[] Arguments { get; set; }
 }
 
 public class Header

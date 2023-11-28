@@ -18,4 +18,15 @@ internal static unsafe partial class NativeBinding
 
     [GDExtensionMethod("global_get_singleton")]
     internal static partial IntPtr godotsharp_engine_get_singleton(in godot_string p_name);
+
+    internal static void godotsharp_internal_tie_native_managed_to_unmanaged(
+        IntPtr gcHandleIntPtr,
+        IntPtr unmanaged,
+        in godot_string_name nativeName,
+        godot_bool refCounted)
+    {
+        if (refCounted is godot_bool.True)
+        {
+        }
+    }
 }

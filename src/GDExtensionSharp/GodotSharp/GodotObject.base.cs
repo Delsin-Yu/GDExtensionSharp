@@ -131,16 +131,16 @@ namespace Godot
             }
         }
 
-        /// <summary>
-        /// Converts this <see cref="GodotObject"/> to a string.
-        /// </summary>
-        /// <returns>A string representation of this object.</returns>
-        public override string ToString()
-        {
-            NativeFuncs.godotsharp_object_to_string(GetPtr(this), out godot_string str);
-            using (str)
-                return Marshaling.ConvertStringToManaged(str);
-        }
+        // /// <summary>
+        // /// Converts this <see cref="GodotObject"/> to a string.
+        // /// </summary>
+        // /// <returns>A string representation of this object.</returns>
+        // public override string ToString()
+        // {
+        //     NativeFuncs.godotsharp_object_to_string(GetPtr(this), out godot_string str);
+        //     using (str)
+        //         return Marshaling.ConvertStringToManaged(str);
+        // }
 
         /// <summary>
         /// Returns a new <see cref="SignalAwaiter"/> awaiter configured to complete when the instance

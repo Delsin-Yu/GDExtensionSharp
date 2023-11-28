@@ -42,7 +42,8 @@ unsafe partial class NativeFuncs
     /// </summary>
     /// <exception cref="NotSupportedException">Always</exception>
     internal static partial Error godotsharp_stack_info_vector_resize(
-        ref DebuggingUtils.godot_stack_info_vector p_stack_info_vector, int p_size)
+        ref DebuggingUtils.godot_stack_info_vector p_stack_info_vector,
+        int p_size)
     {
         throw new NotSupportedException();
     }
@@ -70,9 +71,14 @@ unsafe partial class NativeFuncs
     /// GDExtension does not use in-editor file system, so nothing is calling this method
     /// </summary>
     /// <exception cref="NotSupportedException">Always</exception>
-    internal static partial void godotsharp_internal_script_debugger_send_error(in godot_string p_func,
-        in godot_string p_file, int p_line, in godot_string p_err, in godot_string p_descr,
-        godot_error_handler_type p_type, in DebuggingUtils.godot_stack_info_vector p_stack_info_vector)
+    internal static partial void godotsharp_internal_script_debugger_send_error(
+        in godot_string p_func,
+        in godot_string p_file,
+        int p_line,
+        in godot_string p_err,
+        in godot_string p_descr,
+        godot_error_handler_type p_type,
+        in DebuggingUtils.godot_stack_info_vector p_stack_info_vector)
     {
         throw new NotSupportedException();
     }
@@ -84,5 +90,21 @@ unsafe partial class NativeFuncs
     internal static partial godot_bool godotsharp_internal_script_debugger_is_active()
     {
         return godot_bool.False;
+    }
+
+    /// <summary>
+    /// This method ties the managed representation of a Native Godot Type to its unmanaged counterpart
+    /// </summary>
+    /// <param name="gcHandleIntPtr">The allocated gc handle</param>
+    /// <param name="unmanaged">This should be the opaque data in gdextension</param>
+    /// <param name="nativeName">The string name for the type</param>
+    /// <param name="refCounted">Is the type ref counted</param>
+    internal static partial void godotsharp_internal_tie_native_managed_to_unmanaged(
+        IntPtr gcHandleIntPtr,
+        IntPtr unmanaged,
+        in godot_string_name nativeName,
+        godot_bool refCounted)
+    {
+        NativeBinding.godotsharp_internal_tie_native_managed_to_unmanaged(gcHandleIntPtr, unmanaged, in nativeName, refCounted);
     }
 }
