@@ -7,6 +7,8 @@ internal static partial class ApiGenerator
 {
     private static IEnumerable<(string sourceName, string sourceContent)> GenerateEngineClasses(StringBuilder stringBuilder, IReadOnlyList<Class> classes)
     {
+        var godotTypes = new HashSet<string>(classes.Select(x => x.Name));
+
         foreach (Class engineClass in classes)
         {
             string engineClassName = engineClass.Name;
@@ -40,7 +42,7 @@ internal static partial class ApiGenerator
 
                 GenerateClassHeader(stringBuilder, inherits, engineClassName, engineClass);
 
-                GenerateClassMethod(stringBuilder, engineClass.Methods);
+                GenerateClassMethod(stringBuilder, engineClass.Methods, godotTypes);
 
                 GenerateClassMethodName(stringBuilder, inherits, engineClassInherits, engineClass);
             }

@@ -14,6 +14,12 @@ internal static partial class ApiGenerator
             { "Operator", VariantOpFormatHandler },
             { "Key", KeyEnumFormatHandler },
             { "KeyModifierMask", KeyModifierMaskEnumFormatHandler },
+            { "PositionalShadowAtlasQuadrantSubdiv", PositionalShadowAtlasQuadrantSubdivEnumFormatHandler },
+            { "Scaling3DMode", Scaling3DModeEnumFormatHandler },
+            { "MSAA", MsaaEnumFormatHandler },
+            { "SDFOversize", SDFOversizeEnumFormatHandler },
+            { "SDFScale", SdfScaleEnumFormatHandler },
+            { "VRSMode", VRSModeEnumFormatHandler },
         };
 
     private static readonly char[] _trimChars = ['_'];
@@ -71,9 +77,9 @@ internal static partial class ApiGenerator
 
             if (outerScope != null)
             {
-                outerScope.Value.Dispose();
                 stringBuilder
                     .AppendIndentLine("}");
+                outerScope.Value.Dispose();
             }
 
             stringBuilder
@@ -96,6 +102,67 @@ internal static partial class ApiGenerator
             .TrimStart(_trimChars)
             .ToLowerInvariant()
             .SnakeCaseToPascalCase();
+    }
+
+    private static string VRSModeEnumFormatHandler(string enumName, string enumValueName)
+    {
+        string name = DefaultEnumFormatHandler("VRS_", enumValueName);
+        if (name == "Xr") return "XR";
+        return name;
+    }
+
+    private static string SDFOversizeEnumFormatHandler(string enumName, string enumValueName)
+    {
+        return "OverSize" + DefaultEnumFormatHandler("SDF_OVERSIZE_", enumValueName);
+    }
+
+    private static string SdfScaleEnumFormatHandler(string enumName, string enumValueName)
+    {
+        string name = DefaultEnumFormatHandler("SDF_SCALE_", enumValueName);
+
+        return name switch
+        {
+            "Max" => name,
+            _ => "Scale" + name
+        };
+    }
+
+    private static string MsaaEnumFormatHandler(string enumName, string enumValueName)
+    {
+        string name = DefaultEnumFormatHandler("MSAA_", enumValueName);
+
+        switch (name)
+        {
+            case "2x":
+            case "4x":
+            case "8x":
+                return "Msaa" + name;
+        }
+
+        return name;
+    }
+
+    private static string Scaling3DModeEnumFormatHandler(string enumName, string enumValueName)
+    {
+        return DefaultEnumFormatHandler("SCALING_3D_MODE_", enumValueName["SCALING_3D_MODE_".Length..]);
+    }
+
+    private static string PositionalShadowAtlasQuadrantSubdivEnumFormatHandler(string enumName, string enumValueName)
+    {
+        string name = DefaultEnumFormatHandler("SHADOW_ATLAS_QUADRANT_SUBDIV_", enumValueName);
+
+        switch (name)
+        {
+            case "1":
+            case "4":
+            case "16":
+            case "64":
+            case "256":
+            case "1024":
+                return "Subdiv" + name;
+        }
+
+        return name;
     }
 
     private static string KeyModifierMaskEnumFormatHandler(string enumName, string enumValueName)
@@ -137,7 +204,7 @@ internal static partial class ApiGenerator
             return generated[..^1] + "I";
         }
 
-        if (generated.EndsWith("d"))
+        if (generated.EndsWith("d") && generated != "Rid")
         {
             return generated[..^1] + "D";
         }

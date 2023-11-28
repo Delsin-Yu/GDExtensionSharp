@@ -113,6 +113,13 @@ internal static partial class ApiGenerator
             return typeName["enum::".Length..];
         }
 
+        if (typeName == "RID") return "Rid";
+
+        if ((typeName.Contains("Vector") || typeName.Contains("Rect")) && typeName.Contains("i"))
+        {
+            return typeName[..^1] + "I";
+        }
+
         if (typeName.EndsWith("*"))
         {
             return typeName[..^1];
