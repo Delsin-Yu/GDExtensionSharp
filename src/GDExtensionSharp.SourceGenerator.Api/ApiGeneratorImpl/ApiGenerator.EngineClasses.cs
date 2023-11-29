@@ -19,6 +19,7 @@ internal static partial class ApiGenerator
 
             stringBuilder
                 .AppendIndentLine("using System.Diagnostics;")
+                .AppendIndentLine("using System.Runtime.InteropServices;")
                 .AppendIndentLine("using Godot.NativeInterop;")
                 .AppendIndentLine()
                 .AppendIndentLine(NamespaceHeader)
