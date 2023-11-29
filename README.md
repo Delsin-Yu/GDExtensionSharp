@@ -5,7 +5,11 @@
 The goal for this repo is to allow developers to write `GDExtension` with `C#/.Net 8`.
 By leveraging the power of `NativeAOT`, the C# project can be compiled into an `unmanaged library` and expose `C-style function entries`,  allowing the GDExtension system access.
 
-## Current Approach
+## Current Architecture
+
+This project uses the `GodotSharp` as its high-level API, and uses `GDExtension System` as its interop layer.
+
+The developer should still be working with the original `GodotSharp` as we copied most of the source code from there, however, since we are replacing the interop layer from `godot-mono (the builtin godot mono module)` to `GDExtension system`, we need to either `find a replacement in gdextension api` or `write extra interop code to achieve same functionality`.
 
 ## Current Structure of the Project
 
