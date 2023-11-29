@@ -88,6 +88,8 @@ internal static partial class ApiGenerator
 
     private static string CorrectType(string typeName)
     {
+        if (string.IsNullOrWhiteSpace(typeName)) return typeName;
+
         switch (typeName)
         {
             case "float":
@@ -113,7 +115,15 @@ internal static partial class ApiGenerator
             return typeName["enum::".Length..];
         }
 
-        if (typeName == "RID") return "Rid";
+        switch (typeName)
+        {
+            case "RID":
+                return "Rid";
+            case "AABB":
+                return "Aabb";
+            case "Object":
+                return "GodotObject";
+        }
 
         if ((typeName.Contains("Vector") || typeName.Contains("Rect")) && typeName.Contains("i"))
         {

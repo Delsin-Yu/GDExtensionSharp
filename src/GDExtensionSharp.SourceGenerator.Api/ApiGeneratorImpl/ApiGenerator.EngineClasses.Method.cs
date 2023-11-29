@@ -7,56 +7,34 @@ internal static partial class ApiGenerator
 {
     private const string ReturnVariableName = "ret";
 
-    private class ReturnValueHandler(string returnArg, string interopType, string returnType)
+    private enum GodotTypeKind
     {
-        public string ReturnArg { get; } = returnArg;
-        public string InteropType { get; } = interopType;
-        public string ReturnType { get; } = returnType;
+        NotGodotType,
+        GodotType,
+        RefCountedType
     }
 
-    private static readonly Dictionary<string, ReturnValueHandler> _handler_returnValue = new()
+    private static IInteropHandler GetHandler(string type, string fallback)
     {
-        { "StringName", new("StringName.CreateTakingOwnershipOfDisposableValue({0})", "godot_string_name", "StringName") },
-        { "PackedStringArray", new("Marshaling.ConvertNativePackedStringArrayToSystemArray({0})", "using godot_packed_string_array", "string[]") },
-        { "String", new("Marshaling.ConvertStringToManaged({0})", "using godot_string", "string") },
-        { "Dictionary", new("Godot.Collections.Dictionary.CreateTakingOwnershipOfDisposableValue({0})", "godot_dictionary", "Godot.Collections.Dictionary") },
-        { "Array", new("Godot.Collections.Array.CreateTakingOwnershipOfDisposableValue({0})", "godot_array", "Godot.Collections.Array") },
-    };
+        if (!_interopHandler.TryGetValue(type, out var handler))
+        {
+            handler = new InteropHandlerWithConversion(_interopHandler[fallback], type);
+        }
 
-    private class ParameterValueHandler(string nativeArg, string parameterType)
-    {
-        public string NativeArg { get; } = nativeArg;
-        public string ParameterType { get; } = parameterType;
+        return handler;
     }
 
-    private static readonly Dictionary<string, ParameterValueHandler> _handler_parameterValue = new()
-    {
-        { "StringName", new("godot_string_name {0} = (godot_string_name)({1}?.NativeValue ?? default);", "StringName") },
-        { "String", new("using godot_string {0} = Marshaling.ConvertStringToNative({1});", "string") },
-        { "PackedStringArray", new("using godot_packed_string_array {0} = Marshaling.ConvertSystemArrayToNativePackedStringArray({1});", "string[]") },
-        { "PackedFloat32Array", new("using godot_packed_float32_array {0} = Marshaling.ConvertSystemArrayToNativePackedFloat32Array({1});", "float[]") },
-        { "Variant", new("godot_variant {0} = (godot_variant){1}.NativeVar;", "Variant") },
-        { "Array", new("godot_array {0} = (godot_array)({1} ?? new()).NativeValue;", "Godot.Collections.Array") },
-    };
-
-    private static void BuildMethodReturnCall(StringBuilder stringBuilder, string returnType, bool isGodotType)
+    private static void BuildMethodReturnCall(StringBuilder stringBuilder, string returnType, GodotTypeKind godotTypeKind)
     {
         if (returnType == "void") return;
 
-        string returnArg;
-
-        if (isGodotType)
+        string returnArg = godotTypeKind switch
         {
-            returnArg = $"({returnType})InteropUtils.UnmanagedGetManaged({{0}})";
-        }
-        else if (_handler_returnValue.TryGetValue(returnType, out var handler))
-        {
-            returnArg = handler.ReturnArg;
-        }
-        else
-        {
-            returnArg = "{0}";
-        }
+            GodotTypeKind.NotGodotType => "{0}",
+            GodotTypeKind.GodotType => GetHandler(returnType, "GodotObject").InteropTypeToCSharpTypeArgs,
+            GodotTypeKind.RefCountedType => GetHandler(returnType, "RefCounted").InteropTypeToCSharpTypeArgs,
+            _ => throw new ArgumentOutOfRangeException(nameof(godotTypeKind), godotTypeKind, null)
+        };
 
         stringBuilder
             .AppendIndent("return ")
@@ -64,25 +42,29 @@ internal static partial class ApiGenerator
             .AppendLine(";");
     }
 
-    private static void BuildMethodBodyReturnInit(StringBuilder stringBuilder, string returnType, bool isGodotType)
+    private static void BuildMethodBodyReturnInit(StringBuilder stringBuilder, string returnType, GodotTypeKind godotTypeKind)
     {
         if (returnType == "void") return;
 
+        stringBuilder
+            .AppendIndentLine("// Declare Return Value")
+            .AppendIndent();
 
-        if (isGodotType)
+        IInteropHandler handler = godotTypeKind switch
         {
-            stringBuilder.AppendIndent("nint");
-        }
-        else if (_handler_returnValue.TryGetValue(returnType, out var handler))
-        {
-            stringBuilder.AppendIndent(handler.InteropType);
-        }
-        else
-        {
-            stringBuilder.AppendIndent(returnType);
-        }
+            GodotTypeKind.NotGodotType => null,
+            GodotTypeKind.GodotType => GetHandler(returnType, "GodotObject"),
+            GodotTypeKind.RefCountedType => GetHandler(returnType, "RefCounted"),
+            _ => throw new ArgumentOutOfRangeException(nameof(godotTypeKind), godotTypeKind, null)
+        };
 
-        stringBuilder.AppendLine($" {ReturnVariableName} = default;");
+        stringBuilder.Append(handler?.ReturnInteropTypeDeclare ?? returnType);
+
+        stringBuilder
+            .AppendLine($" {ReturnVariableName} = default;")
+            .AppendIndentLine();
+
+
     }
 
     private static void BuildMethodHeaderReturn(StringBuilder stringBuilder, ReturnValue returnValue, out string returnTypeName)
@@ -96,9 +78,9 @@ internal static partial class ApiGenerator
 
         returnTypeName = CorrectType(returnValue.Type);
 
-        if (_handler_returnValue.TryGetValue(returnTypeName, out var handler))
+        if (_interopHandler.TryGetValue(returnTypeName, out var handler))
         {
-            stringBuilder.Append(handler.ReturnType);
+            stringBuilder.Append(handler.CsharpType);
         }
         else
         {
@@ -106,17 +88,35 @@ internal static partial class ApiGenerator
         }
     }
 
-    private static void BuildMethodBodyArguments(StringBuilder stringBuilder, string methodBindName, string methodBindDebugName, string returnType, IReadOnlyList<Argument> arguments, ICollection<string> godotTypes)
+    private static void BuildMethodBodyArguments(StringBuilder stringBuilder, string methodBindName, string methodBindDebugName, string className, string returnType, IReadOnlyList<Argument> arguments, bool isVarArg, ICollection<string> godotTypes, ICollection<string> refCountedGodotTypes)
     {
-        stringBuilder.AppendIndentLine($"if ({methodBindName} == IntPtr.Zero) throw new ArgumentNullException(nameof({methodBindName}), \"Godot Method \\\"{methodBindDebugName}\\\" is uninitialized!\");");
+        stringBuilder
+            .AppendIndentLine($""""
+                               // Method Bind Null Check
+                               if ({methodBindName} == IntPtr.Zero) throw new InvalidOperationException("""Godot Method "{methodBindDebugName}" is uninitialized!""");
+
+                               // Get Self Pointer & Self Pointer Null Check
+                               IntPtr selfPtr = GodotObject.GetPtr(this);
+                               if(selfPtr == IntPtr.Zero) throw new InvalidOperationException("""Godot Object "{className}" is uninitialized!""");
+
+                               """");
 
         if (arguments == null)
         {
-            stringBuilder.AppendIndent($"{MethodTableAccess}.object_method_bind_ptrcall((void*){methodBindName}, (void*)GodotObject.GetPtr(this), null, ");
+            stringBuilder.AppendIndent($"""
+                                        // Native Method Call
+                                        {MethodTableAccess}.object_method_bind_ptrcall((void*){methodBindName}, (void*)selfPtr, null,
+                                        """);
         }
         else
         {
             var argumentList = new (string argumentInit, string argumentName, string argumentUsage)[arguments.Count];
+
+            if (arguments.Count > 0)
+            {
+                stringBuilder.AppendIndentLine("// Method Arguments Interop");
+
+            }
 
             for (int i = 0; i < arguments.Count; i++)
             {
@@ -129,17 +129,19 @@ internal static partial class ApiGenerator
 
                 string classMethodArgumentType = CorrectType(classMethodArgument.Type);
 
-                if (_handler_parameterValue.TryGetValue(classMethodArgumentType, out var handler))
+                IInteropHandler handler = GetTypeKind(classMethodArgumentType, godotTypes, refCountedGodotTypes) switch
                 {
-                    argName = $"native_{classMethodArgument.Name}";
-                    initArg = string.Format(handler.NativeArg, argName, originalArgName);
+                    GodotTypeKind.NotGodotType => null,
+                    GodotTypeKind.GodotType => GetHandler(classMethodArgumentType, "GodotObject"),
+                    GodotTypeKind.RefCountedType => GetHandler(classMethodArgumentType, "RefCounted"),
+                    _ => throw new ArgumentOutOfRangeException()
+                };
+
+                if (handler != null)
+                {
+                    argName = $"interop_{classMethodArgument.Name}";
+                    initArg = $"{handler.ParamInteropTypeDeclare} {argName} = {string.Format(handler.CsharpTypeToInteropTypeArgs, originalArgName)};";
                     argumentUsage = $"&{argName}";
-                }
-                else if (godotTypes.Contains(classMethodArgumentType))
-                {
-                    argName = $"native_{classMethodArgument.Name}";
-                    initArg = $"nint {argName} = GodotObject.GetPtr({originalArgName});";
-                    argumentUsage = $"(void*){argName}";
                 }
                 else
                 {
@@ -156,9 +158,12 @@ internal static partial class ApiGenerator
                 stringBuilder.AppendIndentLine(argumentInit);
             }
 
-
             stringBuilder
-                .AppendIndent($"void** argList = stackalloc void*[{argumentList.Length.ToString(CultureInfo.InvariantCulture)}]{{ ");
+                .AppendIndentLine()
+                .AppendIndent($$"""
+                                // Construct and Populate Stack Allocated Argument Array
+                                void** argList = stackalloc void*[{{argumentList.Length.ToString(CultureInfo.InvariantCulture)}}]{
+                                """);
 
             foreach (var (_, _, argumentUsage) in argumentList)
             {
@@ -172,7 +177,11 @@ internal static partial class ApiGenerator
 
             stringBuilder
                 .AppendLine(" };")
-                .AppendIndent($"{MethodTableAccess}.object_method_bind_ptrcall((void*){methodBindName}, (void*)GodotObject.GetPtr(this), argList, ");
+                .AppendIndent($"""
+
+                               // Native Method Call with Arguments
+                               {MethodTableAccess}.object_method_bind_ptrcall((void*){methodBindName}, (void*)GodotObject.GetPtr(this), argList,
+                               """);
         }
 
         stringBuilder
@@ -180,7 +189,7 @@ internal static partial class ApiGenerator
             .AppendLine(");");
     }
 
-    private static void BuildMethodHeaderArguments(StringBuilder stringBuilder, IReadOnlyList<Argument> arguments)
+    private static void BuildMethodHeaderArguments(StringBuilder stringBuilder, IReadOnlyList<Argument> arguments, bool isVarArg)
     {
         if (arguments == null) return;
 
@@ -188,19 +197,35 @@ internal static partial class ApiGenerator
         {
             string correctType = CorrectType(argument.Type);
 
-            if (_handler_parameterValue.TryGetValue(correctType, out var handler))
+            if (_interopHandler.TryGetValue(correctType, out var handler))
             {
-                correctType = handler.ParameterType;
+                correctType = handler.CsharpType;
             }
 
             stringBuilder
                 .Append($"{correctType} {argument.Name.EscapeContextualKeyWord()}, ");
         }
 
+        if (isVarArg)
+        {
+            stringBuilder.Append("params Variant[] @args, ");
+        }
+
         stringBuilder.Remove(stringBuilder.Length - 2, 2);
     }
 
-    private static void GenerateClassMethod(StringBuilder stringBuilder, IReadOnlyList<ClassMethod> engineClassMethods, ICollection<string> godotTypes)
+    private static GodotTypeKind GetTypeKind(string typeName, ICollection<string> godotTypes, ICollection<string> refCountedGodotTypes)
+    {
+        GodotTypeKind returnValueGodotTypeKind;
+
+        if (godotTypes.Contains(typeName)) returnValueGodotTypeKind = GodotTypeKind.GodotType;
+        else if (refCountedGodotTypes.Contains(typeName)) returnValueGodotTypeKind = GodotTypeKind.RefCountedType;
+        else returnValueGodotTypeKind = GodotTypeKind.NotGodotType;
+
+        return returnValueGodotTypeKind;
+    }
+
+    private static void GenerateClassMethod(StringBuilder stringBuilder, string className, IReadOnlyList<ClassMethod> engineClassMethods, ICollection<string> godotTypes, ICollection<string> refCountedGodotTypes)
     {
         if (engineClassMethods != null)
         {
@@ -210,8 +235,6 @@ internal static partial class ApiGenerator
 
                 string methodName = classMethod.Name;
                 string methodPascalName = methodName.SnakeCaseToPascalCase();
-
-                bool isGodotType = godotTypes.Contains(methodName);
 
                 string methodBindName = $"MethodBind{index.ToString(CultureInfo.InvariantCulture)}";
 
@@ -230,7 +253,9 @@ internal static partial class ApiGenerator
                     .Append(methodPascalName)
                     .Append('(');
 
-                BuildMethodHeaderArguments(stringBuilder, classMethod.Arguments);
+                bool isVarArg = classMethod.IsVararg;
+                
+                BuildMethodHeaderArguments(stringBuilder, classMethod.Arguments, isVarArg);
 
                 stringBuilder
                     .AppendLine(")")
@@ -239,11 +264,13 @@ internal static partial class ApiGenerator
                 {
                     using var handle = stringBuilder.AddIndent();
 
-                    BuildMethodBodyReturnInit(stringBuilder, returnTypeName, isGodotType);
+                    GodotTypeKind returnValueGodotTypeKind = GetTypeKind(returnTypeName, godotTypes, refCountedGodotTypes);
 
-                    BuildMethodBodyArguments(stringBuilder, methodBindName, methodName, returnTypeName, classMethod.Arguments, godotTypes);
+                    BuildMethodBodyReturnInit(stringBuilder, returnTypeName, returnValueGodotTypeKind);
 
-                    BuildMethodReturnCall(stringBuilder, returnTypeName, isGodotType);
+                    BuildMethodBodyArguments(stringBuilder, methodBindName, methodName, className, returnTypeName, classMethod.Arguments, isVarArg, godotTypes, refCountedGodotTypes);
+
+                    BuildMethodReturnCall(stringBuilder, returnTypeName, returnValueGodotTypeKind);
                 }
 
 
