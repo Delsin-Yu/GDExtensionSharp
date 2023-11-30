@@ -11,7 +11,7 @@ By leveraging the power of `NativeAOT`, the C# project can be compiled into an `
 
 This project uses the `GodotSharp` as its high-level API, and uses `GDExtension System` as its interop layer.
 
-The developer should still be working with the original `GodotSharp` as we copied most of the source code from there, however, since we are replacing the interop layer from `godot-mono (the builtin godot mono module)` to `GDExtension system`, we need to either `find a replacement in gdextension api` or `write extra interop code to achieve same functionality`. In addition, we need to find another way for supporting data serialization while the GDExtension plugin is unloading.
+The developer should still be working with the familiar `GodotSharp Styled API` as we copied most of the source code from there and programmed our source generator in a way for it to produce similar code from `extension_api.json`, however, since we are replacing the interop layer from `godot-mono (the builtin godot mono module)` to `GDExtension system`, we need to either `find a replacement in GDExtension API` or `write extra interop code to achieve same functionality`. In addition, we need to find another way to support data serialization while the GDExtension plugin is unloading.
 
 ## Current Structure of the Project
 
