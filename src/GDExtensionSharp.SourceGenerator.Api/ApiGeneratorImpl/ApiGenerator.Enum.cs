@@ -55,9 +55,8 @@ internal static partial class ApiGenerator
                 .AppendIndentLine($"public enum {enumElementName}")
                 .AppendIndentLine("{");
 
+            using (stringBuilder.AddIndent())
             {
-                using var handle = stringBuilder.AddIndent();
-
                 foreach (ValueElement elementValue in enumElement.Values)
                 {
                     string elementValueName = elementValue.Name;

@@ -4,28 +4,26 @@ namespace GDExtensionSharp.SourceGenerator.Api.ApiGeneratorImpl;
 
 internal static partial class ApiGenerator
 {
-    private static void GenerateClassMethodName(StringBuilder stringBuilder, bool inherits, string engineClassInherits, Class engineClass)
+    private static void GenerateClassEntry(string className, StringBuilder stringBuilder, string engineClassInherits, IEnumerable<string> entries)
     {
         stringBuilder
-            .AppendIndentLine(inherits ? $"public new class MethodName : {engineClassInherits}.MethodName" : "public class MethodName")
+            .AppendIndentLine(engineClassInherits != null ? $"public new class {className} : {engineClassInherits}.{className}" : $"public class {className}")
             .AppendIndentLine("{");
 
+        using (stringBuilder.AddIndent())
         {
-            using var handle = stringBuilder.AddIndent();
-
-            if (engineClass.Methods != null)
+            if (entries != null)
             {
-                foreach (var engineClassMethod in engineClass.Methods)
+                foreach (string entry in entries)
                 {
                     stringBuilder
-                        .AppendIndent("public static readonly StringName ")
-                        .Append(engineClassMethod.Name.SnakeCaseToPascalCase())
-                        .AppendLine($" = \"{engineClassMethod.Name}\";");
+                        .AppendIndentLine($"""public static readonly StringName {entry.SnakeCaseToPascalCase()} = "{entry}";""");
                 }
             }
         }
 
         stringBuilder
-            .AppendIndentLine("}");
+            .AppendIndentLine("}")
+            .AppendIndentLine();
     }
 }

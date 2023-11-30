@@ -13,9 +13,20 @@ internal static partial class ApiGenerator
         string InteropTypeToCSharpTypeArgs { get; }
     }
 
+    private class NonInteropHandler(string type) : IInteropHandler
+    {
+        public string CsharpType => type;
+        public string ReturnInteropTypeDeclare => type;
+        public string ReturnInteropType => null;
+        public string ParamInteropTypeDeclare => null;
+        public string ParamInteropType => null;
+        public string CsharpTypeToInteropTypeArgs => "";
+        public string InteropTypeToCSharpTypeArgs => "{0}";
+    }
+
     private class InteropHandlerWithConversion(IInteropHandler handler, string convertTarget) : IInteropHandler
     {
-        public string CsharpType { get; } = handler.CsharpType;
+        public string CsharpType { get; } = convertTarget;
         public string ReturnInteropTypeDeclare { get; } = handler.ReturnInteropTypeDeclare;
         public string ReturnInteropType { get; } = handler.ReturnInteropType;
         public string ParamInteropTypeDeclare { get; } = handler.ParamInteropTypeDeclare;
@@ -49,13 +60,13 @@ internal static partial class ApiGenerator
     private static readonly Dictionary<string, IInteropHandler> _interopHandler = new()
     {
         {
-            "GodotObject", new InteropHandler("GodotObject",
+            "GodotObject", new InteropHandler(null,
                 "IntPtr",
                 "GodotObject.GetPtr({0})",
                 "InteropUtils.UnmanagedGetManaged({0})")
         },
         {
-            "RefCounted", new InteropHandler("GodotObject",
+            "RefCounted", new InteropHandler(null,
                 "godot_ref",
                 "GodotObject.GetPtr({0})",
                 "InteropUtils.UnmanagedGetManaged({0}.Reference)",

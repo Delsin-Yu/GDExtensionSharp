@@ -1,5 +1,4 @@
-﻿using System.Globalization;
-using System.Text;
+﻿using System.Text;
 using System.Text.Json;
 
 namespace GDExtensionSharp.SourceGenerator.Api.ApiGeneratorImpl;

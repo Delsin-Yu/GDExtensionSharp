@@ -32,12 +32,12 @@ internal static partial class ApiGenerator
             .Replace(input, match => match.Value.ToLowerInvariant());
 
 
-    private readonly struct IndentDisposable(StringBuilder builder) : IDisposable
+    private readonly struct IndentDisposable(StringBuilder builder, uint indentLevel) : IDisposable
     {
         public void Dispose()
         {
             if (!_indentationData.ContainsKey(builder)) return;
-            _indentationData[builder]--;
+            _indentationData[builder] -= indentLevel;
 
             if (_indentationData[builder] == 0)
             {
@@ -46,18 +46,18 @@ internal static partial class ApiGenerator
         }
     }
 
-    private static IndentDisposable AddIndent(this StringBuilder stringBuilder)
+    private static IndentDisposable AddIndent(this StringBuilder stringBuilder, uint indents = 1u)
     {
         if (!_indentationData.ContainsKey(stringBuilder))
         {
-            _indentationData.Add(stringBuilder, 1);
+            _indentationData.Add(stringBuilder, indents);
         }
         else
         {
-            _indentationData[stringBuilder]++;
+            _indentationData[stringBuilder] += indents;
         }
 
-        return new(stringBuilder);
+        return new(stringBuilder, indents);
     }
 
     private static StringBuilder AppendIndentLine(this StringBuilder stringBuilder, string value = null) =>

@@ -12,27 +12,36 @@ internal static partial class ApiGenerator
         godotTypes.UnionWith(_interopHandler.Keys);
         var refCountedGodotTypes = new HashSet<string>(classes.Where(x => x.IsRefcounted).Select(x => x.Name));
 
+        HashSet<string> usedPropertyAccessor = [];
+        Dictionary<string, string> methodReturnTypeMap = [];
+
         foreach (Class engineClass in classes)
         {
             string engineClassName = CorrectType(engineClass.Name);
             string engineClassInherits = CorrectType(engineClass.Inherits);
 
+            if (string.IsNullOrWhiteSpace(engineClassInherits)) engineClassInherits = null;
+
             stringBuilder
-                .AppendIndentLine("using System.Diagnostics;")
-                .AppendIndentLine("using System.Runtime.InteropServices;")
-                .AppendIndentLine("using Godot.NativeInterop;")
+                .AppendIndentLine("""
+                                  using System.Diagnostics;
+                                  using System.Runtime.InteropServices;
+                                  using Godot.NativeInterop;
+                                  """)
                 .AppendIndentLine()
                 .AppendIndentLine(NamespaceHeader)
                 .AppendIndentLine();
 
-            bool inherits = !string.IsNullOrWhiteSpace(engineClassInherits);
-
             stringBuilder
-                .AppendIndentLine(inherits ? $"public partial class {engineClassName} : {engineClassInherits}" : $"public partial class {engineClassName}")
+                .AppendIndentLine(engineClassInherits != null ? $"public partial class {engineClassName} : {engineClassInherits}" : $"public partial class {engineClassName}")
                 .AppendIndentLine("{");
 
+
+            using (stringBuilder.AddIndent())
             {
-                using var handle = stringBuilder.AddIndent();
+                ResolveMethodReturnType(methodReturnTypeMap, engineClass.Methods, godotTypes, refCountedGodotTypes);
+
+                GenerateProperty(stringBuilder, engineClass.Properties, godotTypes, refCountedGodotTypes, usedPropertyAccessor, methodReturnTypeMap);
 
                 GenerateEnum(stringBuilder, engineClass.Enums);
 
@@ -40,11 +49,17 @@ internal static partial class ApiGenerator
                     .AppendIndentLine($"private static readonly StringName NativeName = \"{engineClassName}\";")
                     .AppendIndentLine();
 
-                GenerateClassHeader(stringBuilder, inherits, engineClassName, engineClass);
+                GenerateClassHeader(stringBuilder, engineClassInherits != null, engineClassName, engineClass);
 
-                GenerateClassMethod(stringBuilder, engineClassName, engineClass.Methods, godotTypes, refCountedGodotTypes);
+                GenerateClassMethod(stringBuilder, engineClassName, engineClass.Methods, godotTypes, refCountedGodotTypes, usedPropertyAccessor);
 
-                GenerateClassMethodName(stringBuilder, inherits, engineClassInherits, engineClass);
+                GenerateClassSignals(stringBuilder, engineClass.Signals, godotTypes, refCountedGodotTypes);
+
+                GenerateClassEntry("PropertyName", stringBuilder, engineClassInherits, engineClass.Properties?.Select(x => x.Name));
+
+                GenerateClassEntry("MethodName", stringBuilder, engineClassInherits, engineClass.Methods?.Select(x => x.Name));
+
+                GenerateClassEntry("SignalName", stringBuilder, engineClassInherits, engineClass.Signals?.Select(x => x.Name));
             }
 
 
@@ -53,6 +68,28 @@ internal static partial class ApiGenerator
                 .AppendLine("}");
 
             yield return ($"EngineClass.{engineClassName}", stringBuilder.ToStringAndClear());
+
+            usedPropertyAccessor.Clear();
+        }
+    }
+
+    private static void ResolveMethodReturnType(IDictionary<string, string> methodReturnTypeMap, IReadOnlyList<ClassMethod> classMethods, IReadOnlyCollection<string> godotTypes, IReadOnlyCollection<string> refCountedGodotTypes)
+    {
+        if(classMethods == null) return;
+
+        foreach (ClassMethod method in classMethods)
+        {
+            string returnType;
+            if (method.ReturnValue == null)
+            {
+                returnType = "void";
+            }
+            else
+            {
+                returnType = GetInteropHandler(CorrectType(method.ReturnValue.Type), godotTypes, refCountedGodotTypes).CsharpType;
+            }
+
+            methodReturnTypeMap[method.Name] = returnType;
         }
     }
 }
