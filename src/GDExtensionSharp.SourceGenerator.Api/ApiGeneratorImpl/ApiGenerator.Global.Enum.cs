@@ -1,3 +1,4 @@
+using System.Collections.Immutable;
 using System.Text;
 
 namespace GDExtensionSharp.SourceGenerator.Api.ApiGeneratorImpl;
@@ -10,7 +11,7 @@ internal static partial class ApiGenerator
             .AppendIndentLine(NamespaceHeader)
             .AppendIndentLine();
 
-        GenerateEnum(stringBuilder, gdExtensionApi.GlobalEnums);
+        GenerateEnum(stringBuilder, ImmutableHashSet<string>.Empty, gdExtensionApi.GlobalEnums);
 
         return ("GlobalEnum", stringBuilder.ToStringAndClear());
     }

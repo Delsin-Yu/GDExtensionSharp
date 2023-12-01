@@ -10,7 +10,8 @@ internal static partial class ApiGenerator
         IReadOnlyCollection<string> godotTypes,
         IReadOnlyCollection<string> refCountedGodotTypes,
         ICollection<string> usedPropertyAccessor,
-        IDictionary<string, string> methodReturnTypeMap)
+        IReadOnlyCollection<string> virtualAccessors,
+        IReadOnlyDictionary<string, string> methodReturnTypeMap)
     {
         if (engineClassProperties == null) return;
 
@@ -25,6 +26,9 @@ internal static partial class ApiGenerator
 
             string propertyGetter = property.Getter.SnakeCaseToPascalCase();
             string propertySetter = property.Setter.SnakeCaseToPascalCase();
+
+            if (virtualAccessors.Contains(property.Getter)) propertyGetter = "_" + propertyGetter;
+            if (virtualAccessors.Contains(property.Setter)) propertySetter = "_" + propertySetter;
 
             usedPropertyAccessor.Add(propertyGetter);
             usedPropertyAccessor.Add(propertySetter);

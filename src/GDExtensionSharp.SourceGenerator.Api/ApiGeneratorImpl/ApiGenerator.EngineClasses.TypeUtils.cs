@@ -90,51 +90,38 @@ internal static partial class ApiGenerator
     {
         if (string.IsNullOrWhiteSpace(typeName)) return typeName;
 
-        switch (typeName)
+        string rawType = typeName;
+
+        bool isTypedArray = typeName.StartsWith("typedarray::");
+        bool isBitField = typeName.StartsWith("bitfield::");
+        bool isEnum = typeName.StartsWith("enum::");
+        bool isPointer = typeName.EndsWith("*");
+
+        if (isTypedArray) rawType = typeName["typedarray::".Length..];
+        if (isBitField) rawType = typeName["bitfield::".Length..];
+        if (isEnum) rawType = typeName["enum::".Length..];
+        if (isPointer) rawType = typeName[..^1];
+
+        rawType = rawType switch
         {
-            case "float":
-                return "double";
-            case "int":
-                return "int64_t";
-            case "Nil":
-                return "Variant";
+            "float" => "double",
+            "int" => "int64_t",
+            "Nil" => "Variant",
+            "RID" => "Rid",
+            "AABB" => "Aabb",
+            "Object" => "GodotObject",
+            "Vector4i" => "Vector4I",
+            "Vector3i" => "Vector3I",
+            "Vector2i" => "Vector2I",
+            "Rect2i" => "Rect2I",
+            _ => rawType
+        };
+
+        if (isTypedArray)
+        {
+            rawType = $"Godot.Collections.Array<{rawType}>";
         }
 
-        if (typeName.StartsWith("typedarray::"))
-        {
-            return typeName["typedarray::".Length..];
-        }
-
-        if (typeName.StartsWith("bitfield::"))
-        {
-            return typeName["bitfield::".Length..];
-        }
-
-        if (typeName.StartsWith("enum::"))
-        {
-            return typeName["enum::".Length..];
-        }
-
-        switch (typeName)
-        {
-            case "RID":
-                return "Rid";
-            case "AABB":
-                return "Aabb";
-            case "Object":
-                return "GodotObject";
-        }
-
-        if ((typeName.Contains("Vector") || typeName.Contains("Rect")) && typeName.Contains("i"))
-        {
-            return typeName[..^1] + "I";
-        }
-
-        if (typeName.EndsWith("*"))
-        {
-            return typeName[..^1];
-        }
-
-        return typeName;
+        return rawType;
     }
 }

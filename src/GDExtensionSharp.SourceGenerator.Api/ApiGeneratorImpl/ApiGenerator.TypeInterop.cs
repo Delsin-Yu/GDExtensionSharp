@@ -24,6 +24,17 @@ internal static partial class ApiGenerator
         public string InteropTypeToCSharpTypeArgs => "{0}";
     }
 
+    private class GodotArrayInteropHandler(string innerType) : IInteropHandler
+    {
+        public string CsharpType { get; } = $"Godot.Collections.Array<{innerType}>";
+        public string ReturnInteropTypeDeclare { get; } = "godot_array";
+        public string ReturnInteropType { get; } = "godot_array";
+        public string ParamInteropTypeDeclare { get; } = "godot_array";
+        public string ParamInteropType { get; } = "godot_array";
+        public string CsharpTypeToInteropTypeArgs { get; } = "(godot_array)({0} ?? new()).NativeValue";
+        public string InteropTypeToCSharpTypeArgs { get; } = $"new Godot.Collections.Array<{innerType}>(Godot.Collections.Array.CreateTakingOwnershipOfDisposableValue({{0}}))";
+    }
+
     private class InteropHandlerWithConversion(IInteropHandler handler, string convertTarget) : IInteropHandler
     {
         public string CsharpType { get; } = convertTarget;
@@ -60,7 +71,7 @@ internal static partial class ApiGenerator
     private static readonly Dictionary<string, IInteropHandler> _interopHandler = new()
     {
         {
-            "GodotObject", new InteropHandler(null,
+            "GodotObject", new InteropHandler("GodotObject",
                 "IntPtr",
                 "GodotObject.GetPtr({0})",
                 "InteropUtils.UnmanagedGetManaged({0})")

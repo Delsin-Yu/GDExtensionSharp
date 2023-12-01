@@ -24,10 +24,12 @@ internal static partial class ApiGenerator
 
     private static readonly char[] _trimChars = ['_'];
 
-    private static void GenerateEnum(StringBuilder stringBuilder, IReadOnlyList<GlobalEnumElement> enumElements)
+    private static void GenerateEnum(
+        StringBuilder stringBuilder,
+        IReadOnlyCollection<string> propertyNames,
+        IReadOnlyList<GlobalEnumElement> enumElements)
     {
         if (enumElements == null) return;
-
 
         foreach (GlobalEnumElement enumElement in enumElements)
         {
@@ -37,6 +39,10 @@ internal static partial class ApiGenerator
             }
 
             string enumElementName = enumElement.Name;
+            if (propertyNames.Contains(enumElementName))
+            {
+                enumElementName += "Enum";
+            }
 
             IndentDisposable? outerScope = null;
 

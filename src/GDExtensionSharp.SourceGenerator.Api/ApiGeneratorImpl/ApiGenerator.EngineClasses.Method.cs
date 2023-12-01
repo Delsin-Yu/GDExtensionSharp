@@ -1,5 +1,6 @@
 ﻿using System.Globalization;
 using System.Text;
+using System.Text.RegularExpressions;
 
 namespace GDExtensionSharp.SourceGenerator.Api.ApiGeneratorImpl;
 
@@ -8,9 +9,19 @@ internal static partial class ApiGenerator
     private const string ReturnVariableName = "ret";
     private const string VarArgParameterName = "@args";
 
+    private static readonly Regex _godotArrayRegex = new(@"Godot\.Collections\.Array<(?<InnerType>\w+)>", RegexOptions.Compiled);
+
     private static IInteropHandler GetInteropHandler(string type, IReadOnlyCollection<string> godotTypes, IReadOnlyCollection<string> refCountedGodotTypes)
     {
-        if (!_interopHandler.TryGetValue(type, out var handler))
+        var arrayMatch = _godotArrayRegex.Match(type);
+
+        IInteropHandler handler;
+        if (arrayMatch.Success)
+        {
+            string innerType = arrayMatch.Groups["InnerType"].Value;
+            handler = new GodotArrayInteropHandler(innerType);
+        }
+        else if (!_interopHandler.TryGetValue(type, out handler))
         {
             if (godotTypes.Contains(type))
             {
@@ -323,13 +334,8 @@ internal static partial class ApiGenerator
                 {
                     case null:
                         break;
-                    case "null" :
-                    case "[]" :
-                    case "\"\"" :
-                        stringBuilder.Append($" = default");
-                        break;
                     default:
-                        stringBuilder.Append($" = {argument.DefaultValue}");
+                        stringBuilder.Append(" = default");
                         break;
                 }
 
@@ -363,6 +369,8 @@ internal static partial class ApiGenerator
         for (int index = 0; index < engineClassMethods.Count; index++)
         {
             ClassMethod classMethod = engineClassMethods[index];
+
+            if(classMethod.IsVirtual) continue;
 
             string methodName = classMethod.Name;
             string methodPascalName = methodName.SnakeCaseToPascalCase();
@@ -400,12 +408,28 @@ internal static partial class ApiGenerator
                 stringBuilder.Append("public");
             }
 
-            stringBuilder.Append(" unsafe ");
+            bool isVirtual = classMethod.IsVirtual;
+
+            if (isVirtual)
+            {
+                stringBuilder.Append(" virtual ");
+            }
+            else
+            {
+                stringBuilder.Append(" unsafe ");
+            }
 
             BuildMethodHeaderReturn(stringBuilder, classMethod.ReturnValue, godotTypes, refCountedGodotTypes, out string returnTypeName);
 
             stringBuilder
-                .Append(' ')
+                .Append(' ');
+
+            if (isVirtual)
+            {
+                stringBuilder.Append('_');
+            }
+
+            stringBuilder
                 .Append(methodPascalName)
                 .Append('(');
 
@@ -419,11 +443,21 @@ internal static partial class ApiGenerator
 
             using (stringBuilder.AddIndent())
             {
-                BuildMethodBodyReturnInit(stringBuilder, returnTypeName, godotTypes, refCountedGodotTypes);
+                if (!isVirtual)
+                {
+                    BuildMethodBodyReturnInit(stringBuilder, returnTypeName, godotTypes, refCountedGodotTypes);
 
-                BuildMethodBodyArguments(stringBuilder, methodBindName, methodName, methodPascalName, className, returnTypeName, classMethod.Arguments, isVarArg, godotTypes, refCountedGodotTypes);
+                    BuildMethodBodyArguments(stringBuilder, methodBindName, methodName, methodPascalName, className, returnTypeName, classMethod.Arguments, isVarArg, godotTypes, refCountedGodotTypes);
 
-                BuildMethodReturnCall(stringBuilder, returnTypeName, godotTypes, refCountedGodotTypes);
+                    BuildMethodReturnCall(stringBuilder, returnTypeName, godotTypes, refCountedGodotTypes);
+                }
+                else if(returnTypeName != "void")
+                {
+                    stringBuilder.AppendIndentLine("""
+                                                   // Virtual Method Default Return
+                                                   return default;
+                                                   """);
+                }
             }
 
             stringBuilder

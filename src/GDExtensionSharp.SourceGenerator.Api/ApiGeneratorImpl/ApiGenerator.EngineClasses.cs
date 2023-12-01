@@ -12,6 +12,8 @@ internal static partial class ApiGenerator
         godotTypes.UnionWith(_interopHandler.Keys);
         var refCountedGodotTypes = new HashSet<string>(classes.Where(x => x.IsRefcounted).Select(x => x.Name));
 
+        HashSet<string> virtualMethods = [];
+        HashSet<string> propertyNames = [];
         HashSet<string> usedPropertyAccessor = [];
         Dictionary<string, string> methodReturnTypeMap = [];
 
@@ -39,11 +41,23 @@ internal static partial class ApiGenerator
 
             using (stringBuilder.AddIndent())
             {
-                ResolveMethodReturnType(methodReturnTypeMap, engineClass.Methods, godotTypes, refCountedGodotTypes);
+                ResolveMethodInfo(methodReturnTypeMap,
+                    virtualMethods,
+                    propertyNames,
+                    engineClass.Methods,
+                    engineClass.Properties,
+                    godotTypes,
+                    refCountedGodotTypes);
 
-                GenerateProperty(stringBuilder, engineClass.Properties, godotTypes, refCountedGodotTypes, usedPropertyAccessor, methodReturnTypeMap);
+                GenerateEnum(stringBuilder, propertyNames, engineClass.Enums);
 
-                GenerateEnum(stringBuilder, engineClass.Enums);
+                GenerateProperty(stringBuilder,
+                    engineClass.Properties,
+                    godotTypes,
+                    refCountedGodotTypes,
+                    usedPropertyAccessor,
+                    virtualMethods,
+                    methodReturnTypeMap);
 
                 stringBuilder
                     .AppendIndentLine($"private static readonly StringName NativeName = \"{engineClassName}\";")
@@ -57,7 +71,7 @@ internal static partial class ApiGenerator
 
                 GenerateClassEntry("PropertyName", stringBuilder, engineClassInherits, engineClass.Properties?.Select(x => x.Name));
 
-                GenerateClassEntry("MethodName", stringBuilder, engineClassInherits, engineClass.Methods?.Select(x => x.Name));
+                GenerateClassEntry("MethodName", stringBuilder, engineClassInherits, engineClass.Methods?.Select(x => (x.IsVirtual ? "_" : string.Empty) + x.Name));
 
                 GenerateClassEntry("SignalName", stringBuilder, engineClassInherits, engineClass.Signals?.Select(x => x.Name));
             }
@@ -70,26 +84,46 @@ internal static partial class ApiGenerator
             yield return ($"EngineClass.{engineClassName}", stringBuilder.ToStringAndClear());
 
             usedPropertyAccessor.Clear();
+            virtualMethods.Clear();
+            methodReturnTypeMap.Clear();
+            propertyNames.Clear();
         }
     }
 
-    private static void ResolveMethodReturnType(IDictionary<string, string> methodReturnTypeMap, IReadOnlyList<ClassMethod> classMethods, IReadOnlyCollection<string> godotTypes, IReadOnlyCollection<string> refCountedGodotTypes)
+    private static void ResolveMethodInfo(
+        IDictionary<string, string> methodReturnTypeMap,
+        ICollection<string> virtualMethods,
+        ICollection<string> propertyNames,
+        IReadOnlyList<ClassMethod> classMethods,
+        IReadOnlyList<Property> classProperties,
+        IReadOnlyCollection<string> godotTypes,
+        IReadOnlyCollection<string> refCountedGodotTypes)
     {
-        if(classMethods == null) return;
-
-        foreach (ClassMethod method in classMethods)
+        if (classMethods != null)
         {
-            string returnType;
-            if (method.ReturnValue == null)
+            foreach (ClassMethod method in classMethods)
             {
-                returnType = "void";
-            }
-            else
-            {
-                returnType = GetInteropHandler(CorrectType(method.ReturnValue.Type), godotTypes, refCountedGodotTypes).CsharpType;
-            }
+                string returnType;
+                if (method.ReturnValue == null)
+                {
+                    returnType = "void";
+                }
+                else
+                {
+                    returnType = GetInteropHandler(CorrectType(method.ReturnValue.Type), godotTypes, refCountedGodotTypes).CsharpType;
+                }
 
-            methodReturnTypeMap[method.Name] = returnType;
+                methodReturnTypeMap[method.Name] = returnType;
+                if (method.IsVirtual) virtualMethods.Add(method.Name);
+            }
+        }
+
+        if (classProperties != null)
+        {
+            foreach (Property property in classProperties)
+            {
+                propertyNames.Add(property.Name.SnakeCaseToPascalCase());
+            }
         }
     }
 }

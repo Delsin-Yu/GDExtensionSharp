@@ -63,7 +63,7 @@ internal static partial class ApiGenerator
                     for (int i = 0; i < arguments.Length; i++)
                     {
                         stringBuilder
-                            .AppendIndent($"VariantUtils.ConvertTo<{CorrectType(arguments[i].Type)}>(args[{i}])");
+                            .AppendIndent($"VariantUtils.ConvertTo<{GetInteropHandler(CorrectType(arguments[i].Type), godotTypes, refCountedGodotTypes).CsharpType}>(args[{i}])");
 
                         if (i != arguments.Length - 1)
                         {
