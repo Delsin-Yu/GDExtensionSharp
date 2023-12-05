@@ -8,6 +8,7 @@ internal static partial class ApiGenerator
 {
     private const string ReturnVariableName = "ret";
     private const string VarArgParameterName = "@args";
+    private const string TrailingSpace = " ";
 
     private static readonly Regex _godotArrayRegex = new(@"Godot\.Collections\.Array<(?<InnerType>\w+)>", RegexOptions.Compiled);
 
@@ -229,7 +230,7 @@ internal static partial class ApiGenerator
             {
                 stringBuilder.AppendIndent($"""
                                             // Native Method Call
-                                            {MethodTableAccess}.object_method_bind_ptrcall((void*){methodBindName}, (void*)selfPtr, null,
+                                            {MethodTableAccess}.object_method_bind_ptrcall((void*){methodBindName}, (void*)selfPtr, null,{TrailingSpace}
                                             """);
             }
             else
@@ -252,7 +253,7 @@ internal static partial class ApiGenerator
                     .AppendIndentLine()
                     .AppendIndent($$"""
                                     // Construct and Populate Stack Allocated Argument Array
-                                    void** argList = stackalloc void*[{{argumentList.Length.ToString(CultureInfo.InvariantCulture)}}]{
+                                    void** argList = stackalloc void*[{{argumentList.Length.ToString(CultureInfo.InvariantCulture)}}]{{{TrailingSpace}}
                                     """);
 
                 foreach (var (_, _, argumentUsage, _) in argumentList)
@@ -270,7 +271,7 @@ internal static partial class ApiGenerator
                     .AppendIndent($"""
 
                                    // Native Method Call with Arguments
-                                   {MethodTableAccess}.object_method_bind_ptrcall((void*){methodBindName}, (void*)GodotObject.GetPtr(this), argList,
+                                   {MethodTableAccess}.object_method_bind_ptrcall((void*){methodBindName}, (void*)GodotObject.GetPtr(this), argList,{TrailingSpace}
                                    """);
             }
 
