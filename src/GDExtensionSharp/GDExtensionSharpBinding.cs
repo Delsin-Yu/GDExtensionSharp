@@ -1,5 +1,6 @@
 using System.Runtime.CompilerServices;
 using System.Runtime.InteropServices;
+using Godot;
 using unsafe Callback = delegate* unmanaged[Cdecl]<GDExtensionSharp.ModuleInitializationLevel, void>;
 namespace GDExtensionSharp;
 
@@ -11,8 +12,8 @@ internal static unsafe class GDExtensionSharpBinding
     public static GDExtensionInitializationLevel MinimumInitializationLevel;
 
     private const uint GODOT_VERSION_MAJOR = 4;
-    private const uint GODOT_VERSION_MINOR = 1;
-    private const uint GODOT_VERSION_PATCH = 3;
+    private const uint GODOT_VERSION_MINOR = 2;
+    private const uint GODOT_VERSION_PATCH = 0;
 
     public static GDExtensionBool Initialize(GDExtensionInterfaceGetProcAddress p_get_proc_address, GDExtensionClassLibraryPtr p_library, GDExtensionInitialization* r_initialization)
     {
