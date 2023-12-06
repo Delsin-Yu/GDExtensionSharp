@@ -1,18 +1,20 @@
 using System.Runtime.CompilerServices;
 using System.Runtime.InteropServices;
-
+using unsafe Callback = delegate* unmanaged[Cdecl]<GDExtensionSharp.ModuleInitializationLevel, void>;
 namespace GDExtensionSharp;
 
 internal static unsafe class GDExtensionSharpBinding
 {
     public static MethodTable MethodTable;
+    public static Callback InitCallback;
+    public static Callback TerminateCallback;
+    public static GDExtensionInitializationLevel MinimumInitializationLevel;
 
     private const uint GODOT_VERSION_MAJOR = 4;
     private const uint GODOT_VERSION_MINOR = 1;
     private const uint GODOT_VERSION_PATCH = 3;
 
-    [UnmanagedCallersOnly(EntryPoint = "gdextension_csharp_init")]
-    private static GDExtensionBool Initialize(GDExtensionInterfaceGetProcAddress p_get_proc_address, GDExtensionClassLibraryPtr p_library, GDExtensionInitialization* r_initialization)
+    public static GDExtensionBool Initialize(GDExtensionInterfaceGetProcAddress p_get_proc_address, GDExtensionClassLibraryPtr p_library, GDExtensionInitialization* r_initialization)
     {
         MethodTable = new(p_get_proc_address);
 
@@ -33,16 +35,18 @@ internal static unsafe class GDExtensionSharpBinding
 
         r_initialization->initialize = &InitializeLevel;
         r_initialization->deinitialize = &DeInitializeLevel;
+        r_initialization->minimum_initialization_level = MinimumInitializationLevel;
 
         return 1;
     }
 
-    [UnmanagedCallersOnly(CallConvs = new[] {typeof(CallConvCdecl)})]
+    [UnmanagedCallersOnly(CallConvs = new[] { typeof(CallConvCdecl) })]
     private static void InitializeLevel(void* userdata, GDExtensionInitializationLevel p_level)
     {
+        
     }
 
-    [UnmanagedCallersOnly(CallConvs = new[] {typeof(CallConvCdecl)})]
+    [UnmanagedCallersOnly(CallConvs = new[] { typeof(CallConvCdecl) })]
     private static void DeInitializeLevel(void* userdata, GDExtensionInitializationLevel p_level)
     {
     }

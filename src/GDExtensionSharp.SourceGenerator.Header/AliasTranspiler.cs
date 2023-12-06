@@ -84,7 +84,9 @@ internal partial class AliasTranspiler
                     }
                 }
 
-                functionPointerType = functionPointerType.AddParameterListParameters(FunctionPointerParameter(PointerType(_typeForwardResolver.Resolve(right4.Name))));
+                functionPointerType =
+                    functionPointerType.AddParameterListParameters(
+                        FunctionPointerParameter(PointerType(_typeForwardResolver.Resolve(right4.Name))));
                 _typeForwardResolver.Add(left4.Name, functionPointerType);
                 yield return UsingDirective(NameEquals(left4.Name), _typeForwardResolver.Resolve(left4.Name))
                             .WithUnsafeKeyword(Token(SyntaxKind.UnsafeKeyword))
