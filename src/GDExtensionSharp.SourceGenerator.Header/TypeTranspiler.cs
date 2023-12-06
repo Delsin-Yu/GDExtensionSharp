@@ -20,7 +20,7 @@ internal class TypeTranspiler
             if (typeSpecifier is EnumSpecifier enumSpecifier)
             {
                 var enumDeclaration = EnumDeclaration(identifier.Name)
-                   .AddModifiers(Token(SyntaxKind.InternalKeyword));
+                   .AddModifiers(Token(SyntaxKind.PublicKeyword));
                 foreach (var value in enumSpecifier.Values)
                 {
                     if (value.Value is null)
