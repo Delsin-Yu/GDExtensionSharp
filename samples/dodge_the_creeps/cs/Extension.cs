@@ -5,10 +5,10 @@ using System.Text;
 using System.Threading.Tasks;
 using GDExtensionSharp;
 
-namespace DodgeTheCreeps
+namespace DodgeTheCreeps;
+
+[GDExtension(EntryPoint = "gdextension_sharp_init")]
+internal partial class Extension
 {
-    [GDExtension("gdextension_csharp_init")]
-    internal partial class Extension
-    {
-    }
+    
 }

@@ -51,7 +51,7 @@ internal class TypeTranspiler
             if (typeSpecifier is StructSpecifier structSpecifier)
             {
                 var structDeclaration = StructDeclaration(identifier.Name)
-                   .AddModifiers(Token(SyntaxKind.InternalKeyword), Token(SyntaxKind.UnsafeKeyword));
+                   .AddModifiers(Token(SyntaxKind.UnsafeKeyword), Token(SyntaxKind.PartialKeyword));
                 foreach (var field in structSpecifier.Fields)
                 {
                     if (field.Declarator.Identifier is { } fieldIdentifier1)
